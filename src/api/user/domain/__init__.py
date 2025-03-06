@@ -21,8 +21,10 @@ from .errors import (
     UserRepositoryTypeError,
     UserValidationError,
     UserValidationTypeError,
+    ValidateTokenRepositoryError,
+    ValidateTokenRepositoryTypeError,
 )
-from .repositories import UserRepository
+from .repositories import UserRepository, ValidationTokenRepository
 from .validators import UserRepositoryValidator
 from .value_objects import Email, FullName, Password, Phone
 
@@ -41,9 +43,12 @@ __all__ = [
     "UserRepositoryError",
     "UserRepositoryTypeError",
     "UserRepository",
+    "ValidationTokenRepository",
     "UserRepositoryValidator",
     "Email",
     "FullName",
     "Password",
     "Phone",
+    "ValidateTokenRepositoryError",
+    "ValidateTokenRepositoryTypeError",
 ]
