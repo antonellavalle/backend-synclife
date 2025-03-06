@@ -6,9 +6,9 @@ from src.api.user.domain.errors.user_repository_error import (
     UserRepositoryError,
     UserRepositoryTypeError,
 )
-from src.api.user.domain.errors.verify_account_repository_error import (
-    VerifyAccountRepositoryError,
-    VerifyAccountRepositoryTypeError,
+from src.api.user.domain.errors.validate_token_repository_error import (
+    ValidateTokenRepositoryError,
+    ValidateTokenRepositoryTypeError,
 )
 from src.api.user.domain.repositories import UserRepository
 from src.api.user.domain.repositories.validation_token_repository import (
@@ -37,8 +37,8 @@ class ChangePasswordUseCase:
         )
 
         if user_uuid is None:
-            raise VerifyAccountRepositoryError(
-                VerifyAccountRepositoryTypeError.INVALID_TOKEN
+            raise ValidateTokenRepositoryError(
+                ValidateTokenRepositoryTypeError.INVALID_TOKEN
             )
 
         user = UserRepositoryValidator.user_found(

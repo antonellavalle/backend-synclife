@@ -8,8 +8,8 @@ from src.api.user.domain.entities.user import User
 from src.api.user.domain.errors import (
     UserRepositoryError,
     UserRepositoryTypeError,
-    VerifyAccountRepositoryError,
-    VerifyAccountRepositoryTypeError,
+    ValidateTokenRepositoryError,
+    ValidateTokenRepositoryTypeError,
 )
 from src.api.user.domain.repositories import UserRepository, ValidationTokenRepository
 from src.api.user.domain.validators import UserRepositoryValidator
@@ -34,8 +34,8 @@ class VerifyAccountUseCase:
         )
 
         if user_uuid is None:
-            raise VerifyAccountRepositoryError(
-                VerifyAccountRepositoryTypeError.INVALID_TOKEN
+            raise ValidateTokenRepositoryError(
+                ValidateTokenRepositoryTypeError.INVALID_TOKEN
             )
 
         user = UserRepositoryValidator.user_found(
@@ -43,8 +43,8 @@ class VerifyAccountUseCase:
         )
 
         if user.account_verified:
-            raise VerifyAccountRepositoryError(
-                VerifyAccountRepositoryTypeError.ALREADY_VERIFIED
+            raise ValidateTokenRepositoryError(
+                ValidateTokenRepositoryTypeError.ALREADY_VERIFIED
             )
 
         user.account_verified = True
