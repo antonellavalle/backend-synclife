@@ -11,7 +11,7 @@ from src.api.user.domain.errors import (
     VerifyAccountRepositoryError,
     VerifyAccountRepositoryTypeError,
 )
-from src.api.user.domain.repositories import UserRepository, VerifyAccountRepository
+from src.api.user.domain.repositories import UserRepository, ValidationTokenRepository
 from src.api.user.domain.validators import UserRepositoryValidator
 
 
@@ -19,16 +19,18 @@ class VerifyAccountUseCase:
     def __init__(
         self,
         user_repository: UserRepository,
-        verify_account_repository: VerifyAccountRepository,
+        validation_token_repository: ValidationTokenRepository,
         session_repository: SessionRepository,
     ) -> None:
         self.__user_repository = user_repository
-        self.__verify_account_repository = verify_account_repository
+        self.__validation_token_repository = validation_token_repository
         self.__session_repository = session_repository
 
     def execute(self, dto: VerifyAccountDTO) -> Tuple[User, str]:
-        user_uuid = self.__verify_account_repository.find_user_from_validation_request(
-            dto.validate_token
+        user_uuid = (
+            self.__validation_token_repository.find_user_from_validation_request(
+                dto.validate_token
+            )
         )
 
         if user_uuid is None:

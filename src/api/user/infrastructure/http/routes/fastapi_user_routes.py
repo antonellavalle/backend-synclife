@@ -15,6 +15,8 @@ from src.api.user.infrastructure.http.dtos import (
     PydanticLoginResponseDto,
     PydanticRegisterRequestDto,
     PydanticRegisterResponseDto,
+    PydanticRequestChangePasswordRequestDto,
+    PydanticRequestChangePasswordResponseDto,
     PydanticVerifyAccountRequestDTO,
     PydanticVerifyAccountResponseDTO,
     PydanticViewAccountRequestDto,
@@ -32,7 +34,7 @@ async def register_user(
 
 
 @router.get(
-    "/{validate_token}",
+    "/verify-account/{validate_token}",
     response_model=PydanticVerifyAccountResponseDTO,
 )
 async def verify_account(
@@ -56,12 +58,23 @@ async def view_account_user(
     return await FastApiAccountManagementController.view_account(dto, session_token)
 
 
-@router.patch("/", response_model=PydanticChangePasswordResponseDto)
-async def change_user_password(
-    dto: PydanticChangePasswordRequestDto,
-    session_token: str = Header(...),
+@router.post(
+    "/request-change-password", response_model=PydanticRequestChangePasswordResponseDto
+)
+async def request_change_password(
+    dto: PydanticRequestChangePasswordRequestDto,
+) -> PydanticRequestChangePasswordResponseDto:
+    return await FastApiAccountManagementController.request_change_password(dto)
+
+
+@router.get(
+    "/change-password/{validate_token}",
+    response_model=PydanticChangePasswordResponseDto,
+)
+async def change_password(
+    validate_token: str, dto: PydanticChangePasswordRequestDto
 ) -> PydanticChangePasswordResponseDto:
-    return await FastApiAccountManagementController.change_password(dto, session_token)
+    return await FastApiAccountManagementController.change_password(dto, validate_token)
 
 
 @router.put("/", response_model=PydanticChangePersonalInformationResponseDto)

@@ -4,7 +4,7 @@ from typing import Optional
 from src.api.shared.domain.value_objects import Uuid
 
 
-class VerifyAccountRepository(ABC):
+class ValidationTokenRepository(ABC):
     @abstractmethod
     def create_validation_request(self, user_uuid: Uuid) -> str:
         pass

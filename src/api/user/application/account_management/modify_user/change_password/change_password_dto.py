@@ -3,6 +3,5 @@ from dataclasses import dataclass
 
 @dataclass
 class ChangePasswordDto:
-    email: str
+    validate_token: str
     new_password: str
-    session_token: str

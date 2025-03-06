@@ -21,8 +21,8 @@ from src.api.user.infrastructure.http.dtos import (
 from src.api.user.infrastructure.persistence.models.sqlmodel_user_model import (
     SqlModelUserModel,
 )
-from src.api.user.infrastructure.persistence.repositories.dragonfly_verify_account_repository import (  # noqa: E501
-    DragonflyVerifyAccountRepository,
+from src.api.user.infrastructure.persistence.repositories.dragonfly_validation_token_repository import (  # noqa: E501
+    DragonflyValidationTokenRepository,
 )
 from src.api.user.infrastructure.persistence.repositories.sqlmodel_user_repository import (  # noqa: E501
     SqlModelUserRepository,
@@ -36,7 +36,7 @@ class FastApiAuthenticationController:
         request_dto: PydanticRegisterRequestDto,
     ) -> PydanticRegisterResponseDto:
         user_repository = SqlModelUserRepository.get_repository()
-        user_validation_repository = DragonflyVerifyAccountRepository.get_repository()
+        user_validation_repository = DragonflyValidationTokenRepository.get_repository()
         smtp_email_sender_repository = MailHogSMTPEmailSenderRepository.get_repository()
 
         use_case = RegisterUseCase(
@@ -45,7 +45,7 @@ class FastApiAuthenticationController:
 
         load_dotenv()
         base_url = str(os.getenv("URL_BASE"))
-        url = base_url + "/api/users"
+        url = base_url + "/api/users/verify-account"
 
         app_dto = request_dto.to_application(url=url)
         user = use_case.execute(app_dto)
@@ -60,7 +60,7 @@ class FastApiAuthenticationController:
         request_dto: PydanticVerifyAccountRequestDTO,
     ) -> PydanticVerifyAccountResponseDTO:
         user_repository = SqlModelUserRepository.get_repository()
-        user_validation_repository = DragonflyVerifyAccountRepository.get_repository()
+        user_validation_repository = DragonflyValidationTokenRepository.get_repository()
         session_repository = DragonflySessionRepository.get_repository()
 
         use_case = VerifyAccountUseCase(
