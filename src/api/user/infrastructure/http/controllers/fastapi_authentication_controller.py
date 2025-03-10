@@ -1,15 +1,33 @@
+"""
+Module that implements the authentication controller in the user infrastructure layer.
+
+This controller defines the HTTP endpoints to manage authentication operations,
+including:
+  - User registration (POST /users/register)
+  - Account verification (GET /users/verify-account/{validate_token})
+  - User login (POST /users/login)
+
+FastAPI is used along with decorators for centralized exception handling and integration
+of the application use cases. Each endpoint converts the input DTO into the application
+DTO, executes the corresponding use case, and transforms the domain entity into the
+persistence model for the response.
+"""
+
 import os
 
 from dotenv import load_dotenv
+from fastapi import APIRouter
 
 from src.api.shared.infrastructure.http.decorators import handle_exceptions
 from src.api.shared.infrastructure.persistence.repositories import (
     DragonflySessionRepository,
     MailHogSMTPEmailSenderRepository,
 )
-from src.api.user.application.authentication.login import LoginUseCase
-from src.api.user.application.authentication.register import RegisterUseCase
-from src.api.user.application.authentication.verify_account import VerifyAccountUseCase
+from src.api.user.application.authentication import (
+    LoginUseCase,
+    RegisterUseCase,
+    VerifyAccountUseCase,
+)
 from src.api.user.infrastructure.http.dtos import (
     PydanticLoginRequestDto,
     PydanticLoginResponseDto,
@@ -21,20 +39,68 @@ from src.api.user.infrastructure.http.dtos import (
 from src.api.user.infrastructure.persistence.models.sqlmodel_user_model import (
     SqlModelUserModel,
 )
-from src.api.user.infrastructure.persistence.repositories.dragonfly_validation_token_repository import (  # noqa: E501
+from src.api.user.infrastructure.persistence.repositories import (
     DragonflyValidationTokenRepository,
-)
-from src.api.user.infrastructure.persistence.repositories.sqlmodel_user_repository import (  # noqa: E501
     SqlModelUserRepository,
 )
 
 
 class FastApiAuthenticationController:
+    """
+    Authentication controller for the user infrastructure layer.
+
+    This class defines the endpoints for:
+      - Registering a user.
+      - Verifying a user's account via a token.
+      - Logging in a user.
+
+    All methods are decorated with @handle_exceptions for uniform error handling.
+    """
+
+    __router: APIRouter = APIRouter(prefix="/users", tags=["Users"])
+
+    @classmethod
+    def router(cls) -> APIRouter:
+        """
+        Returns the router configured for the authentication endpoints.
+
+        Returns:
+            APIRouter: FastAPI router with the defined endpoints.
+        """
+        return cls.__router
+
     @staticmethod
+    @__router.post(
+        "/register",
+        name="Register",
+        description="Register a new user by providing required details.",
+        response_model=PydanticRegisterResponseDto,
+    )
     @handle_exceptions
     async def register(
         request_dto: PydanticRegisterRequestDto,
     ) -> PydanticRegisterResponseDto:
+        """
+        Endpoint to register a new user.
+
+        Performs the following operations:
+          1. Retrieves the user repository, validation token repository, and email
+             sender repository.
+          2. Instantiates the RegisterUseCase and converts the received DTO into the
+             application DTO.
+          3. Loads the environment variable 'URL_BASE' and constructs the URL for
+             account verification.
+          4. Executes the use case and returns the response with the registered user
+             (transformed into the persistence model).
+
+        Args:
+            request_dto (PydanticRegisterRequestDto): DTO containing the registration
+                                                      data.
+
+        Returns:
+            PydanticRegisterResponseDto: Response DTO containing the registered user's
+                                         data.
+        """
         user_repository = SqlModelUserRepository.get_repository()
         user_validation_repository = DragonflyValidationTokenRepository.get_repository()
         smtp_email_sender_repository = MailHogSMTPEmailSenderRepository.get_repository()
@@ -55,10 +121,36 @@ class FastApiAuthenticationController:
         )
 
     @staticmethod
+    @__router.get(
+        "/verify-account/{validate_token}",
+        name="Verify Account",
+        description="Verify a user's account using a token.",
+        response_model=PydanticVerifyAccountResponseDTO,
+    )
     @handle_exceptions
-    async def validate_account(
-        request_dto: PydanticVerifyAccountRequestDTO,
+    async def verify_account(
+        request_dto: PydanticVerifyAccountRequestDTO, validate_token: str
     ) -> PydanticVerifyAccountResponseDTO:
+        """
+        Endpoint to verify a user's account.
+
+        Performs the following operations:
+          1. Retrieves the repositories for users, validation tokens, and sessions.
+          2. Instantiates the VerifyAccountUseCase and converts the received DTO into
+             the application DTO.
+          3. Executes the use case, obtaining the verified user and a session token.
+          4. Returns the response with the user (transformed into the persistence model)
+             and the session token.
+
+        Args:
+            request_dto (PydanticVerifyAccountRequestDTO): DTO containing the validation
+                                                           token.
+            validate_token (str): Validation token extracted from the URL.
+
+        Returns:
+            PydanticVerifyAccountResponseDTO: Response DTO containing the verified
+                                              user's data and the session token.
+        """
         user_repository = SqlModelUserRepository.get_repository()
         user_validation_repository = DragonflyValidationTokenRepository.get_repository()
         session_repository = DragonflySessionRepository.get_repository()
@@ -66,7 +158,7 @@ class FastApiAuthenticationController:
         use_case = VerifyAccountUseCase(
             user_repository, user_validation_repository, session_repository
         )
-        app_dto = request_dto.to_application()
+        app_dto = request_dto.to_application(validate_token=validate_token)
         user, session_token = use_case.execute(app_dto)
 
         return PydanticVerifyAccountResponseDTO(
@@ -74,8 +166,33 @@ class FastApiAuthenticationController:
         )
 
     @staticmethod
+    @__router.post(
+        "/login",
+        name="Login",
+        description="Authenticate a user with email and password.",
+        response_model=PydanticLoginResponseDto,
+    )
     @handle_exceptions
     async def login(request_dto: PydanticLoginRequestDto) -> PydanticLoginResponseDto:
+        """
+        Endpoint to log in a user.
+
+        Performs the following operations:
+          1. Retrieves the repositories for users and sessions.
+          2. Instantiates the LoginUseCase and converts the received DTO into the
+             application DTO.
+          3. Executes the use case, obtaining the authenticated user and a session
+             token.
+          4. Returns the response with the user (transformed into the persistence model)
+             and the session token.
+
+        Args:
+            request_dto (PydanticLoginRequestDto): DTO containing the login credentials.
+
+        Returns:
+            PydanticLoginResponseDto: Response DTO containing the authenticated user's
+                                      data and the session token.
+        """
         user_repository = SqlModelUserRepository.get_repository()
         session_repository = DragonflySessionRepository.get_repository()
         use_case = LoginUseCase(user_repository, session_repository)

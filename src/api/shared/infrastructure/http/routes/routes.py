@@ -8,11 +8,15 @@ from src.api.reminder.infrastructure.http.routes import reminder_router
 from src.api.shared.infrastructure.persistence.repositories import (
     InMemorySessionRepository,
 )
-from src.api.user.infrastructure.http.routes import user_router
+from src.api.user.infrastructure.http.controllers import (
+    FastApiAccountManagementController,
+    FastApiAuthenticationController,
+)
 
 router: APIRouter = APIRouter()
 
-router.include_router(user_router)
+router.include_router(FastApiAuthenticationController.router())
+router.include_router(FastApiAccountManagementController.router())
 router.include_router(inventory_router)
 router.include_router(note_router)
 router.include_router(tag_router)

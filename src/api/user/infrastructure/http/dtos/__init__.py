@@ -1,26 +1,42 @@
-from .change_password import (
+"""
+Initialization module for the user infrastructure DTOs.
+
+This module imports and exposes all the DTOs from the infrastructure layer related to
+account management and authentication functionalities.
+It includes the request and response DTOs for:
+  - Password Change.
+  - Personal Information Modification.
+  - Account Deletion.
+  - Password Change Request.
+  - Account Viewing.
+  - Login.
+  - Registration.
+  - Account Verification.
+
+The __all__ attribute explicitly defines the names that will be exported when importing
+this package.
+"""
+
+from .account_management import (
     PydanticChangePasswordRequestDto,
     PydanticChangePasswordResponseDto,
-)
-from .change_personal_information import (
     PydanticChangePersonalInformationRequestDto,
     PydanticChangePersonalInformationResponseDto,
-)
-from .delete_account import (
     PydanticDeleteAccountRequestDto,
     PydanticDeleteAccountResponseDto,
-)
-from .login import PydanticLoginRequestDto, PydanticLoginResponseDto
-from .register import PydanticRegisterRequestDto, PydanticRegisterResponseDto
-from .request_change_password import (
     PydanticRequestChangePasswordRequestDto,
     PydanticRequestChangePasswordResponseDto,
+    PydanticViewAccountRequestDto,
+    PydanticViewAccountResponseDto,
 )
-from .verify_account import (
+from .authentication import (
+    PydanticLoginRequestDto,
+    PydanticLoginResponseDto,
+    PydanticRegisterRequestDto,
+    PydanticRegisterResponseDto,
     PydanticVerifyAccountRequestDTO,
     PydanticVerifyAccountResponseDTO,
 )
-from .view_account import PydanticViewAccountRequestDto, PydanticViewAccountResponseDto
 
 __all__ = [
     "PydanticLoginRequestDto",
