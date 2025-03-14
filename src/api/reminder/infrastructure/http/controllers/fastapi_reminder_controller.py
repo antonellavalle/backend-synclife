@@ -1,112 +1,170 @@
-from typing import List
+from fastapi import APIRouter, Header
 
-from src.api.reminder.application.add_item import AddReminderItemUseCase
-from src.api.reminder.application.delete_item import DeleteReminderItemUseCase
-from src.api.reminder.application.delete_item.delete_item_dto import (
-    DeleteReminderItemDto,
+from src.api.reminder.application import (
+    CreateReminderUseCase,
+    DeleteReminderUseCase,
+    UpdateReminderUseCase,
+    ViewAllRemindersUseCase,
+    ViewReminderUseCase,
 )
-from src.api.reminder.application.modify_item import ModifyReminderItemUseCase
-from src.api.reminder.application.view_all_items import ViewAllReminderItemsUseCase
-from src.api.reminder.application.view_all_items.view_all_items_dto import (
-    ViewAllReminderItemsDto,
-)
-from src.api.reminder.application.view_item import ViewReminderItemUseCase
-from src.api.reminder.application.view_item.view_item_dto import ViewReminderItemDto
 from src.api.reminder.infrastructure.http.dtos import (
-    PydanticAddItemRequestDto,
-    PydanticAddItemResponseDto,
-    PydanticDeleteItemResponseDto,
-    PydanticModifyItemRequestDto,
-    PydanticModifyItemResponseDto,
-    PydanticViewItemResponseDto,
+    PydanticCreateReminderRequestDTO,
+    PydanticCreateReminderResponseDTO,
+    PydanticDeleteReminderRequestDTO,
+    PydanticDeleteReminderResponseDTO,
+    PydanticUpdateReminderRequestDTO,
+    PydanticUpdateReminderResponseDTO,
+    PydanticViewAllRemindersRequestDTO,
+    PydanticViewAllRemindersResponseDTO,
+    PydanticViewReminderRequestDTO,
+    PydanticViewReminderResponseDTO,
 )
-from src.api.reminder.infrastructure.persistence.models.sqlmodel_reminder_model import (  # noqa: E501
-    SqlModelReminderModel,
-)
+from src.api.reminder.infrastructure.persistence.models import SQLModelReminderModel
 from src.api.reminder.infrastructure.persistence.repositories import (
-    SqlModelReminderRepository,
+    SQLModelReminderRepository,
 )
-from src.api.shared.domain.value_objects import Uuid
 from src.api.shared.infrastructure.http.decorators import handle_exceptions
-from src.api.user.infrastructure.persistence.repositories.sqlmodel_user_repository import (  # noqa: E501
-    SqlModelUserRepository,
+from src.api.shared.infrastructure.persistence.repositories import (
+    DragonflySessionRepository,
 )
 
 
-class FastApiReminderController:
+class FastAPIReminderController:
+    __router: APIRouter = APIRouter(prefix="/reminder", tags=["Reminder"])
+
+    @classmethod
+    def router(cls) -> APIRouter:
+        return cls.__router
+
     @staticmethod
+    @__router.post(
+        "/",
+        name="Create Reminder",
+        description="",
+        response_model=PydanticCreateReminderResponseDTO,
+    )
     @handle_exceptions
     async def create(
-        item_data: PydanticAddItemRequestDto, user_id: str
-    ) -> PydanticAddItemResponseDto:
-        repo = SqlModelReminderRepository.get_repository()
-        user_repo = SqlModelUserRepository.get_repository()
-        use_case = AddReminderItemUseCase(repo, user_repo)
+        request_dto: PydanticCreateReminderRequestDTO,
+        session_token: str = Header(...),
+    ) -> PydanticCreateReminderResponseDTO:
+        reminder_repo = SQLModelReminderRepository.get_repository()
+        session_repo = DragonflySessionRepository.get_repository()
 
-        dto = item_data.to_application()
-        item = use_case.execute(dto)
+        use_case = CreateReminderUseCase(
+            reminder_repository=reminder_repo, session_repository=session_repo
+        )
 
-        return PydanticAddItemResponseDto(item=SqlModelReminderModel.from_entity(item))
+        dto = request_dto.to_application(session_token)
+        reminder = use_case.execute(dto)
+
+        return PydanticCreateReminderResponseDTO(
+            item=SQLModelReminderModel.from_entity(reminder)
+        )
 
     @staticmethod
+    @__router.put(
+        "/",
+        name="Update Reminder",
+        description="",
+        response_model=PydanticUpdateReminderResponseDTO,
+    )
     @handle_exceptions
     async def update(
-        item_data: PydanticModifyItemRequestDto, user_id: str
-    ) -> PydanticModifyItemResponseDto:
-        repo = SqlModelReminderRepository.get_repository()
-        use_case = ModifyReminderItemUseCase(repo)
+        request_dto: PydanticUpdateReminderRequestDTO, session_token: str = Header(...)
+    ) -> PydanticUpdateReminderResponseDTO:
+        reminder_repo = SQLModelReminderRepository.get_repository()
+        session_repo = DragonflySessionRepository.get_repository()
 
-        # Transformar DTO de entrada y ejecutar caso de uso
-        dto = item_data.to_application()
+        use_case = UpdateReminderUseCase(
+            reminder_repository=reminder_repo, session_repository=session_repo
+        )
+
+        dto = request_dto.to_application(session_token)
         updated_item = use_case.execute(dto)
 
-        # Transformar la salida del caso de uso
-        return PydanticModifyItemResponseDto(
-            item=SqlModelReminderModel.from_entity(updated_item)
+        return PydanticUpdateReminderResponseDTO(
+            item=SQLModelReminderModel.from_entity(updated_item)
         )
 
     @staticmethod
+    @__router.delete(
+        "/",
+        name="Delete Reminder",
+        description="",
+        response_model=PydanticDeleteReminderResponseDTO,
+    )
     @handle_exceptions
-    async def delete(reminder_id: str, user_id: str) -> PydanticDeleteItemResponseDto:
-        repo = SqlModelReminderRepository.get_repository()
-        use_case = DeleteReminderItemUseCase(repo)
+    async def delete(
+        request_dto: PydanticDeleteReminderRequestDTO, session_token: str = Header(...)
+    ) -> PydanticDeleteReminderResponseDTO:
+        reminder_repo = SQLModelReminderRepository.get_repository()
+        session_repo = DragonflySessionRepository.get_repository()
 
-        # Crear DTO y ejecutar caso de uso
-        dto = DeleteReminderItemDto(reminder_id=reminder_id, user_id=user_id)
+        use_case = DeleteReminderUseCase(
+            reminder_repository=reminder_repo, session_repository=session_repo
+        )
+
+        dto = request_dto.to_application(session_token)
         deleted_item = use_case.execute(dto)
 
-        # Transformar la salida del caso de uso
-        return PydanticDeleteItemResponseDto(
-            item=SqlModelReminderModel.from_entity(deleted_item)
+        return PydanticDeleteReminderResponseDTO(
+            item=SQLModelReminderModel.from_entity(deleted_item)
         )
 
     @staticmethod
+    @__router.get(
+        "/{reminder_uuid}",
+        name="View Reminder",
+        description="",
+        response_model=PydanticViewReminderResponseDTO,
+    )
     @handle_exceptions
-    async def view(reminder_id: str, user_id: str) -> PydanticViewItemResponseDto:
-        repo = SqlModelReminderRepository.get_repository()
-        user_repo = SqlModelUserRepository.get_repository()
-        use_case = ViewReminderItemUseCase(repo, user_repo)
+    async def view(
+        reminder_uuid: str, session_token: str = Header(...)
+    ) -> PydanticViewReminderResponseDTO:
+        reminder_repo = SQLModelReminderRepository.get_repository()
+        session_repo = DragonflySessionRepository.get_repository()
 
-        # Crear DTO y ejecutar caso de uso
-        dto = ViewReminderItemDto(reminder_id=reminder_id, user_id=user_id)
+        use_case = ViewReminderUseCase(
+            reminder_repository=reminder_repo, session_repository=session_repo
+        )
+
+        dto = PydanticViewReminderRequestDTO(
+            reminder_uuid=reminder_uuid
+        ).to_application(session_token=session_token)
         reminder_item = use_case.execute(dto)
 
-        # Transformar la salida del caso de uso
-        return PydanticViewItemResponseDto(
-            item=SqlModelReminderModel.from_entity(reminder_item)
+        return PydanticViewReminderResponseDTO(
+            item=SQLModelReminderModel.from_entity(reminder_item)
         )
 
     @staticmethod
-    async def view_all(user_id: str) -> List[PydanticViewItemResponseDto]:
-        repo = SqlModelReminderRepository.get_repository()
-        use_case = ViewAllReminderItemsUseCase(repo)
+    @__router.get(
+        "/",
+        name="View all Reminders",
+        description="",
+        response_model=PydanticViewAllRemindersResponseDTO,
+    )
+    @handle_exceptions
+    async def view_all(
+        session_token: str = Header(...),
+    ) -> PydanticViewAllRemindersResponseDTO:
+        reminder_repo = SQLModelReminderRepository.get_repository()
+        session_repo = DragonflySessionRepository.get_repository()
 
-        # Ejecutar el caso de uso con un DTO
-        dto = ViewAllReminderItemsDto(user_id=Uuid(user_id))
+        use_case = ViewAllRemindersUseCase(
+            reminder_repository=reminder_repo, session_repository=session_repo
+        )
+
+        dto = PydanticViewAllRemindersRequestDTO().to_application(
+            session_token=session_token
+        )
         reminder_items = use_case.execute(dto)
 
-        # Convertir entidades a una respuesta serializable
-        return [
-            PydanticViewItemResponseDto(item=SqlModelReminderModel.from_entity(item))
-            for item in reminder_items
-        ]
+        response_reminders_items = []
+        for reminder_item in reminder_items:
+            model_inventory = SQLModelReminderModel.from_entity(reminder_item)
+            response_reminders_items.append(model_inventory)
+
+        return PydanticViewAllRemindersResponseDTO(items=response_reminders_items)

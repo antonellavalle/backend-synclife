@@ -26,8 +26,8 @@ if TYPE_CHECKING:
     from src.api.notes.infrastructure.persistence.models.sqlmodel_tags_model import (
         SqlModelTagsModel,
     )
-    from src.api.reminder.infrastructure.persistence.models.sqlmodel_reminder_model import (  # noqa: E501
-        SqlModelReminderModel,
+    from src.api.reminder.infrastructure.persistence.models import (  # noqa: E501
+        SQLModelReminderModel,
     )
 
 
@@ -56,7 +56,7 @@ class SqlModelUserModel(SQLModel, table=True):
         notes (List[SqlModelNotesModel]): Relationship with notes associated with the
                                           user.
         tags (List[SqlModelTagsModel]): Relationship with tags associated with the user.
-        reminder_items (List[SqlModelReminderModel]): Relationship with reminders
+        reminder_items (List[SQLModelReminderModel]): Relationship with reminders
                                                       associated with the user.
     """
 
@@ -79,7 +79,7 @@ class SqlModelUserModel(SQLModel, table=True):
     )
     notes: Mapped[List["SqlModelNotesModel"]] = Relationship(back_populates="user")
     tags: Mapped[List["SqlModelTagsModel"]] = Relationship(back_populates="user")
-    reminder_items: Mapped[List["SqlModelReminderModel"]] = Relationship(
+    reminder_items: Mapped[List["SQLModelReminderModel"]] = Relationship(
         back_populates="user"
     )
 

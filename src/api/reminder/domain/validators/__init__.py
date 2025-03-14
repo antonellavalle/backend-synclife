@@ -1,5 +1,5 @@
-from .reminder_validator import ReminderValidator
+from .reminder_repository_validator import ReminderRepositoryValidator
 
 __all__ = [
-    "ReminderValidator",
+    "ReminderRepositoryValidator",
 ]

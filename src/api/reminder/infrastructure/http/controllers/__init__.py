@@ -1,5 +1,5 @@
-from .fastapi_reminder_controller import FastApiReminderController
+from .fastapi_reminder_controller import FastAPIReminderController
 
 __all__ = [
-    "FastApiReminderController",
+    "FastAPIReminderController",
 ]

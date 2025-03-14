@@ -10,13 +10,12 @@ from src.api.user.infrastructure.persistence.models.sqlmodel_user_model import (
 )
 
 
-class SqlModelReminderModel(SQLModel, table=True):
-    __tablename__ = "reminder"  # Nota: usa "__tablename__"
+class SQLModelReminderModel(SQLModel, table=True):
+    __tablename__ = "reminder"
 
-    id: str = Field(primary_key=True, nullable=False, max_length=36)  # UUID como string
+    id: str = Field(primary_key=True, nullable=False, max_length=36)
     user_id: str = Field(foreign_key="users.id", nullable=False, max_length=36)
     title: str = Field(nullable=False)
-    content: str = Field(nullable=False)
     created_at: datetime = Field(default_factory=datetime.now)
     remind_date: datetime = Field(nullable=False)
     is_deleted: bool = Field(default=False, nullable=False)
@@ -24,12 +23,11 @@ class SqlModelReminderModel(SQLModel, table=True):
     user: "SqlModelUserModel" = Relationship(back_populates="reminder_items")
 
     @classmethod
-    def from_entity(cls, entity: "Reminder") -> "SqlModelReminderModel":
+    def from_entity(cls, entity: "Reminder") -> "SQLModelReminderModel":
         return cls(
-            id=str(entity.id),
-            user_id=str(entity.user_id),
+            id=str(entity.uuid),
+            user_id=str(entity.user_uuid),
             title=entity.title,
-            content=entity.content,
             remind_date=entity.remind_date,
             updated_at=entity.updated_at,
             created_at=entity.created_at,
@@ -38,10 +36,9 @@ class SqlModelReminderModel(SQLModel, table=True):
 
     def to_entity(self) -> "Reminder":
         return Reminder(
-            id=Uuid(self.id),
-            user_id=Uuid(self.user_id),
+            uuid=Uuid(self.id),
+            user_uuid=Uuid(self.user_id),
             title=self.title,
-            content=self.content,
             remind_date=self.remind_date,
             updated_at=self.updated_at,
             created_at=self.created_at,

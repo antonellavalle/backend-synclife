@@ -1,3 +1,3 @@
-from .sqlmodel_reminder_model import SqlModelReminderModel
+from .sqlmodel_reminder_model import SQLModelReminderModel
 
-__all__ = ["SqlModelReminderModel"]
+__all__ = ["SQLModelReminderModel"]

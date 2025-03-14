@@ -1,3 +1,3 @@
-from .sqlmodel_reminder_repository import SqlModelReminderRepository
+from .sqlmodel_reminder_repository import SQLModelReminderRepository
 
-__all__ = ["SqlModelReminderRepository"]
+__all__ = ["SQLModelReminderRepository"]

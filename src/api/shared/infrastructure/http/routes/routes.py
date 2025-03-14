@@ -4,7 +4,7 @@ from fastapi import APIRouter, Header, HTTPException
 
 from src.api.inventory.infrastructure.http.routes import inventory_router
 from src.api.notes.infrastructure.http.routes import note_router, tag_router
-from src.api.reminder.infrastructure.http.routes import reminder_router
+from src.api.reminder.infrastructure.http.controllers import FastAPIReminderController
 from src.api.shared.infrastructure.persistence.repositories import (
     InMemorySessionRepository,
 )
@@ -20,7 +20,7 @@ router.include_router(FastApiAccountManagementController.router())
 router.include_router(inventory_router)
 router.include_router(note_router)
 router.include_router(tag_router)
-router.include_router(reminder_router)
+router.include_router(FastAPIReminderController.router())
 
 
 @router.get("/check/validate-session", summary="Valida si la sesión es válida")

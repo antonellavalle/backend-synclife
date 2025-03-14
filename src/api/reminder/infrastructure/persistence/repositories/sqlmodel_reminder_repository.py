@@ -5,28 +5,26 @@ from sqlmodel import Session, not_, select
 
 from src.api.reminder.domain.entities import Reminder
 from src.api.reminder.domain.repositories import ReminderRepository
-from src.api.reminder.infrastructure.persistence.models.sqlmodel_reminder_model import (  # noqa: E501
-    SqlModelReminderModel,
-)
+from src.api.reminder.infrastructure.persistence.models import SQLModelReminderModel
 from src.api.shared.domain.value_objects import Uuid
 from src.api.shared.infrastructure.persistence import get_db_connection
 
 
-class SqlModelReminderRepository(ReminderRepository):
+class SQLModelReminderRepository(ReminderRepository):
     def __init__(self, db_connection: Session) -> None:
         self.db_connection = db_connection
 
     @staticmethod
-    def get_repository() -> "SqlModelReminderRepository":
+    def get_repository() -> "SQLModelReminderRepository":
         with get_db_connection() as db_connection:
-            return SqlModelReminderRepository(db_connection=db_connection)
+            return SQLModelReminderRepository(db_connection=db_connection)
 
     def find_all(self, include_deleted: bool = False) -> List[Reminder]:
         query = (
-            select(SqlModelReminderModel)
+            select(SQLModelReminderModel)
             if include_deleted
-            else select(SqlModelReminderModel).where(
-                not_(SqlModelReminderModel.is_deleted)
+            else select(SQLModelReminderModel).where(
+                not_(SQLModelReminderModel.is_deleted)
             )
         )
         reminders = self.db_connection.exec(query).all()
@@ -34,12 +32,12 @@ class SqlModelReminderRepository(ReminderRepository):
 
     def find_by_id(self, id: Uuid, include_deleted: bool = False) -> Optional[Reminder]:
         query = (
-            select(SqlModelReminderModel).where(SqlModelReminderModel.id == str(id))
+            select(SQLModelReminderModel).where(SQLModelReminderModel.id == str(id))
             if include_deleted
             else (
-                select(SqlModelReminderModel)
-                .where(SqlModelReminderModel.id == str(id))
-                .where(not_(SqlModelReminderModel.is_deleted))
+                select(SQLModelReminderModel)
+                .where(SQLModelReminderModel.id == str(id))
+                .where(not_(SQLModelReminderModel.is_deleted))
             )
         )
         reminder = self.db_connection.exec(query).first()
@@ -48,12 +46,12 @@ class SqlModelReminderRepository(ReminderRepository):
     def find_all_by_user_id(
         self, user_id: Uuid, include_deleted: bool = False
     ) -> List[Reminder]:
-        query = select(SqlModelReminderModel).where(
-            SqlModelReminderModel.user_id == str(user_id)
+        query = select(SQLModelReminderModel).where(
+            SQLModelReminderModel.user_id == str(user_id)
         )
 
         if not include_deleted:
-            query = query.where(not_(SqlModelReminderModel.is_deleted))
+            query = query.where(not_(SQLModelReminderModel.is_deleted))
 
         reminders = self.db_connection.exec(query).all()
         return [reminder.to_entity() for reminder in reminders]
@@ -61,7 +59,7 @@ class SqlModelReminderRepository(ReminderRepository):
     def save(self, reminder: Reminder) -> tuple[bool, Optional[Reminder]]:
         try:
             # Convertir la entidad Reminder al modelo SQL
-            reminder_model = SqlModelReminderModel.from_entity(reminder)
+            reminder_model = SQLModelReminderModel.from_entity(reminder)
 
             # Agregar y confirmar en la base de datos
             self.db_connection.add(reminder_model)
@@ -80,9 +78,9 @@ class SqlModelReminderRepository(ReminderRepository):
 
     def update(self, reminder: Reminder) -> Tuple[bool, Optional[Reminder]]:
         existing_reminder = self.db_connection.exec(
-            select(SqlModelReminderModel)
-            .where(SqlModelReminderModel.id == str(reminder.id))
-            .where(not_(SqlModelReminderModel.is_deleted))
+            select(SQLModelReminderModel)
+            .where(SQLModelReminderModel.id == str(reminder.uuid))
+            .where(not_(SQLModelReminderModel.is_deleted))
         ).first()
 
         if not existing_reminder:
@@ -90,7 +88,6 @@ class SqlModelReminderRepository(ReminderRepository):
 
         updates = {
             "title": reminder.title,
-            "content": reminder.content,
             "remind_date": reminder.remind_date,
             "updated_at": datetime.now(),
         }
@@ -108,9 +105,9 @@ class SqlModelReminderRepository(ReminderRepository):
 
     def delete(self, reminder: Reminder) -> Tuple[bool, Optional[Reminder]]:
         existing_reminder = self.db_connection.exec(
-            select(SqlModelReminderModel)
-            .where(SqlModelReminderModel.id == str(reminder.id))
-            .where(not_(SqlModelReminderModel.is_deleted))
+            select(SQLModelReminderModel)
+            .where(SQLModelReminderModel.id == str(reminder.uuid))
+            .where(not_(SQLModelReminderModel.is_deleted))
         ).first()
 
         if not existing_reminder:
