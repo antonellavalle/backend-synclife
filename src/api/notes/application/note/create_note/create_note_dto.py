@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 
 @dataclass
-class CreateNoteDto:
+class CreateNoteDTO:
     user_id: str
     title: str
     content: str

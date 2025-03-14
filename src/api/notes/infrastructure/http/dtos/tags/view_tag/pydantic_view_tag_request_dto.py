@@ -1,11 +1,11 @@
 from pydantic import BaseModel
 
-from src.api.notes.application.tag.view_tag.view_tag_dto import ViewTagDto
+from src.api.notes.application.tag.view_tag.view_tag_dto import ViewTagDTO
 
 
-class PydanticViewTagsRequestDto(BaseModel):
+class PydanticViewTagsRequestDTO(BaseModel):
     tag_id: str
     user_id: str
 
-    def to_application(self, session_token: str) -> ViewTagDto:
-        return ViewTagDto(tag_uuid=self.tag_id, session_token=session_token)
+    def to_application(self, session_token: str) -> ViewTagDTO:
+        return ViewTagDTO(tag_uuid=self.tag_id, session_token=session_token)

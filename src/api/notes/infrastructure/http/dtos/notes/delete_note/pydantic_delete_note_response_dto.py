@@ -5,5 +5,5 @@ from src.api.notes.infrastructure.persistence.models.sqlmodel_notes_model import
 )
 
 
-class PydanticDeleteNotesResponseDto(BaseModel):
+class PydanticDeleteNotesResponseDTO(BaseModel):
     note: SqlModelNotesModel

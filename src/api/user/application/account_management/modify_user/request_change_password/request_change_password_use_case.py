@@ -15,7 +15,7 @@ from src.api.shared.domain.repositories.smtp_email_sender_repository import (
     SMTPEmailSenderRepository,
 )
 from src.api.user.application.account_management.modify_user.request_change_password import (  # noqa: E501
-    RequestChangePasswordDto,
+    RequestChangePasswordDTO,
 )
 from src.api.user.domain.entities.user import User
 from src.api.user.domain.repositories.user_repository import UserRepository
@@ -89,7 +89,7 @@ class RequestChangePasswordUseCase:
             body="Click on the following link to change your password.\n\n" + url,
         )
 
-    def execute(self, dto: RequestChangePasswordDto) -> User:
+    def execute(self, dto: RequestChangePasswordDTO) -> User:
         """
         Executes the use case to request a password change.
 
@@ -101,7 +101,7 @@ class RequestChangePasswordUseCase:
           5. Returns the corresponding User object.
 
         Args:
-            dto (RequestChangePasswordDto): Object containing the user's email and the
+            dto (RequestChangePasswordDTO): Object containing the user's email and the
                                             base URL for the password change link.
 
         Returns:

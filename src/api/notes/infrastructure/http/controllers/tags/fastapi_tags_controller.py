@@ -2,18 +2,18 @@ from src.api.notes.application.tag.create_tag import CreateTagUseCase
 from src.api.notes.application.tag.delete_tag import DeleteTagUseCase
 from src.api.notes.application.tag.update_tag import UpdateTagUseCase
 from src.api.notes.application.tag.view_all_tags import ViewAllTagsUseCase
-from src.api.notes.application.tag.view_all_tags.view_all_tags_dto import ViewAllTagsDto
+from src.api.notes.application.tag.view_all_tags.view_all_tags_dto import ViewAllTagsDTO
 from src.api.notes.application.tag.view_tag import ViewTagUseCase
 from src.api.notes.infrastructure.http.dtos.tags import (
-    PydanticCreateTagRequestDto,
-    PydanticCreateTagResponseDto,
-    PydanticDeleteTagRequestDto,
-    PydanticDeleteTagResponseDto,
-    PydanticUpdateTagsRequestDto,
-    PydanticUpdateTagsResponseDto,
-    PydanticViewAllTagsResponseDto,
-    PydanticViewTagsRequestDto,
-    PydanticViewTagsResponseDto,
+    PydanticCreateTagRequestDTO,
+    PydanticCreateTagResponseDTO,
+    PydanticDeleteTagRequestDTO,
+    PydanticDeleteTagResponseDTO,
+    PydanticUpdateTagsRequestDTO,
+    PydanticUpdateTagsResponseDTO,
+    PydanticViewAllTagsResponseDTO,
+    PydanticViewTagsRequestDTO,
+    PydanticViewTagsResponseDTO,
 )
 from src.api.notes.infrastructure.persistence.models.sqlmodel_tags_model import (
     SqlModelTagsModel,
@@ -34,8 +34,8 @@ class FastApiTagsController:
     @staticmethod
     @handle_exceptions
     async def create(
-        request_dto: PydanticCreateTagRequestDto, session_token: str
-    ) -> PydanticCreateTagResponseDto:
+        request_dto: PydanticCreateTagRequestDTO, session_token: str
+    ) -> PydanticCreateTagResponseDTO:
         tag_repo = SQLModelTagsRepository.get_repository()
         user_repo = SqlModelUserRepository.get_repository()
         session_repo = InMemorySessionRepository.get_repository()
@@ -44,13 +44,13 @@ class FastApiTagsController:
         dto = request_dto.to_application(session_token)
         tag = use_case.execute(dto)
 
-        return PydanticCreateTagResponseDto(tag=SqlModelTagsModel.from_entity(tag))
+        return PydanticCreateTagResponseDTO(tag=SqlModelTagsModel.from_entity(tag))
 
     @staticmethod
     @handle_exceptions
     async def update(
-        request_dto: PydanticUpdateTagsRequestDto, session_token: str
-    ) -> PydanticUpdateTagsResponseDto:
+        request_dto: PydanticUpdateTagsRequestDTO, session_token: str
+    ) -> PydanticUpdateTagsResponseDTO:
         tag_repo = SQLModelTagsRepository.get_repository()
         session_repo = InMemorySessionRepository.get_repository()
 
@@ -58,13 +58,13 @@ class FastApiTagsController:
         dto = request_dto.to_application(session_token)
         tag = use_case.execute(dto)
 
-        return PydanticUpdateTagsResponseDto(tag=SqlModelTagsModel.from_entity(tag))
+        return PydanticUpdateTagsResponseDTO(tag=SqlModelTagsModel.from_entity(tag))
 
     @staticmethod
     @handle_exceptions
     async def delete(
-        request_dto: PydanticDeleteTagRequestDto, session_token: str
-    ) -> PydanticDeleteTagResponseDto:
+        request_dto: PydanticDeleteTagRequestDTO, session_token: str
+    ) -> PydanticDeleteTagResponseDTO:
         tag_repo = SQLModelTagsRepository.get_repository()
         session_repo = InMemorySessionRepository.get_repository()
 
@@ -72,13 +72,13 @@ class FastApiTagsController:
         dto = request_dto.to_application(session_token)
         tag = use_case.execute(dto)
 
-        return PydanticDeleteTagResponseDto(tag=SqlModelTagsModel.from_entity(tag))
+        return PydanticDeleteTagResponseDTO(tag=SqlModelTagsModel.from_entity(tag))
 
     @staticmethod
     @handle_exceptions
     async def view(
-        request_dto: PydanticViewTagsRequestDto, session_token: str
-    ) -> PydanticViewTagsResponseDto:
+        request_dto: PydanticViewTagsRequestDTO, session_token: str
+    ) -> PydanticViewTagsResponseDTO:
         tag_repo = SQLModelTagsRepository.get_repository()
         session_repo = InMemorySessionRepository.get_repository()
 
@@ -86,17 +86,17 @@ class FastApiTagsController:
         dto = request_dto.to_application(session_token)
         tag = use_case.execute(dto)
 
-        return PydanticViewTagsResponseDto(tag=SqlModelTagsModel.from_entity(tag))
+        return PydanticViewTagsResponseDTO(tag=SqlModelTagsModel.from_entity(tag))
 
     @staticmethod
     @handle_exceptions
-    async def view_all(session_token: str) -> PydanticViewAllTagsResponseDto:
+    async def view_all(session_token: str) -> PydanticViewAllTagsResponseDTO:
         tag_repo = SQLModelTagsRepository.get_repository()
         session_repo = InMemorySessionRepository.get_repository()
 
         use_case = ViewAllTagsUseCase(tag_repo, session_repo)
 
-        dto = ViewAllTagsDto(session_token=session_token)
+        dto = ViewAllTagsDTO(session_token=session_token)
         tags = use_case.execute(dto)
 
         response_tags = []
@@ -104,4 +104,4 @@ class FastApiTagsController:
             model_tag = SqlModelTagsModel.from_entity(tag)
             response_tags.append(model_tag)
 
-        return PydanticViewAllTagsResponseDto(tags=response_tags)
+        return PydanticViewAllTagsResponseDTO(tags=response_tags)

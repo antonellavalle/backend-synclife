@@ -13,7 +13,7 @@ from src.api.user.infrastructure.persistence.models.sqlmodel_user_model import (
 )
 
 
-class PydanticDeleteAccountResponseDto(BaseModel):
+class PydanticDeleteAccountResponseDTO(BaseModel):
     """
     Response Data Transfer Object for account deletion.
 

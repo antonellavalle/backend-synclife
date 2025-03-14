@@ -9,13 +9,13 @@ this package.
 """
 
 from .pydantic_request_change_password_request_dto import (
-    PydanticRequestChangePasswordRequestDto,
+    PydanticRequestChangePasswordRequestDTO,
 )
 from .pydantic_request_change_password_response_dto import (
-    PydanticRequestChangePasswordResponseDto,
+    PydanticRequestChangePasswordResponseDTO,
 )
 
 __all__ = [
-    "PydanticRequestChangePasswordRequestDto",
-    "PydanticRequestChangePasswordResponseDto",
+    "PydanticRequestChangePasswordRequestDTO",
+    "PydanticRequestChangePasswordResponseDTO",
 ]

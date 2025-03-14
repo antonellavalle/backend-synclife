@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from src.api.notes.application.note.remove_tag.remove_tag_dto import RemoveTagDTO
 
 
-class PydanticRemoveTagRequestDto(BaseModel):
+class PydanticRemoveTagRequestDTO(BaseModel):
     note_id: str
     tag_id: str
 

@@ -7,15 +7,15 @@ from src.api.inventory.application.view_all_items.view_all_item_dto import (
 )
 from src.api.inventory.application.view_item import ViewItemUseCase
 from src.api.inventory.infrastructure.http.dtos import (
-    PydanticCreateItemRequestDto,
-    PydanticCreateItemResponseDto,
-    PydanticDeleteItemRequestDto,
-    PydanticDeleteItemResponseDto,
-    PydanticUpdateItemRequestDto,
-    PydanticUpdateItemResponseDto,
-    PydanticViewAllInventoryItemsResponseDto,
-    PydanticViewItemRequestDto,
-    PydanticViewItemResponseDto,
+    PydanticCreateItemRequestDTO,
+    PydanticCreateItemResponseDTO,
+    PydanticDeleteItemRequestDTO,
+    PydanticDeleteItemResponseDTO,
+    PydanticUpdateItemRequestDTO,
+    PydanticUpdateItemResponseDTO,
+    PydanticViewAllInventoryItemsResponseDTO,
+    PydanticViewItemRequestDTO,
+    PydanticViewItemResponseDTO,
 )
 from src.api.inventory.infrastructure.persistence.models.sqlmodel_inventory_model import (  # noqa: E501
     SqlModelInventoryModel,
@@ -36,8 +36,8 @@ class FastApiInventoryController:
     @staticmethod
     @handle_exceptions
     async def create(
-        item_data: PydanticCreateItemRequestDto, session_token: str
-    ) -> PydanticCreateItemResponseDto:
+        item_data: PydanticCreateItemRequestDTO, session_token: str
+    ) -> PydanticCreateItemResponseDTO:
         invenory_repo = SQLModelInventoryRepository.get_repository()
         user_repo = SqlModelUserRepository.get_repository()
         session_repo = InMemorySessionRepository.get_repository()
@@ -46,15 +46,15 @@ class FastApiInventoryController:
         dto = item_data.to_application(session_token)
         item = use_case.execute(dto)
 
-        return PydanticCreateItemResponseDto(
+        return PydanticCreateItemResponseDTO(
             item=SqlModelInventoryModel.from_entity(item)
         )
 
     @staticmethod
     @handle_exceptions
     async def update(
-        item_data: PydanticUpdateItemRequestDto, session_token: str
-    ) -> PydanticUpdateItemResponseDto:
+        item_data: PydanticUpdateItemRequestDTO, session_token: str
+    ) -> PydanticUpdateItemResponseDTO:
         inventory_repo = SQLModelInventoryRepository.get_repository()
         session_repo = InMemorySessionRepository.get_repository()
 
@@ -62,15 +62,15 @@ class FastApiInventoryController:
         dto = item_data.to_application(session_token)
         updated_item = use_case.execute(dto)
 
-        return PydanticUpdateItemResponseDto(
+        return PydanticUpdateItemResponseDTO(
             item=SqlModelInventoryModel.from_entity(updated_item)
         )
 
     @staticmethod
     @handle_exceptions
     async def delete(
-        request_dto: PydanticDeleteItemRequestDto, session_token: str
-    ) -> PydanticDeleteItemResponseDto:
+        request_dto: PydanticDeleteItemRequestDTO, session_token: str
+    ) -> PydanticDeleteItemResponseDTO:
         inventory_repo = SQLModelInventoryRepository.get_repository()
         session_inventory = InMemorySessionRepository.get_repository()
 
@@ -78,15 +78,15 @@ class FastApiInventoryController:
         dto = request_dto.to_application(session_token)
         deleted_item = use_case.execute(dto)
 
-        return PydanticDeleteItemResponseDto(
+        return PydanticDeleteItemResponseDTO(
             item=SqlModelInventoryModel.from_entity(deleted_item)
         )
 
     @staticmethod
     @handle_exceptions
     async def view(
-        request_dto: PydanticViewItemRequestDto, session_token: str
-    ) -> PydanticViewItemResponseDto:
+        request_dto: PydanticViewItemRequestDTO, session_token: str
+    ) -> PydanticViewItemResponseDTO:
         inventory_repo = SQLModelInventoryRepository.get_repository()
         session_repo = InMemorySessionRepository.get_repository()
 
@@ -94,12 +94,12 @@ class FastApiInventoryController:
         dto = request_dto.to_application(session_token)
         item = use_case.execute(dto)
 
-        return PydanticViewItemResponseDto(
+        return PydanticViewItemResponseDTO(
             item=SqlModelInventoryModel.from_entity(item)
         )
 
     @staticmethod
-    async def view_all(session_token: str) -> PydanticViewAllInventoryItemsResponseDto:
+    async def view_all(session_token: str) -> PydanticViewAllInventoryItemsResponseDTO:
         inventory_repo = SQLModelInventoryRepository.get_repository()
         session_repo = InMemorySessionRepository.get_repository()
 
@@ -112,6 +112,6 @@ class FastApiInventoryController:
             model_inventory = SqlModelInventoryModel.from_entity(inventory_item)
             response_inventory_items.append(model_inventory)
 
-        return PydanticViewAllInventoryItemsResponseDto(
+        return PydanticViewAllInventoryItemsResponseDTO(
             inventory_items=response_inventory_items
         )

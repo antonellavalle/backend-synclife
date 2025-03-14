@@ -7,7 +7,7 @@ attribute is used to explicitly define the names that will be exported when impo
 this package.
 """
 
-from .pydantic_login_request_dto import PydanticLoginRequestDto
-from .pydantic_login_response_dto import PydanticLoginResponseDto
+from .pydantic_login_request_dto import PydanticLoginRequestDTO
+from .pydantic_login_response_dto import PydanticLoginResponseDTO
 
-__all__ = ["PydanticLoginRequestDto", "PydanticLoginResponseDto"]
+__all__ = ["PydanticLoginRequestDTO", "PydanticLoginResponseDTO"]

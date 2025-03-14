@@ -13,7 +13,7 @@ from src.api.user.infrastructure.persistence.models.sqlmodel_user_model import (
 )
 
 
-class PydanticViewAccountResponseDto(BaseModel):
+class PydanticViewAccountResponseDTO(BaseModel):
     """
     Response Data Transfer Object for viewing a user's account.
 

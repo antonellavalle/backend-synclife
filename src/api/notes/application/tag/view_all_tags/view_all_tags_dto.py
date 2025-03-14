@@ -2,5 +2,5 @@ from dataclasses import dataclass
 
 
 @dataclass
-class ViewAllTagsDto:
+class ViewAllTagsDTO:
     session_token: str

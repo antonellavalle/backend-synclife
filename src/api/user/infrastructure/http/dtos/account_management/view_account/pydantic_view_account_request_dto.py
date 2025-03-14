@@ -14,7 +14,7 @@ from src.api.user.application.account_management.view_account.view_account_dto i
 )
 
 
-class PydanticViewAccountRequestDto(BaseModel):
+class PydanticViewAccountRequestDTO(BaseModel):
     """
     Request Data Transfer Object for viewing a user's account.
 

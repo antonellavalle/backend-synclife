@@ -7,10 +7,10 @@ following components are included:
 
   Account Management:
     - Account deletion: DeleteAccountDTO, DeleteAccountUseCase
-    - Password change: ChangePasswordDto, ChangePasswordUseCase
+    - Password change: ChangePasswordDTO, ChangePasswordUseCase
     - Personal information modification: ChangePersonalInformationDTO,
                                          ChangePersonalInformationUseCase
-    - Password change request: RequestChangePasswordDto, RequestChangePasswordUseCase
+    - Password change request: RequestChangePasswordDTO, RequestChangePasswordUseCase
     - Account viewing: ViewAccountDTO, ViewAccountUseCase
 
   Authentication:
@@ -23,13 +23,13 @@ this package.
 """
 
 from .account_management import (
-    ChangePasswordDto,
+    ChangePasswordDTO,
     ChangePasswordUseCase,
     ChangePersonalInformationDTO,
     ChangePersonalInformationUseCase,
     DeleteAccountDTO,
     DeleteAccountUseCase,
-    RequestChangePasswordDto,
+    RequestChangePasswordDTO,
     RequestChangePasswordUseCase,
     ViewAccountDTO,
     ViewAccountUseCase,
@@ -46,11 +46,11 @@ from .authentication import (
 __all__ = [
     "DeleteAccountDTO",
     "DeleteAccountUseCase",
-    "ChangePasswordDto",
+    "ChangePasswordDTO",
     "ChangePasswordUseCase",
     "ChangePersonalInformationDTO",
     "ChangePersonalInformationUseCase",
-    "RequestChangePasswordDto",
+    "RequestChangePasswordDTO",
     "RequestChangePasswordUseCase",
     "ViewAccountDTO",
     "ViewAccountUseCase",

@@ -8,7 +8,7 @@ is used to explicitly define the names that will be exported when importing this
 package.
 """
 
-from .pydantic_register_request_dto import PydanticRegisterRequestDto
-from .pydantic_register_response_dto import PydanticRegisterResponseDto
+from .pydantic_register_request_dto import PydanticRegisterRequestDTO
+from .pydantic_register_response_dto import PydanticRegisterResponseDTO
 
-__all__ = ["PydanticRegisterRequestDto", "PydanticRegisterResponseDto"]
+__all__ = ["PydanticRegisterRequestDTO", "PydanticRegisterResponseDTO"]

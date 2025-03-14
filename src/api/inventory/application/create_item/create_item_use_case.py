@@ -1,4 +1,4 @@
-from src.api.inventory.application.create_item.create_item_dto import CreateItemDto
+from src.api.inventory.application.create_item.create_item_dto import CreateItemDTO
 from src.api.inventory.domain.entities.inventory import Inventory
 from src.api.inventory.domain.repositories.inventory_repository import (
     InventoryRepository,
@@ -25,7 +25,7 @@ class CreateItemUseCase:
         self.__user_repository = user_repository
         self.__session_repository = session_repository
 
-    def execute(self, dto: CreateItemDto) -> Inventory:
+    def execute(self, dto: CreateItemDTO) -> Inventory:
         user_request_uuid = SessionRepositoryValidator.validate_session_token(
             self.__session_repository, dto.session_token
         )

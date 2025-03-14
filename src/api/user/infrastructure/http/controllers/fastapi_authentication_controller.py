@@ -29,10 +29,10 @@ from src.api.user.application.authentication import (
     VerifyAccountUseCase,
 )
 from src.api.user.infrastructure.http.dtos import (
-    PydanticLoginRequestDto,
-    PydanticLoginResponseDto,
-    PydanticRegisterRequestDto,
-    PydanticRegisterResponseDto,
+    PydanticLoginRequestDTO,
+    PydanticLoginResponseDTO,
+    PydanticRegisterRequestDTO,
+    PydanticRegisterResponseDTO,
     PydanticVerifyAccountRequestDTO,
     PydanticVerifyAccountResponseDTO,
 )
@@ -74,12 +74,12 @@ class FastApiAuthenticationController:
         "/register",
         name="Register",
         description="Register a new user by providing required details.",
-        response_model=PydanticRegisterResponseDto,
+        response_model=PydanticRegisterResponseDTO,
     )
     @handle_exceptions
     async def register(
-        request_dto: PydanticRegisterRequestDto,
-    ) -> PydanticRegisterResponseDto:
+        request_dto: PydanticRegisterRequestDTO,
+    ) -> PydanticRegisterResponseDTO:
         """
         Endpoint to register a new user.
 
@@ -94,11 +94,11 @@ class FastApiAuthenticationController:
              (transformed into the persistence model).
 
         Args:
-            request_dto (PydanticRegisterRequestDto): DTO containing the registration
+            request_dto (PydanticRegisterRequestDTO): DTO containing the registration
                                                       data.
 
         Returns:
-            PydanticRegisterResponseDto: Response DTO containing the registered user's
+            PydanticRegisterResponseDTO: Response DTO containing the registered user's
                                          data.
         """
         user_repository = SqlModelUserRepository.get_repository()
@@ -116,7 +116,7 @@ class FastApiAuthenticationController:
         app_dto = request_dto.to_application(url=url)
         user = use_case.execute(app_dto)
 
-        return PydanticRegisterResponseDto(
+        return PydanticRegisterResponseDTO(
             user=SqlModelUserModel.from_entity(user),
         )
 
@@ -170,10 +170,10 @@ class FastApiAuthenticationController:
         "/login",
         name="Login",
         description="Authenticate a user with email and password.",
-        response_model=PydanticLoginResponseDto,
+        response_model=PydanticLoginResponseDTO,
     )
     @handle_exceptions
-    async def login(request_dto: PydanticLoginRequestDto) -> PydanticLoginResponseDto:
+    async def login(request_dto: PydanticLoginRequestDTO) -> PydanticLoginResponseDTO:
         """
         Endpoint to log in a user.
 
@@ -187,10 +187,10 @@ class FastApiAuthenticationController:
              and the session token.
 
         Args:
-            request_dto (PydanticLoginRequestDto): DTO containing the login credentials.
+            request_dto (PydanticLoginRequestDTO): DTO containing the login credentials.
 
         Returns:
-            PydanticLoginResponseDto: Response DTO containing the authenticated user's
+            PydanticLoginResponseDTO: Response DTO containing the authenticated user's
                                       data and the session token.
         """
         user_repository = SqlModelUserRepository.get_repository()
@@ -199,7 +199,7 @@ class FastApiAuthenticationController:
         app_dto = request_dto.to_application()
         user, session_token = use_case.execute(app_dto)
 
-        return PydanticLoginResponseDto(
+        return PydanticLoginResponseDTO(
             user=SqlModelUserModel.from_entity(user),
             session_token=session_token,
         )

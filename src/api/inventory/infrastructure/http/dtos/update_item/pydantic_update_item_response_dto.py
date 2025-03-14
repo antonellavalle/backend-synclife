@@ -5,5 +5,5 @@ from src.api.inventory.infrastructure.persistence.models.sqlmodel_inventory_mode
 )
 
 
-class PydanticUpdateItemResponseDto(BaseModel):
+class PydanticUpdateItemResponseDTO(BaseModel):
     item: SqlModelInventoryModel

@@ -14,7 +14,7 @@ from src.api.user.application.account_management.delete_account.delete_account_d
 )
 
 
-class PydanticDeleteAccountRequestDto(BaseModel):
+class PydanticDeleteAccountRequestDTO(BaseModel):
     """
     Request Data Transfer Object for user account deletion.
 

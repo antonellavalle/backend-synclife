@@ -4,54 +4,54 @@ from src.api.inventory.infrastructure.http.controllers.fastapi_inventory_control
     FastApiInventoryController,
 )
 from src.api.inventory.infrastructure.http.dtos import (
-    PydanticCreateItemRequestDto,
-    PydanticCreateItemResponseDto,
-    PydanticDeleteItemRequestDto,
-    PydanticDeleteItemResponseDto,
-    PydanticUpdateItemRequestDto,
-    PydanticUpdateItemResponseDto,
-    PydanticViewAllInventoryItemsResponseDto,
-    PydanticViewItemRequestDto,
-    PydanticViewItemResponseDto,
+    PydanticCreateItemRequestDTO,
+    PydanticCreateItemResponseDTO,
+    PydanticDeleteItemRequestDTO,
+    PydanticDeleteItemResponseDTO,
+    PydanticUpdateItemRequestDTO,
+    PydanticUpdateItemResponseDTO,
+    PydanticViewAllInventoryItemsResponseDTO,
+    PydanticViewItemRequestDTO,
+    PydanticViewItemResponseDTO,
 )
 
 router: APIRouter = APIRouter(prefix="/inventory", tags=["Inventory"])
 
 
-@router.post("/", response_model=PydanticCreateItemResponseDto)
+@router.post("/", response_model=PydanticCreateItemResponseDTO)
 async def create_inventory_item(
-    dto: PydanticCreateItemRequestDto,
+    dto: PydanticCreateItemRequestDTO,
     session_token: str = Header(...),
-) -> PydanticCreateItemResponseDto:
+) -> PydanticCreateItemResponseDTO:
     return await FastApiInventoryController.create(dto, session_token)
 
 
-@router.get("/{inventory_id}", response_model=PydanticViewItemResponseDto)
+@router.get("/{inventory_id}", response_model=PydanticViewItemResponseDTO)
 async def view_inventory_item(
-    dto: PydanticViewItemRequestDto,
+    dto: PydanticViewItemRequestDTO,
     session_token: str = Header(...),
-) -> PydanticViewItemResponseDto:
+) -> PydanticViewItemResponseDTO:
     return await FastApiInventoryController.view(dto, session_token)
 
 
-@router.get("/", response_model=PydanticViewAllInventoryItemsResponseDto)
+@router.get("/", response_model=PydanticViewAllInventoryItemsResponseDTO)
 async def view_all_inventory_items(
     session_token: str = Header(...),
-) -> PydanticViewAllInventoryItemsResponseDto:
+) -> PydanticViewAllInventoryItemsResponseDTO:
     return await FastApiInventoryController.view_all(session_token)
 
 
-@router.put("/", response_model=PydanticUpdateItemResponseDto)
+@router.put("/", response_model=PydanticUpdateItemResponseDTO)
 async def update_inventory_item(
-    dto: PydanticUpdateItemRequestDto,
+    dto: PydanticUpdateItemRequestDTO,
     session_token: str = Header(...),
-) -> PydanticUpdateItemResponseDto:
+) -> PydanticUpdateItemResponseDTO:
     return await FastApiInventoryController.update(dto, session_token)
 
 
-@router.delete("/{inventory_id}", response_model=PydanticDeleteItemResponseDto)
+@router.delete("/{inventory_id}", response_model=PydanticDeleteItemResponseDTO)
 async def delete_inventory_item(
-    dto: PydanticDeleteItemRequestDto,
+    dto: PydanticDeleteItemRequestDTO,
     session_token: str = Header(...),
-) -> PydanticDeleteItemResponseDto:
+) -> PydanticDeleteItemResponseDTO:
     return await FastApiInventoryController.delete(dto, session_token)

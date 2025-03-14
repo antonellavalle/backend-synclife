@@ -9,7 +9,7 @@ from dataclasses import dataclass
 
 
 @dataclass
-class RequestChangePasswordDto:
+class RequestChangePasswordDTO:
     """
     Data Transfer Object for requesting a user's password change.
 

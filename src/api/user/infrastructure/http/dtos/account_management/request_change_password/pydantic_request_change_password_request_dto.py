@@ -10,11 +10,11 @@ layer DTO.
 from pydantic import BaseModel, EmailStr
 
 from src.api.user.application.account_management.modify_user.request_change_password.request_change_password_dto import (  # noqa: E501
-    RequestChangePasswordDto,
+    RequestChangePasswordDTO,
 )
 
 
-class PydanticRequestChangePasswordRequestDto(BaseModel):
+class PydanticRequestChangePasswordRequestDTO(BaseModel):
     """
     Request Data Transfer Object for requesting a user's password change.
 
@@ -24,7 +24,7 @@ class PydanticRequestChangePasswordRequestDto(BaseModel):
 
     email: EmailStr
 
-    def to_application(self, url: str) -> RequestChangePasswordDto:
+    def to_application(self, url: str) -> RequestChangePasswordDTO:
         """
         Transforms the Pydantic DTO into the application layer DTO.
 
@@ -32,7 +32,7 @@ class PydanticRequestChangePasswordRequestDto(BaseModel):
             url (str): Base URL to be used for generating the password change link.
 
         Returns:
-            RequestChangePasswordDto: Application layer DTO with the necessary data to
+            RequestChangePasswordDTO: Application layer DTO with the necessary data to
                                       request a password change.
         """
-        return RequestChangePasswordDto(email=self.email, url=url)
+        return RequestChangePasswordDTO(email=self.email, url=url)

@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from src.api.notes.application.note.update_note.update_note_dto import UpdateNoteDTO
 
 
-class PydanticUpdateNotesRequestDto(BaseModel):
+class PydanticUpdateNotesRequestDTO(BaseModel):
     note_id: str
     title: str
     content: str
@@ -19,7 +19,7 @@ class PydanticUpdateNotesRequestDto(BaseModel):
     @classmethod
     def from_application(
         cls, app_dto: UpdateNoteDTO
-    ) -> "PydanticUpdateNotesRequestDto":
+    ) -> "PydanticUpdateNotesRequestDTO":
         return cls(
             note_id=app_dto.note_id, title=app_dto.title, content=app_dto.content
         )

@@ -5,5 +5,5 @@ from src.api.notes.infrastructure.persistence.models.sqlmodel_tags_model import 
 )
 
 
-class PydanticCreateTagResponseDto(BaseModel):
+class PydanticCreateTagResponseDTO(BaseModel):
     tag: SqlModelTagsModel

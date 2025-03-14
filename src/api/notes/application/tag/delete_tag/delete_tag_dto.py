@@ -2,6 +2,6 @@ from dataclasses import dataclass
 
 
 @dataclass
-class DeleteTagDto:
+class DeleteTagDTO:
     tag_id: str
     session_token: str

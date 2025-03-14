@@ -1,5 +1,5 @@
 from .pydantic_view_all_inventory_items_response_dto import (
-    PydanticViewAllInventoryItemsResponseDto,
+    PydanticViewAllInventoryItemsResponseDTO,
 )
 
-__all__ = ["PydanticViewAllInventoryItemsResponseDto"]
+__all__ = ["PydanticViewAllInventoryItemsResponseDTO"]

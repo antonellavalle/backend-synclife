@@ -8,21 +8,21 @@ from src.api.notes.application.note.view_all_notes import ViewAllNotesUseCase
 from src.api.notes.application.note.view_all_notes.view_all_dto import ViewAllNotesDTO
 from src.api.notes.application.note.view_note import ViewNoteUseCase
 from src.api.notes.infrastructure.http.dtos.notes import (
-    PydanticAddTagToNoteRequestDto,
-    PydanticAddTagToNoteResponseDto,
-    PydanticCreateNoteRequestDto,
-    PydanticCreateNoteResponseDto,
-    PydanticDeleteNotesRequestDto,
-    PydanticDeleteNotesResponseDto,
-    PydanticFilterNotesByTagRequestDto,
-    PydanticFilterNotesByTagResponseDto,
-    PydanticRemoveTagRequestDto,
-    PydanticRemoveTagResponseDto,
-    PydanticUpdateNotesRequestDto,
-    PydanticUpdateNotesResponseDto,
-    PydanticViewAllNotesResponseDto,
-    PydanticViewNotesRequestDto,
-    PydanticViewNotesResponseDto,
+    PydanticAddTagToNoteRequestDTO,
+    PydanticAddTagToNoteResponseDTO,
+    PydanticCreateNoteRequestDTO,
+    PydanticCreateNoteResponseDTO,
+    PydanticDeleteNotesRequestDTO,
+    PydanticDeleteNotesResponseDTO,
+    PydanticFilterNotesByTagRequestDTO,
+    PydanticFilterNotesByTagResponseDTO,
+    PydanticRemoveTagRequestDTO,
+    PydanticRemoveTagResponseDTO,
+    PydanticUpdateNotesRequestDTO,
+    PydanticUpdateNotesResponseDTO,
+    PydanticViewAllNotesResponseDTO,
+    PydanticViewNotesRequestDTO,
+    PydanticViewNotesResponseDTO,
 )
 from src.api.notes.infrastructure.persistence.models.sqlmodel_notes_model import (
     SqlModelNotesModel,
@@ -46,8 +46,8 @@ class FastApiNotesController:
     @staticmethod
     @handle_exceptions
     async def create(
-        note_data: PydanticCreateNoteRequestDto, session_token: str
-    ) -> PydanticCreateNoteResponseDto:
+        note_data: PydanticCreateNoteRequestDTO, session_token: str
+    ) -> PydanticCreateNoteResponseDTO:
         note_repo = SQLModelNotesRepository.get_repository()
         user_repo = SqlModelUserRepository.get_repository()
         session_repo = InMemorySessionRepository.get_repository()
@@ -56,13 +56,13 @@ class FastApiNotesController:
         dto = note_data.to_application(session_token)
         note = use_case.execute(dto)
 
-        return PydanticCreateNoteResponseDto(note=SqlModelNotesModel.from_entity(note))
+        return PydanticCreateNoteResponseDTO(note=SqlModelNotesModel.from_entity(note))
 
     @staticmethod
     @handle_exceptions
     async def update(
-        note_data: PydanticUpdateNotesRequestDto, session_token: str
-    ) -> PydanticUpdateNotesResponseDto:
+        note_data: PydanticUpdateNotesRequestDTO, session_token: str
+    ) -> PydanticUpdateNotesResponseDTO:
         note_repo = SQLModelNotesRepository.get_repository()
         session_repo = InMemorySessionRepository.get_repository()
 
@@ -70,15 +70,15 @@ class FastApiNotesController:
         dto = note_data.to_application(session_token)
         updated_note = use_case.execute(dto)
 
-        return PydanticUpdateNotesResponseDto(
+        return PydanticUpdateNotesResponseDTO(
             note=SqlModelNotesModel.from_entity(updated_note)
         )
 
     @staticmethod
     @handle_exceptions
     async def delete(
-        reques_dto: PydanticDeleteNotesRequestDto, session_token: str
-    ) -> PydanticDeleteNotesResponseDto:
+        reques_dto: PydanticDeleteNotesRequestDTO, session_token: str
+    ) -> PydanticDeleteNotesResponseDTO:
         note_repo = SQLModelNotesRepository.get_repository()
         session_repo = InMemorySessionRepository.get_repository()
 
@@ -86,15 +86,15 @@ class FastApiNotesController:
         dto = reques_dto.to_application(session_token)
         deleted_note = use_case.execute(dto)
 
-        return PydanticDeleteNotesResponseDto(
+        return PydanticDeleteNotesResponseDTO(
             note=SqlModelNotesModel.from_entity(deleted_note)
         )
 
     @staticmethod
     @handle_exceptions
     async def view(
-        request_dto: PydanticViewNotesRequestDto, session_token: str
-    ) -> PydanticViewNotesResponseDto:
+        request_dto: PydanticViewNotesRequestDTO, session_token: str
+    ) -> PydanticViewNotesResponseDTO:
         note_repo = SQLModelNotesRepository.get_repository()
         session_repo = InMemorySessionRepository.get_repository()
 
@@ -102,11 +102,11 @@ class FastApiNotesController:
         dto = request_dto.to_application(session_token)
         note = use_case.execute(dto)
 
-        return PydanticViewNotesResponseDto(note=SqlModelNotesModel.from_entity(note))
+        return PydanticViewNotesResponseDTO(note=SqlModelNotesModel.from_entity(note))
 
     @staticmethod
     @handle_exceptions
-    async def view_all(session_token: str) -> PydanticViewAllNotesResponseDto:
+    async def view_all(session_token: str) -> PydanticViewAllNotesResponseDTO:
         note_repo = SQLModelNotesRepository.get_repository()
         session_repo = InMemorySessionRepository.get_repository()
 
@@ -120,13 +120,13 @@ class FastApiNotesController:
             model_note = SqlModelNotesModel.from_entity(note)
             response_notes.append(model_note)
 
-        return PydanticViewAllNotesResponseDto(notes=response_notes)
+        return PydanticViewAllNotesResponseDTO(notes=response_notes)
 
     @staticmethod
     @handle_exceptions
     async def add_tag_to_note(
-        tag_data: PydanticAddTagToNoteRequestDto, session_token: str
-    ) -> PydanticAddTagToNoteResponseDto:
+        tag_data: PydanticAddTagToNoteRequestDTO, session_token: str
+    ) -> PydanticAddTagToNoteResponseDTO:
         notes_repo = SQLModelNotesRepository.get_repository()
         tags_repo = SQLModelTagsRepository.get_repository()
         session_repo = InMemorySessionRepository.get_repository()
@@ -136,15 +136,15 @@ class FastApiNotesController:
         dto = tag_data.to_application(session_token)
         note = use_case.execute(dto)
 
-        return PydanticAddTagToNoteResponseDto(
+        return PydanticAddTagToNoteResponseDTO(
             note=SqlModelNotesModel.from_entity(note)
         )
 
     @staticmethod
     @handle_exceptions
     async def remove_tag_from_note(
-        remove_data: PydanticRemoveTagRequestDto, session_token: str
-    ) -> PydanticRemoveTagResponseDto:
+        remove_data: PydanticRemoveTagRequestDTO, session_token: str
+    ) -> PydanticRemoveTagResponseDTO:
         notes_repo = SQLModelNotesRepository.get_repository()
         tags_repo = SQLModelTagsRepository.get_repository()
         session_repo = InMemorySessionRepository.get_repository()
@@ -154,15 +154,15 @@ class FastApiNotesController:
         dto = remove_data.to_application(session_token)
         updated_note = use_case.execute(dto)
 
-        return PydanticRemoveTagResponseDto(
+        return PydanticRemoveTagResponseDTO(
             note=SqlModelNotesModel.from_entity(updated_note)
         )
 
     @staticmethod
     @handle_exceptions
     async def filter_notes_by_tag(
-        request_dto: PydanticFilterNotesByTagRequestDto, session_token: str
-    ) -> PydanticFilterNotesByTagResponseDto:
+        request_dto: PydanticFilterNotesByTagRequestDTO, session_token: str
+    ) -> PydanticFilterNotesByTagResponseDTO:
         notes_repo = SQLModelNotesRepository.get_repository()
         tags_repo = SQLModelTagsRepository.get_repository()
         session_repo = InMemorySessionRepository.get_repository()
@@ -177,4 +177,4 @@ class FastApiNotesController:
             note_model = SqlModelNotesModel.from_entity(note)
             notes_response.append(note_model)
 
-        return PydanticFilterNotesByTagResponseDto(notes=notes_response)
+        return PydanticFilterNotesByTagResponseDTO(notes=notes_response)

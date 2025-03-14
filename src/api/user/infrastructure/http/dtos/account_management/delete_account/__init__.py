@@ -7,7 +7,7 @@ serialize requests and responses related to account deletion. The __all__ attrib
 explicitly defines the names that will be exported when importing this package.
 """
 
-from .pydantic_delete_account_request_dto import PydanticDeleteAccountRequestDto
-from .pydantic_delete_account_response_dto import PydanticDeleteAccountResponseDto
+from .pydantic_delete_account_request_dto import PydanticDeleteAccountRequestDTO
+from .pydantic_delete_account_response_dto import PydanticDeleteAccountResponseDTO
 
-__all__ = ["PydanticDeleteAccountRequestDto", "PydanticDeleteAccountResponseDto"]
+__all__ = ["PydanticDeleteAccountRequestDTO", "PydanticDeleteAccountResponseDTO"]

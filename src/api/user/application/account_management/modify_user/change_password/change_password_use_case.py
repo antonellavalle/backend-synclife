@@ -11,7 +11,7 @@ consists of:
 """
 
 from src.api.user.application.account_management.modify_user.change_password.change_password_dto import (  # noqa: E501
-    ChangePasswordDto,
+    ChangePasswordDTO,
 )
 from src.api.user.domain.entities import User
 from src.api.user.domain.errors.user_repository_error import (
@@ -69,7 +69,7 @@ class ChangePasswordUseCase:
         self.__user_repository = user_repository
         self.__validation_token_repository = validation_token_repository
 
-    def execute(self, dto: ChangePasswordDto) -> User:
+    def execute(self, dto: ChangePasswordDTO) -> User:
         """
         Executes the password change use case.
 
@@ -84,7 +84,7 @@ class ChangePasswordUseCase:
           6. Returns the updated user.
 
         Args:
-            dto (ChangePasswordDto): Object containing the validation token and the new
+            dto (ChangePasswordDTO): Object containing the validation token and the new
                                      password.
 
         Returns:

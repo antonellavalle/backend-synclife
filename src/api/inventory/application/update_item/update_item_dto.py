@@ -3,7 +3,7 @@ from datetime import date
 
 
 @dataclass
-class UpdateItemDto:
+class UpdateItemDTO:
     inventory_id: str
     product_name: str
     amount: int

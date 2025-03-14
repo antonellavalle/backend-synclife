@@ -4,84 +4,84 @@ from src.api.notes.infrastructure.http.controllers.notes.fastapi_notes_controlle
     FastApiNotesController,
 )
 from src.api.notes.infrastructure.http.dtos.notes import (
-    PydanticAddTagToNoteRequestDto,
-    PydanticAddTagToNoteResponseDto,
-    PydanticCreateNoteRequestDto,
-    PydanticCreateNoteResponseDto,
-    PydanticDeleteNotesRequestDto,
-    PydanticDeleteNotesResponseDto,
-    PydanticFilterNotesByTagRequestDto,
-    PydanticFilterNotesByTagResponseDto,
-    PydanticRemoveTagRequestDto,
-    PydanticRemoveTagResponseDto,
-    PydanticUpdateNotesRequestDto,
-    PydanticUpdateNotesResponseDto,
-    PydanticViewAllNotesResponseDto,
-    PydanticViewNotesRequestDto,
-    PydanticViewNotesResponseDto,
+    PydanticAddTagToNoteRequestDTO,
+    PydanticAddTagToNoteResponseDTO,
+    PydanticCreateNoteRequestDTO,
+    PydanticCreateNoteResponseDTO,
+    PydanticDeleteNotesRequestDTO,
+    PydanticDeleteNotesResponseDTO,
+    PydanticFilterNotesByTagRequestDTO,
+    PydanticFilterNotesByTagResponseDTO,
+    PydanticRemoveTagRequestDTO,
+    PydanticRemoveTagResponseDTO,
+    PydanticUpdateNotesRequestDTO,
+    PydanticUpdateNotesResponseDTO,
+    PydanticViewAllNotesResponseDTO,
+    PydanticViewNotesRequestDTO,
+    PydanticViewNotesResponseDTO,
 )
 
 router: APIRouter = APIRouter(prefix="/notes", tags=["Notes"])
 
 
-@router.post("/", response_model=PydanticCreateNoteResponseDto)
+@router.post("/", response_model=PydanticCreateNoteResponseDTO)
 async def create_note(
-    dto: PydanticCreateNoteRequestDto,
+    dto: PydanticCreateNoteRequestDTO,
     session_token: str = Header(...),
-) -> PydanticCreateNoteResponseDto:
+) -> PydanticCreateNoteResponseDTO:
     return await FastApiNotesController.create(dto, session_token)
 
 
-@router.get("/{note_id}", response_model=PydanticViewNotesResponseDto)
+@router.get("/{note_id}", response_model=PydanticViewNotesResponseDTO)
 async def view_note(
-    dto: PydanticViewNotesRequestDto,
+    dto: PydanticViewNotesRequestDTO,
     session_token: str = Header(...),
-) -> PydanticViewNotesResponseDto:
+) -> PydanticViewNotesResponseDTO:
     return await FastApiNotesController.view(dto, session_token)
 
 
-@router.get("/", response_model=PydanticViewAllNotesResponseDto)
+@router.get("/", response_model=PydanticViewAllNotesResponseDTO)
 async def view_all_notes(
     session_token: str = Header(...),
-) -> PydanticViewAllNotesResponseDto:
+) -> PydanticViewAllNotesResponseDTO:
     return await FastApiNotesController.view_all(session_token)
 
 
-@router.put("/", response_model=PydanticUpdateNotesResponseDto)
+@router.put("/", response_model=PydanticUpdateNotesResponseDTO)
 async def update_nots(
-    dto: PydanticUpdateNotesRequestDto,
+    dto: PydanticUpdateNotesRequestDTO,
     session_token: str = Header(...),
-) -> PydanticUpdateNotesResponseDto:
+) -> PydanticUpdateNotesResponseDTO:
     return await FastApiNotesController.update(dto, session_token)
 
 
-@router.delete("/{note_id}", response_model=PydanticDeleteNotesResponseDto)
+@router.delete("/{note_id}", response_model=PydanticDeleteNotesResponseDTO)
 async def delete_note(
-    dto: PydanticDeleteNotesRequestDto,
+    dto: PydanticDeleteNotesRequestDTO,
     session_token: str = Header(...),
-) -> PydanticDeleteNotesResponseDto:
+) -> PydanticDeleteNotesResponseDTO:
     return await FastApiNotesController.delete(dto, session_token)
 
 
-@router.post("/add_tag", response_model=PydanticAddTagToNoteResponseDto)
+@router.post("/add_tag", response_model=PydanticAddTagToNoteResponseDTO)
 async def add_tag_to_note(
-    dto: PydanticAddTagToNoteRequestDto,
+    dto: PydanticAddTagToNoteRequestDTO,
     session_token: str = Header(...),
-) -> PydanticAddTagToNoteResponseDto:
+) -> PydanticAddTagToNoteResponseDTO:
     return await FastApiNotesController.add_tag_to_note(dto, session_token)
 
 
-@router.get("/filter_by_tag", response_model=PydanticFilterNotesByTagResponseDto)
+@router.get("/filter_by_tag", response_model=PydanticFilterNotesByTagResponseDTO)
 async def filter_notes_by_tag(
-    dto: PydanticFilterNotesByTagRequestDto,
+    dto: PydanticFilterNotesByTagRequestDTO,
     session_token: str = Header(...),
-) -> PydanticFilterNotesByTagResponseDto:
+) -> PydanticFilterNotesByTagResponseDTO:
     return await FastApiNotesController.filter_notes_by_tag(dto, session_token)
 
 
-@router.delete("/remove_tag", response_model=PydanticRemoveTagResponseDto)
+@router.delete("/remove_tag", response_model=PydanticRemoveTagResponseDTO)
 async def remove_tag_from_note(
-    dto: PydanticRemoveTagRequestDto,
+    dto: PydanticRemoveTagRequestDTO,
     session_token: str = Header(...),
-) -> PydanticRemoveTagResponseDto:
+) -> PydanticRemoveTagResponseDTO:
     return await FastApiNotesController.remove_tag_from_note(dto, session_token)

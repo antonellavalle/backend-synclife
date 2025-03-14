@@ -7,5 +7,5 @@ from src.api.notes.infrastructure.persistence.models.sqlmodel_tags_model import 
 )
 
 
-class PydanticViewAllTagsResponseDto(BaseModel):
+class PydanticViewAllTagsResponseDTO(BaseModel):
     tags: List[SqlModelTagsModel]

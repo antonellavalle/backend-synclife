@@ -16,7 +16,7 @@ from src.api.user.application.account_management.modify_user.change_personal_inf
 )
 
 
-class PydanticChangePersonalInformationRequestDto(BaseModel):
+class PydanticChangePersonalInformationRequestDTO(BaseModel):
     """
     Data Transfer Object for requesting the modification of a user's personal
     information.

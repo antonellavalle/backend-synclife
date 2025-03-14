@@ -1,6 +1,6 @@
 import datetime
 
-from src.api.notes.application.tag.update_tag.update_tag_dto import UpdateTagDto
+from src.api.notes.application.tag.update_tag.update_tag_dto import UpdateTagDTO
 from src.api.notes.domain.entities.tags import Tags
 from src.api.notes.domain.errors.tags import TagsError, TagsTypeError
 from src.api.notes.domain.repositories.tags_repository import TagsRepository
@@ -21,7 +21,7 @@ class UpdateTagUseCase:
         self.__session_repository = session_repository
 
     # Valida que el tag exista
-    def execute(self, dto: UpdateTagDto) -> Tags:
+    def execute(self, dto: UpdateTagDTO) -> Tags:
         user_request_uuid = SessionRepositoryValidator.validate_session_token(
             self.__session_repository, dto.session_token
         )

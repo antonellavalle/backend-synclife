@@ -1,6 +1,6 @@
 from typing import List
 
-from src.api.notes.application.tag.view_all_tags.view_all_tags_dto import ViewAllTagsDto
+from src.api.notes.application.tag.view_all_tags.view_all_tags_dto import ViewAllTagsDTO
 from src.api.notes.domain.entities.tags import Tags
 from src.api.notes.domain.repositories.tags_repository import TagsRepository
 from src.api.shared.domain.repositories import SessionRepository
@@ -15,7 +15,7 @@ class ViewAllTagsUseCase:
         self.__tag_repository = tag_repository
         self.__session_repository = session_repository
 
-    def execute(self, dto: ViewAllTagsDto) -> List[Tags]:
+    def execute(self, dto: ViewAllTagsDTO) -> List[Tags]:
         user_request_uuid = SessionRepositoryValidator.validate_session_token(
             self.__session_repository, dto.session_token
         )

@@ -12,7 +12,7 @@ from src.api.user.infrastructure.persistence.models.sqlmodel_user_model import (
 )
 
 
-class PydanticLoginResponseDto(BaseModel):
+class PydanticLoginResponseDTO(BaseModel):
     """
     Response Data Transfer Object for user login.
 

@@ -6,10 +6,10 @@ This module imports and exposes all the use cases and DTOs related to managing t
 user's account. The included functionalities are:
   - Account deletion (DeleteAccountDTO, DeleteAccountUseCase).
   - Account modification, which includes:
-      - Password change (ChangePasswordDto, ChangePasswordUseCase).
+      - Password change (ChangePasswordDTO, ChangePasswordUseCase).
       - Personal information modification (ChangePersonalInformationDTO,
         ChangePersonalInformationUseCase).
-      - Password change request (RequestChangePasswordDto,
+      - Password change request (RequestChangePasswordDTO,
         RequestChangePasswordUseCase).
   - Account viewing (ViewAccountDTO, ViewAccountUseCase).
 
@@ -19,11 +19,11 @@ this package.
 
 from .delete_account import DeleteAccountDTO, DeleteAccountUseCase
 from .modify_user import (
-    ChangePasswordDto,
+    ChangePasswordDTO,
     ChangePasswordUseCase,
     ChangePersonalInformationDTO,
     ChangePersonalInformationUseCase,
-    RequestChangePasswordDto,
+    RequestChangePasswordDTO,
     RequestChangePasswordUseCase,
 )
 from .view_account import ViewAccountDTO, ViewAccountUseCase
@@ -31,11 +31,11 @@ from .view_account import ViewAccountDTO, ViewAccountUseCase
 __all__ = [
     "DeleteAccountDTO",
     "DeleteAccountUseCase",
-    "ChangePasswordDto",
+    "ChangePasswordDTO",
     "ChangePasswordUseCase",
     "ChangePersonalInformationDTO",
     "ChangePersonalInformationUseCase",
-    "RequestChangePasswordDto",
+    "RequestChangePasswordDTO",
     "RequestChangePasswordUseCase",
     "ViewAccountDTO",
     "ViewAccountUseCase",

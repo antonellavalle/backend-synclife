@@ -13,7 +13,7 @@ from src.api.user.infrastructure.persistence.models.sqlmodel_user_model import (
 )
 
 
-class PydanticChangePersonalInformationResponseDto(BaseModel):
+class PydanticChangePersonalInformationResponseDTO(BaseModel):
     """
     Response Data Transfer Object for modifying the user's personal information.
 

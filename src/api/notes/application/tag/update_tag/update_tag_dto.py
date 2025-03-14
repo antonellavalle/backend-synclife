@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 
 @dataclass
-class UpdateTagDto:
+class UpdateTagDTO:
     tag_id: str
     name: str
     session_token: str

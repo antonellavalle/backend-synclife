@@ -5,7 +5,7 @@ from src.api.notes.application.note.filter_note_by_tag.filter_note_by_tag_dto im
 )
 
 
-class PydanticFilterNotesByTagRequestDto(BaseModel):
+class PydanticFilterNotesByTagRequestDTO(BaseModel):
     tag_id: str
 
     def to_application(self, session_token: str) -> FilterNotesByTagDTO:

@@ -1,4 +1,4 @@
-from src.api.inventory.application.update_item.update_item_dto import UpdateItemDto
+from src.api.inventory.application.update_item.update_item_dto import UpdateItemDTO
 from src.api.inventory.domain.entities.inventory import Inventory
 from src.api.inventory.domain.errors import InventoryItemError, InventoryItemTypeError
 from src.api.inventory.domain.repositories.inventory_repository import (
@@ -24,7 +24,7 @@ class UpdateItemUseCase:
         self.__session_repository = session_repository
 
     # Valida que el inventario existe
-    def execute(self, dto: UpdateItemDto) -> Inventory:
+    def execute(self, dto: UpdateItemDTO) -> Inventory:
         user_request_uuid = SessionRepositoryValidator.validate_session_token(
             self.__session_repository, dto.session_token
         )

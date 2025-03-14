@@ -1,4 +1,4 @@
-from src.api.notes.application.tag.delete_tag.delete_tag_dto import DeleteTagDto
+from src.api.notes.application.tag.delete_tag.delete_tag_dto import DeleteTagDTO
 from src.api.notes.domain.entities.tags import Tags
 from src.api.notes.domain.errors.tags import TagsError, TagsTypeError
 from src.api.notes.domain.repositories.tags_repository import TagsRepository
@@ -17,7 +17,7 @@ class DeleteTagUseCase:
         self.__tag_repository = tag_repository
         self.__session_repository = session_repository
 
-    def execute(self, dto: DeleteTagDto) -> Tags:
+    def execute(self, dto: DeleteTagDTO) -> Tags:
         user_request_uuid = SessionRepositoryValidator.validate_session_token(
             self.__session_repository, dto.session_token
         )

@@ -3,7 +3,7 @@ from datetime import date
 
 
 @dataclass
-class CreateItemDto:
+class CreateItemDTO:
     product_name: str
     amount: int
     expiration_date: date

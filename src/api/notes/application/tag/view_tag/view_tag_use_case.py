@@ -1,4 +1,4 @@
-from src.api.notes.application.tag.view_tag.view_tag_dto import ViewTagDto
+from src.api.notes.application.tag.view_tag.view_tag_dto import ViewTagDTO
 from src.api.notes.domain.entities.tags import Tags
 from src.api.notes.domain.repositories.tags_repository import TagsRepository
 from src.api.notes.domain.validators.tags.tags_repository_validator import (
@@ -16,7 +16,7 @@ class ViewTagUseCase:
         self.__tag_repository = tag_repository
         self.__session_repository = session_repository
 
-    def execute(self, dto: ViewTagDto) -> Tags:
+    def execute(self, dto: ViewTagDTO) -> Tags:
         user_request_uuid = SessionRepositoryValidator.validate_session_token(
             self.__session_repository, dto.session_token
         )

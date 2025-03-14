@@ -9,13 +9,13 @@ exported when importing this package.
 """
 
 from .pydantic_change_personal_information_request_dto import (
-    PydanticChangePersonalInformationRequestDto,
+    PydanticChangePersonalInformationRequestDTO,
 )
 from .pydantic_change_personal_information_response_dto import (
-    PydanticChangePersonalInformationResponseDto,
+    PydanticChangePersonalInformationResponseDTO,
 )
 
 __all__ = [
-    "PydanticChangePersonalInformationRequestDto",
-    "PydanticChangePersonalInformationResponseDto",
+    "PydanticChangePersonalInformationRequestDTO",
+    "PydanticChangePersonalInformationResponseDTO",
 ]

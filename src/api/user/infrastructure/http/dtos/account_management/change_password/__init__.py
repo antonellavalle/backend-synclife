@@ -8,7 +8,7 @@ attribute is used to explicitly define the names that will be exported when impo
 this package.
 """
 
-from .pydantic_change_password_request_dto import PydanticChangePasswordRequestDto
-from .pydantic_change_password_response_dto import PydanticChangePasswordResponseDto
+from .pydantic_change_password_request_dto import PydanticChangePasswordRequestDTO
+from .pydantic_change_password_response_dto import PydanticChangePasswordResponseDTO
 
-__all__ = ["PydanticChangePasswordRequestDto", "PydanticChangePasswordResponseDto"]
+__all__ = ["PydanticChangePasswordRequestDTO", "PydanticChangePasswordResponseDTO"]

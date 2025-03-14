@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from src.api.inventory.application.view_item.view_item_dto import ViewItemDTO
 
 
-class PydanticViewItemRequestDto(BaseModel):
+class PydanticViewItemRequestDTO(BaseModel):
     inventory_id: str
 
     def to_application(self, session_token: str) -> ViewItemDTO:

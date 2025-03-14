@@ -26,16 +26,16 @@ from src.api.user.application import (
     ViewAccountUseCase,
 )
 from src.api.user.infrastructure.http.dtos import (
-    PydanticChangePasswordRequestDto,
-    PydanticChangePasswordResponseDto,
-    PydanticChangePersonalInformationRequestDto,
-    PydanticChangePersonalInformationResponseDto,
-    PydanticDeleteAccountRequestDto,
-    PydanticDeleteAccountResponseDto,
-    PydanticRequestChangePasswordRequestDto,
-    PydanticRequestChangePasswordResponseDto,
-    PydanticViewAccountRequestDto,
-    PydanticViewAccountResponseDto,
+    PydanticChangePasswordRequestDTO,
+    PydanticChangePasswordResponseDTO,
+    PydanticChangePersonalInformationRequestDTO,
+    PydanticChangePersonalInformationResponseDTO,
+    PydanticDeleteAccountRequestDTO,
+    PydanticDeleteAccountResponseDTO,
+    PydanticRequestChangePasswordRequestDTO,
+    PydanticRequestChangePasswordResponseDTO,
+    PydanticViewAccountRequestDTO,
+    PydanticViewAccountResponseDTO,
 )
 from src.api.user.infrastructure.persistence.models.sqlmodel_user_model import (
     SqlModelUserModel,
@@ -78,12 +78,12 @@ class FastApiAccountManagementController:
         "/",
         name="View Account",
         description="Retrieve user account details.",
-        response_model=PydanticViewAccountResponseDto,
+        response_model=PydanticViewAccountResponseDTO,
     )
     @handle_exceptions
     async def view_account(
-        request_dto: PydanticViewAccountRequestDto, session_token: str = Header(...)
-    ) -> PydanticViewAccountResponseDto:
+        request_dto: PydanticViewAccountRequestDTO, session_token: str = Header(...)
+    ) -> PydanticViewAccountResponseDTO:
         """
         Endpoint to view a user's account.
 
@@ -95,12 +95,12 @@ class FastApiAccountManagementController:
              persistence model.
 
         Args:
-            request_dto (PydanticViewAccountRequestDto): DTO containing the request
+            request_dto (PydanticViewAccountRequestDTO): DTO containing the request
                                                          data.
             session_token (str): Session token extracted from the request header.
 
         Returns:
-            PydanticViewAccountResponseDto: Response DTO containing the user account
+            PydanticViewAccountResponseDTO: Response DTO containing the user account
                                             data.
         """
         user_repository = SqlModelUserRepository.get_repository()
@@ -110,19 +110,19 @@ class FastApiAccountManagementController:
         app_dto = request_dto.to_application(session_token)
         user = use_case.execute(app_dto)
 
-        return PydanticViewAccountResponseDto(user=SqlModelUserModel.from_entity(user))
+        return PydanticViewAccountResponseDTO(user=SqlModelUserModel.from_entity(user))
 
     @staticmethod
     @__router.delete(
         "/",
         name="Delete Account",
         description="Delete user account permanently.",
-        response_model=PydanticDeleteAccountResponseDto,
+        response_model=PydanticDeleteAccountResponseDTO,
     )
     @handle_exceptions
     async def delete_account(
-        request_dto: PydanticDeleteAccountRequestDto, session_token: str = Header(...)
-    ) -> PydanticDeleteAccountResponseDto:
+        request_dto: PydanticDeleteAccountRequestDTO, session_token: str = Header(...)
+    ) -> PydanticDeleteAccountResponseDTO:
         """
         Endpoint to delete a user's account.
 
@@ -134,12 +134,12 @@ class FastApiAccountManagementController:
              to the persistence model.
 
         Args:
-            request_dto (PydanticDeleteAccountRequestDto): DTO containing the data to
+            request_dto (PydanticDeleteAccountRequestDTO): DTO containing the data to
                                                            delete the account.
             session_token (str): Session token extracted from the request header.
 
         Returns:
-            PydanticDeleteAccountResponseDto: Response DTO containing the data of the
+            PydanticDeleteAccountResponseDTO: Response DTO containing the data of the
                                               deleted user.
         """
         user_repository = SqlModelUserRepository.get_repository()
@@ -149,7 +149,7 @@ class FastApiAccountManagementController:
         app_dto = request_dto.to_application(session_token)
         user = use_case.execute(app_dto)
 
-        return PydanticDeleteAccountResponseDto(
+        return PydanticDeleteAccountResponseDTO(
             user=SqlModelUserModel.from_entity(user)
         )
 
@@ -158,12 +158,12 @@ class FastApiAccountManagementController:
         "/request-change-password",
         name="Request Change Password",
         description="Request a password reset link.",
-        response_model=PydanticRequestChangePasswordResponseDto,
+        response_model=PydanticRequestChangePasswordResponseDTO,
     )
     @handle_exceptions
     async def request_change_password(
-        request_dto: PydanticRequestChangePasswordRequestDto,
-    ) -> PydanticRequestChangePasswordResponseDto:
+        request_dto: PydanticRequestChangePasswordRequestDTO,
+    ) -> PydanticRequestChangePasswordResponseDTO:
         """
         Endpoint to request a password change.
 
@@ -176,12 +176,12 @@ class FastApiAccountManagementController:
              and transforms the resulting user to the persistence model.
 
         Args:
-            request_dto (PydanticRequestChangePasswordRequestDto): DTO containing the
+            request_dto (PydanticRequestChangePasswordRequestDTO): DTO containing the
                                                                    data to request a
                                                                    password change.
 
         Returns:
-            PydanticRequestChangePasswordResponseDto: Response DTO containing the user's
+            PydanticRequestChangePasswordResponseDTO: Response DTO containing the user's
                                                       data.
         """
         user_repository = SqlModelUserRepository.get_repository()
@@ -203,7 +203,7 @@ class FastApiAccountManagementController:
         app_dto = request_dto.to_application(url=url)
         user = use_case.execute(app_dto)
 
-        return PydanticRequestChangePasswordResponseDto(
+        return PydanticRequestChangePasswordResponseDTO(
             user=SqlModelUserModel.from_entity(user)
         )
 
@@ -212,12 +212,12 @@ class FastApiAccountManagementController:
         "/{validate_token}",
         description="Change user password using a validation token.",
         name="Change Password",
-        response_model=PydanticChangePasswordResponseDto,
+        response_model=PydanticChangePasswordResponseDTO,
     )
     @handle_exceptions
     async def change_password(
-        request_dto: PydanticChangePasswordRequestDto, validate_token: str
-    ) -> PydanticChangePasswordResponseDto:
+        request_dto: PydanticChangePasswordRequestDTO, validate_token: str
+    ) -> PydanticChangePasswordResponseDTO:
         """
         Endpoint to change the user's password.
 
@@ -228,12 +228,12 @@ class FastApiAccountManagementController:
              and transforms the resulting user to the persistence model.
 
         Args:
-            request_dto (PydanticChangePasswordRequestDto): DTO containing the new
+            request_dto (PydanticChangePasswordRequestDTO): DTO containing the new
                                                             password.
             validate_token (str): Validation token extracted from the URL.
 
         Returns:
-            PydanticChangePasswordResponseDto: Response DTO containing the updated
+            PydanticChangePasswordResponseDTO: Response DTO containing the updated
                                                user's data.
         """
         user_repository = SqlModelUserRepository.get_repository()
@@ -248,7 +248,7 @@ class FastApiAccountManagementController:
         app_dto = request_dto.to_application(validate_token=validate_token)
         user = use_case.execute(app_dto)
 
-        return PydanticChangePasswordResponseDto(
+        return PydanticChangePasswordResponseDTO(
             user=SqlModelUserModel.from_entity(user)
         )
 
@@ -257,13 +257,13 @@ class FastApiAccountManagementController:
         "/",
         description="Update user's personal information.",
         name="Change Personal Information",
-        response_model=PydanticChangePersonalInformationResponseDto,
+        response_model=PydanticChangePersonalInformationResponseDTO,
     )
     @handle_exceptions
     async def change_personal_information(
-        request_dto: PydanticChangePersonalInformationRequestDto,
+        request_dto: PydanticChangePersonalInformationRequestDTO,
         session_token: str = Header(...),
-    ) -> PydanticChangePersonalInformationResponseDto:
+    ) -> PydanticChangePersonalInformationResponseDTO:
         """
         Endpoint to modify the user's personal information.
 
@@ -274,13 +274,13 @@ class FastApiAccountManagementController:
              and transforms the resulting user to the persistence model.
 
         Args:
-            request_dto (PydanticChangePersonalInformationRequestDto): DTO containing
+            request_dto (PydanticChangePersonalInformationRequestDTO): DTO containing
                                                                        the new personal
                                                                        data.
             session_token (str): Session token extracted from the request header.
 
         Returns:
-            PydanticChangePersonalInformationResponseDto: Response DTO containing the
+            PydanticChangePersonalInformationResponseDTO: Response DTO containing the
                                                           updated user's data.
         """
         user_repository = SqlModelUserRepository.get_repository()
@@ -290,6 +290,6 @@ class FastApiAccountManagementController:
         app_dto = request_dto.to_application(session_token)
         user = use_case.execute(app_dto)
 
-        return PydanticChangePersonalInformationResponseDto(
+        return PydanticChangePersonalInformationResponseDTO(
             user=SqlModelUserModel.from_entity(user)
         )

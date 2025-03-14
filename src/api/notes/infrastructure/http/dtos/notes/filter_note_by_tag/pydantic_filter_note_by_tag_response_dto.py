@@ -7,5 +7,5 @@ from src.api.notes.infrastructure.persistence.models.sqlmodel_notes_model import
 )
 
 
-class PydanticFilterNotesByTagResponseDto(BaseModel):
+class PydanticFilterNotesByTagResponseDTO(BaseModel):
     notes: List[SqlModelNotesModel]

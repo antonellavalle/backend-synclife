@@ -14,7 +14,7 @@ from pydantic import BaseModel, EmailStr
 from src.api.user.application.authentication.register.register_dto import RegisterDTO
 
 
-class PydanticRegisterRequestDto(BaseModel):
+class PydanticRegisterRequestDTO(BaseModel):
     """
     Request Data Transfer Object for user registration.
 

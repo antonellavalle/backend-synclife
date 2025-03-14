@@ -7,5 +7,5 @@ from src.api.notes.infrastructure.persistence.models.sqlmodel_notes_model import
 )
 
 
-class PydanticViewAllNotesResponseDto(BaseModel):
+class PydanticViewAllNotesResponseDTO(BaseModel):
     notes: List[SqlModelNotesModel]

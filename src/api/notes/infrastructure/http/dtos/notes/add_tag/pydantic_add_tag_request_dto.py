@@ -5,7 +5,7 @@ from pydantic import BaseModel
 from src.api.notes.application.note.add_tag.add_tag_dto import AddTagsDTO
 
 
-class PydanticAddTagToNoteRequestDto(BaseModel):
+class PydanticAddTagToNoteRequestDTO(BaseModel):
     note_id: str
     tags: List[str]
 

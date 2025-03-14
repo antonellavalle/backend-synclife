@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from src.api.notes.application.note.view_note.view_note_dto import ViewNoteDTO
 
 
-class PydanticViewNotesRequestDto(BaseModel):
+class PydanticViewNotesRequestDTO(BaseModel):
     note_id: str
     user_id: str
 

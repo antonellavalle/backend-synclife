@@ -10,7 +10,7 @@ from pydantic import BaseModel, EmailStr
 from src.api.user.application.authentication.login.login_dto import LoginDTO
 
 
-class PydanticLoginRequestDto(BaseModel):
+class PydanticLoginRequestDTO(BaseModel):
     """
     Request Data Transfer Object for user login.
 

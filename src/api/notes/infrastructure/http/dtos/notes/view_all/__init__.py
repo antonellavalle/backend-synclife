@@ -1,3 +1,3 @@
-from .pydantic_view_all_notes_response_dto import PydanticViewAllNotesResponseDto
+from .pydantic_view_all_notes_response_dto import PydanticViewAllNotesResponseDTO
 
-__all__ = ["PydanticViewAllNotesResponseDto"]
+__all__ = ["PydanticViewAllNotesResponseDTO"]

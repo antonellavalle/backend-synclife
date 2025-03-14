@@ -7,5 +7,5 @@ from src.api.inventory.infrastructure.persistence.models.sqlmodel_inventory_mode
 )
 
 
-class PydanticViewAllInventoryItemsResponseDto(BaseModel):
+class PydanticViewAllInventoryItemsResponseDTO(BaseModel):
     inventory_items: List[SqlModelInventoryModel]

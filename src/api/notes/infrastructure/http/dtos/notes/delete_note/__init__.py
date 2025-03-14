@@ -1,4 +1,4 @@
-from .pydantic_delete_note_response_dto import PydanticDeleteNotesResponseDto
-from .pydantic_detele_note_request_dto import PydanticDeleteNotesRequestDto
+from .pydantic_delete_note_response_dto import PydanticDeleteNotesResponseDTO
+from .pydantic_detele_note_request_dto import PydanticDeleteNotesRequestDTO
 
-__all__ = ["PydanticDeleteNotesResponseDto", "PydanticDeleteNotesRequestDto"]
+__all__ = ["PydanticDeleteNotesResponseDTO", "PydanticDeleteNotesRequestDTO"]

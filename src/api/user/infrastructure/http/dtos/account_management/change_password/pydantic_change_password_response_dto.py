@@ -13,7 +13,7 @@ from src.api.user.infrastructure.persistence.models.sqlmodel_user_model import (
 )
 
 
-class PydanticChangePasswordResponseDto(BaseModel):
+class PydanticChangePasswordResponseDTO(BaseModel):
     """
     Response Data Transfer Object for password change.
 

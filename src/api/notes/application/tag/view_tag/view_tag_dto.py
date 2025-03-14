@@ -2,6 +2,6 @@ from dataclasses import dataclass
 
 
 @dataclass
-class ViewTagDto:
+class ViewTagDTO:
     tag_uuid: str
     session_token: str

@@ -8,18 +8,18 @@ registration, and account verification). The __all__ attribute is used to explic
 define the names that will be exported when importing this package.
 """
 
-from .login import PydanticLoginRequestDto, PydanticLoginResponseDto
-from .register import PydanticRegisterRequestDto, PydanticRegisterResponseDto
+from .login import PydanticLoginRequestDTO, PydanticLoginResponseDTO
+from .register import PydanticRegisterRequestDTO, PydanticRegisterResponseDTO
 from .verify_account import (
     PydanticVerifyAccountRequestDTO,
     PydanticVerifyAccountResponseDTO,
 )
 
 __all__ = [
-    "PydanticLoginRequestDto",
-    "PydanticLoginResponseDto",
-    "PydanticRegisterRequestDto",
-    "PydanticRegisterResponseDto",
+    "PydanticLoginRequestDTO",
+    "PydanticLoginResponseDTO",
+    "PydanticRegisterRequestDTO",
+    "PydanticRegisterResponseDTO",
     "PydanticVerifyAccountRequestDTO",
     "PydanticVerifyAccountResponseDTO",
 ]

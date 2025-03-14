@@ -1,4 +1,4 @@
-from src.api.notes.application.note.create_note.create_note_dto import CreateNoteDto
+from src.api.notes.application.note.create_note.create_note_dto import CreateNoteDTO
 from src.api.notes.domain.entities.notes import Notes
 from src.api.notes.domain.repositories import NotesRepository
 from src.api.notes.domain.validators.notes.notes_repository_validator import (
@@ -26,7 +26,7 @@ class CreateNoteUseCase:
         self.__user_repository = user_repository
         self.__session_repository = session_repository
 
-    def execute(self, dto: CreateNoteDto) -> Notes:
+    def execute(self, dto: CreateNoteDTO) -> Notes:
         user_request_uuid = SessionRepositoryValidator.validate_session_token(
             self.__session_repository, dto.session_token
         )
