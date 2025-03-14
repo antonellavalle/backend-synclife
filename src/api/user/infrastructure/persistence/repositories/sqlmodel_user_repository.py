@@ -17,11 +17,11 @@ from src.api.user.domain.entities import User
 from src.api.user.domain.repositories import UserRepository
 from src.api.user.domain.value_objects import Email
 from src.api.user.infrastructure.persistence.models.sqlmodel_user_model import (
-    SqlModelUserModel,
+    SQLModelUserModel,
 )
 
 
-class SqlModelUserRepository(UserRepository):
+class SQLModelUserRepository(UserRepository):
     """
     User repository implemented with SQLModel.
 
@@ -34,7 +34,7 @@ class SqlModelUserRepository(UserRepository):
 
     def __init__(self, db_connection: Session) -> None:
         """
-        Initializes a new instance of SqlModelUserRepository.
+        Initializes a new instance of SQLModelUserRepository.
 
         Args:
             db_connection (Session): Database connection.
@@ -42,19 +42,19 @@ class SqlModelUserRepository(UserRepository):
         self.__db_connection = db_connection
 
     @staticmethod
-    def get_repository() -> "SqlModelUserRepository":
+    def get_repository() -> "SQLModelUserRepository":
         """
         Obtains an instance of the repository using a database connection.
 
         Uses the context manager from get_db_connection to obtain a connection and
-        returns an instance of SqlModelUserRepository.
+        returns an instance of SQLModelUserRepository.
 
         Returns:
-            SqlModelUserRepository: Instance of the repository with the established
+            SQLModelUserRepository: Instance of the repository with the established
                                     connection.
         """
         with get_db_connection() as db_connection:
-            return SqlModelUserRepository(db_connection=db_connection)
+            return SQLModelUserRepository(db_connection=db_connection)
 
     def find_all(self, include_deleted: bool = False) -> List[User]:
         """
@@ -69,9 +69,9 @@ class SqlModelUserRepository(UserRepository):
             List[User]: List of found users, converted to domain entities.
         """
         query = (
-            select(SqlModelUserModel)
+            select(SQLModelUserModel)
             if include_deleted
-            else select(SqlModelUserModel).where(not_(SqlModelUserModel.is_deleted))
+            else select(SQLModelUserModel).where(not_(SQLModelUserModel.is_deleted))
         )
         users = self.__db_connection.exec(query).all()
         return [user.to_entity() for user in users]
@@ -90,12 +90,12 @@ class SqlModelUserRepository(UserRepository):
             Optional[User]: The User entity if found, or None otherwise.
         """
         query = (
-            select(SqlModelUserModel).where(SqlModelUserModel.id == id)
+            select(SQLModelUserModel).where(SQLModelUserModel.id == id)
             if include_deleted
             else (
-                select(SqlModelUserModel)
-                .where(SqlModelUserModel.id == str(id))
-                .where(not_(SqlModelUserModel.is_deleted))
+                select(SQLModelUserModel)
+                .where(SQLModelUserModel.id == str(id))
+                .where(not_(SQLModelUserModel.is_deleted))
             )
         )
         user = self.__db_connection.exec(query).first()
@@ -120,12 +120,12 @@ class SqlModelUserRepository(UserRepository):
             Optional[User]: The found User entity or None if not found.
         """
         query = (
-            select(SqlModelUserModel).where(SqlModelUserModel.email == str(email))
+            select(SQLModelUserModel).where(SQLModelUserModel.email == str(email))
             if include_deleted
             else (
-                select(SqlModelUserModel)
-                .where(SqlModelUserModel.email == str(email))
-                .where(not_(SqlModelUserModel.is_deleted))
+                select(SQLModelUserModel)
+                .where(SQLModelUserModel.email == str(email))
+                .where(not_(SQLModelUserModel.is_deleted))
             )
         )
         user = self.__db_connection.exec(query).first()
@@ -142,7 +142,7 @@ class SqlModelUserRepository(UserRepository):
         Returns:
             bool: True if the operation was successful.
         """
-        user_model = SqlModelUserModel.from_entity(user)
+        user_model = SQLModelUserModel.from_entity(user)
         self.__db_connection.add(user_model)
         self.__db_connection.commit()
         return True
@@ -163,8 +163,8 @@ class SqlModelUserRepository(UserRepository):
                                          is the updated User entity, or None if the user
                                          was not found.
         """
-        statement = select(SqlModelUserModel).where(
-            SqlModelUserModel.id == str(user.uuid)
+        statement = select(SQLModelUserModel).where(
+            SQLModelUserModel.id == str(user.uuid)
         )
         db_user = self.__db_connection.exec(statement).first()
 
@@ -204,8 +204,8 @@ class SqlModelUserRepository(UserRepository):
                                          is the deleted User entity, or None if the user
                                          was not found.
         """
-        statement = select(SqlModelUserModel).where(
-            SqlModelUserModel.id == user.uuid.uuid
+        statement = select(SQLModelUserModel).where(
+            SQLModelUserModel.id == user.uuid.uuid
         )
         db_user = self.__db_connection.exec(statement).first()
 

@@ -38,11 +38,11 @@ from src.api.user.infrastructure.http.dtos import (
     PydanticViewAccountResponseDTO,
 )
 from src.api.user.infrastructure.persistence.models.sqlmodel_user_model import (
-    SqlModelUserModel,
+    SQLModelUserModel,
 )
 from src.api.user.infrastructure.persistence.repositories import (
     DragonflyValidationTokenRepository,
-    SqlModelUserRepository,
+    SQLModelUserRepository,
 )
 
 
@@ -103,14 +103,14 @@ class FastApiAccountManagementController:
             PydanticViewAccountResponseDTO: Response DTO containing the user account
                                             data.
         """
-        user_repository = SqlModelUserRepository.get_repository()
+        user_repository = SQLModelUserRepository.get_repository()
         session_repository = InMemorySessionRepository.get_repository()
 
         use_case = ViewAccountUseCase(user_repository, session_repository)
         app_dto = request_dto.to_application(session_token)
         user = use_case.execute(app_dto)
 
-        return PydanticViewAccountResponseDTO(user=SqlModelUserModel.from_entity(user))
+        return PydanticViewAccountResponseDTO(user=SQLModelUserModel.from_entity(user))
 
     @staticmethod
     @__router.delete(
@@ -142,7 +142,7 @@ class FastApiAccountManagementController:
             PydanticDeleteAccountResponseDTO: Response DTO containing the data of the
                                               deleted user.
         """
-        user_repository = SqlModelUserRepository.get_repository()
+        user_repository = SQLModelUserRepository.get_repository()
         session_repository = InMemorySessionRepository.get_repository()
 
         use_case = DeleteAccountUseCase(user_repository, session_repository)
@@ -150,7 +150,7 @@ class FastApiAccountManagementController:
         user = use_case.execute(app_dto)
 
         return PydanticDeleteAccountResponseDTO(
-            user=SqlModelUserModel.from_entity(user)
+            user=SQLModelUserModel.from_entity(user)
         )
 
     @staticmethod
@@ -184,7 +184,7 @@ class FastApiAccountManagementController:
             PydanticRequestChangePasswordResponseDTO: Response DTO containing the user's
                                                       data.
         """
-        user_repository = SqlModelUserRepository.get_repository()
+        user_repository = SQLModelUserRepository.get_repository()
         validation_token_repository = (
             DragonflyValidationTokenRepository.get_repository()
         )
@@ -204,7 +204,7 @@ class FastApiAccountManagementController:
         user = use_case.execute(app_dto)
 
         return PydanticRequestChangePasswordResponseDTO(
-            user=SqlModelUserModel.from_entity(user)
+            user=SQLModelUserModel.from_entity(user)
         )
 
     @staticmethod
@@ -236,7 +236,7 @@ class FastApiAccountManagementController:
             PydanticChangePasswordResponseDTO: Response DTO containing the updated
                                                user's data.
         """
-        user_repository = SqlModelUserRepository.get_repository()
+        user_repository = SQLModelUserRepository.get_repository()
         validation_token_repository = (
             DragonflyValidationTokenRepository.get_repository()
         )
@@ -249,7 +249,7 @@ class FastApiAccountManagementController:
         user = use_case.execute(app_dto)
 
         return PydanticChangePasswordResponseDTO(
-            user=SqlModelUserModel.from_entity(user)
+            user=SQLModelUserModel.from_entity(user)
         )
 
     @staticmethod
@@ -283,7 +283,7 @@ class FastApiAccountManagementController:
             PydanticChangePersonalInformationResponseDTO: Response DTO containing the
                                                           updated user's data.
         """
-        user_repository = SqlModelUserRepository.get_repository()
+        user_repository = SQLModelUserRepository.get_repository()
         session_repository = InMemorySessionRepository.get_repository()
 
         use_case = ChangePersonalInformationUseCase(user_repository, session_repository)
@@ -291,5 +291,5 @@ class FastApiAccountManagementController:
         user = use_case.execute(app_dto)
 
         return PydanticChangePersonalInformationResponseDTO(
-            user=SqlModelUserModel.from_entity(user)
+            user=SQLModelUserModel.from_entity(user)
         )

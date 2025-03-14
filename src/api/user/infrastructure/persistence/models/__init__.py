@@ -6,6 +6,6 @@ entity to the database. The __all__ attribute is used to explicitly define the n
 that will be exported when importing this package.
 """
 
-from .sqlmodel_user_model import SqlModelUserModel
+from .sqlmodel_user_model import SQLModelUserModel
 
-__all__ = ["SqlModelUserModel"]
+__all__ = ["SQLModelUserModel"]

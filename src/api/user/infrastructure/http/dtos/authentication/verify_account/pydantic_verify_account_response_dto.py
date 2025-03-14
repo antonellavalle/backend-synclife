@@ -10,7 +10,7 @@ session token.
 from pydantic import BaseModel
 
 from src.api.user.infrastructure.persistence.models.sqlmodel_user_model import (
-    SqlModelUserModel,
+    SQLModelUserModel,
 )
 
 
@@ -19,9 +19,9 @@ class PydanticVerifyAccountResponseDTO(BaseModel):
     Response Data Transfer Object for user account verification.
 
     Attributes:
-        user (SqlModelUserModel): User model representing the verified user.
+        user (SQLModelUserModel): User model representing the verified user.
         session_token (str): Session token generated after account verification.
     """
 
-    user: SqlModelUserModel
+    user: SQLModelUserModel
     session_token: str

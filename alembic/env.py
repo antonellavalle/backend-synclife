@@ -7,24 +7,24 @@ from sqlalchemy import engine_from_config, pool
 from sqlmodel import SQLModel
 
 from src.api.inventory.infrastructure.persistence.models.sqlmodel_inventory_model import (  # noqa: E501
-    SqlModelInventoryModel,
+    SQLModelInventoryModel,
 )
 from src.api.notes.infrastructure.persistence.models.sqlmodel_notes_model import (
-    SqlModelNotesModel,
+    SQLModelNotesModel,
 )
 from src.api.notes.infrastructure.persistence.models.sqlmodel_tags_model import (
-    SqlModelTagsModel,
+    SQLModelTagsModel,
 )
 from src.api.reminder.infrastructure.persistence.models import SQLModelReminderModel
 from src.api.user.infrastructure.persistence.models.sqlmodel_user_model import (  # noqa: E501
-    SqlModelUserModel,
+    SQLModelUserModel,
 )
 
 models = [
-    SqlModelUserModel,
-    SqlModelInventoryModel,
-    SqlModelNotesModel,
-    SqlModelTagsModel,
+    SQLModelUserModel,
+    SQLModelInventoryModel,
+    SQLModelNotesModel,
+    SQLModelTagsModel,
     SQLModelReminderModel,
 ]
 

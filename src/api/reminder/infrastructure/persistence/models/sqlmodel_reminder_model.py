@@ -6,7 +6,7 @@ from sqlmodel import Field, Relationship, SQLModel
 from src.api.reminder.domain.entities import Reminder
 from src.api.shared.domain.value_objects import Uuid
 from src.api.user.infrastructure.persistence.models.sqlmodel_user_model import (
-    SqlModelUserModel,
+    SQLModelUserModel,
 )
 
 
@@ -20,7 +20,7 @@ class SQLModelReminderModel(SQLModel, table=True):
     remind_date: datetime = Field(nullable=False)
     is_deleted: bool = Field(default=False, nullable=False)
     updated_at: Optional[datetime] = Field(default=None)
-    user: "SqlModelUserModel" = Relationship(back_populates="reminder_items")
+    user: "SQLModelUserModel" = Relationship(back_populates="reminder_items")
 
     @classmethod
     def from_entity(cls, entity: "Reminder") -> "SQLModelReminderModel":

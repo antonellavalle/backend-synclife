@@ -25,7 +25,7 @@ from src.api.notes.infrastructure.http.dtos.notes import (
     PydanticViewNotesResponseDTO,
 )
 from src.api.notes.infrastructure.persistence.models.sqlmodel_notes_model import (
-    SqlModelNotesModel,
+    SQLModelNotesModel,
 )
 from src.api.notes.infrastructure.persistence.repositories.sqlmodel_notes_repository import (  # noqa: E501
     SQLModelNotesRepository,
@@ -38,7 +38,7 @@ from src.api.shared.infrastructure.persistence.repositories import (
     InMemorySessionRepository,
 )
 from src.api.user.infrastructure.persistence.repositories.sqlmodel_user_repository import (  # noqa: E501
-    SqlModelUserRepository,
+    SQLModelUserRepository,
 )
 
 
@@ -49,14 +49,14 @@ class FastApiNotesController:
         note_data: PydanticCreateNoteRequestDTO, session_token: str
     ) -> PydanticCreateNoteResponseDTO:
         note_repo = SQLModelNotesRepository.get_repository()
-        user_repo = SqlModelUserRepository.get_repository()
+        user_repo = SQLModelUserRepository.get_repository()
         session_repo = InMemorySessionRepository.get_repository()
 
         use_case = CreateNoteUseCase(note_repo, user_repo, session_repo)
         dto = note_data.to_application(session_token)
         note = use_case.execute(dto)
 
-        return PydanticCreateNoteResponseDTO(note=SqlModelNotesModel.from_entity(note))
+        return PydanticCreateNoteResponseDTO(note=SQLModelNotesModel.from_entity(note))
 
     @staticmethod
     @handle_exceptions
@@ -71,7 +71,7 @@ class FastApiNotesController:
         updated_note = use_case.execute(dto)
 
         return PydanticUpdateNotesResponseDTO(
-            note=SqlModelNotesModel.from_entity(updated_note)
+            note=SQLModelNotesModel.from_entity(updated_note)
         )
 
     @staticmethod
@@ -87,7 +87,7 @@ class FastApiNotesController:
         deleted_note = use_case.execute(dto)
 
         return PydanticDeleteNotesResponseDTO(
-            note=SqlModelNotesModel.from_entity(deleted_note)
+            note=SQLModelNotesModel.from_entity(deleted_note)
         )
 
     @staticmethod
@@ -102,7 +102,7 @@ class FastApiNotesController:
         dto = request_dto.to_application(session_token)
         note = use_case.execute(dto)
 
-        return PydanticViewNotesResponseDTO(note=SqlModelNotesModel.from_entity(note))
+        return PydanticViewNotesResponseDTO(note=SQLModelNotesModel.from_entity(note))
 
     @staticmethod
     @handle_exceptions
@@ -117,7 +117,7 @@ class FastApiNotesController:
 
         response_notes = []
         for note in notes:
-            model_note = SqlModelNotesModel.from_entity(note)
+            model_note = SQLModelNotesModel.from_entity(note)
             response_notes.append(model_note)
 
         return PydanticViewAllNotesResponseDTO(notes=response_notes)
@@ -137,7 +137,7 @@ class FastApiNotesController:
         note = use_case.execute(dto)
 
         return PydanticAddTagToNoteResponseDTO(
-            note=SqlModelNotesModel.from_entity(note)
+            note=SQLModelNotesModel.from_entity(note)
         )
 
     @staticmethod
@@ -155,7 +155,7 @@ class FastApiNotesController:
         updated_note = use_case.execute(dto)
 
         return PydanticRemoveTagResponseDTO(
-            note=SqlModelNotesModel.from_entity(updated_note)
+            note=SQLModelNotesModel.from_entity(updated_note)
         )
 
     @staticmethod
@@ -174,7 +174,7 @@ class FastApiNotesController:
 
         notes_response = []
         for note in notes:
-            note_model = SqlModelNotesModel.from_entity(note)
+            note_model = SQLModelNotesModel.from_entity(note)
             notes_response.append(note_model)
 
         return PydanticFilterNotesByTagResponseDTO(notes=notes_response)

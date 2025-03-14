@@ -9,7 +9,7 @@ the use case for modifying personal information, containing the updated user mod
 from pydantic import BaseModel
 
 from src.api.user.infrastructure.persistence.models.sqlmodel_user_model import (
-    SqlModelUserModel,
+    SQLModelUserModel,
 )
 
 
@@ -18,8 +18,8 @@ class PydanticChangePersonalInformationResponseDTO(BaseModel):
     Response Data Transfer Object for modifying the user's personal information.
 
     Attributes:
-        user (SqlModelUserModel): User model representing the updated user after the
+        user (SQLModelUserModel): User model representing the updated user after the
                                   modification.
     """
 
-    user: SqlModelUserModel
+    user: SQLModelUserModel

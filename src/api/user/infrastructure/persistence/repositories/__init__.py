@@ -5,13 +5,13 @@ This module imports and exposes the concrete implementations of the repositories
 the infrastructure, including:
   - DragonflyValidationTokenRepository: Validation token repository based on Dragonfly
                                         (Redis).
-  - SqlModelUserRepository: User repository based on SQLModel for database persistence.
+  - SQLModelUserRepository: User repository based on SQLModel for database persistence.
 
 The __all__ attribute explicitly defines the names that will be exported when importing
 this package.
 """
 
 from .dragonfly_validation_token_repository import DragonflyValidationTokenRepository
-from .sqlmodel_user_repository import SqlModelUserRepository
+from .sqlmodel_user_repository import SQLModelUserRepository
 
-__all__ = ["DragonflyValidationTokenRepository", "SqlModelUserRepository"]
+__all__ = ["DragonflyValidationTokenRepository", "SQLModelUserRepository"]

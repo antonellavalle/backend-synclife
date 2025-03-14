@@ -83,8 +83,8 @@ from .infrastructure import (
     PydanticVerifyAccountResponseDTO,
     PydanticViewAccountRequestDTO,
     PydanticViewAccountResponseDTO,
-    SqlModelUserModel,
-    SqlModelUserRepository,
+    SQLModelUserModel,
+    SQLModelUserRepository,
 )
 
 __all__ = [
@@ -144,7 +144,7 @@ __all__ = [
     "PydanticRegisterResponseDTO",
     "PydanticVerifyAccountRequestDTO",
     "PydanticVerifyAccountResponseDTO",
-    "SqlModelUserModel",
+    "SQLModelUserModel",
     "DragonflyValidationTokenRepository",
-    "SqlModelUserRepository",
+    "SQLModelUserRepository",
 ]

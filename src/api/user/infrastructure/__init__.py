@@ -6,8 +6,8 @@ infrastructure layer, including:
   - The HTTP layer: Controllers and Pydantic DTOs for account management and
                     authentication.
   - The persistence layer: Repositories and persistence models, such as
-                           DragonflyValidationTokenRepository, SqlModelUserModel, and
-                           SqlModelUserRepository.
+                           DragonflyValidationTokenRepository, SQLModelUserModel, and
+                           SQLModelUserRepository.
 
 The __all__ attribute is used to explicitly define the names that will be exported when
 importing this package.
@@ -35,8 +35,8 @@ from .http import (
 )
 from .persistence import (
     DragonflyValidationTokenRepository,
-    SqlModelUserModel,
-    SqlModelUserRepository,
+    SQLModelUserModel,
+    SQLModelUserRepository,
 )
 
 __all__ = [
@@ -58,7 +58,7 @@ __all__ = [
     "PydanticRegisterResponseDTO",
     "PydanticVerifyAccountRequestDTO",
     "PydanticVerifyAccountResponseDTO",
-    "SqlModelUserModel",
+    "SQLModelUserModel",
     "DragonflyValidationTokenRepository",
-    "SqlModelUserRepository",
+    "SQLModelUserRepository",
 ]

@@ -18,7 +18,7 @@ from src.api.inventory.infrastructure.http.dtos import (
     PydanticViewItemResponseDTO,
 )
 from src.api.inventory.infrastructure.persistence.models.sqlmodel_inventory_model import (  # noqa: E501
-    SqlModelInventoryModel,
+    SQLModelInventoryModel,
 )
 from src.api.inventory.infrastructure.persistence.repositories import (
     SQLModelInventoryRepository,
@@ -28,7 +28,7 @@ from src.api.shared.infrastructure.persistence.repositories import (
     InMemorySessionRepository,
 )
 from src.api.user.infrastructure.persistence.repositories.sqlmodel_user_repository import (  # noqa: E501
-    SqlModelUserRepository,
+    SQLModelUserRepository,
 )
 
 
@@ -39,7 +39,7 @@ class FastApiInventoryController:
         item_data: PydanticCreateItemRequestDTO, session_token: str
     ) -> PydanticCreateItemResponseDTO:
         invenory_repo = SQLModelInventoryRepository.get_repository()
-        user_repo = SqlModelUserRepository.get_repository()
+        user_repo = SQLModelUserRepository.get_repository()
         session_repo = InMemorySessionRepository.get_repository()
 
         use_case = CreateItemUseCase(invenory_repo, user_repo, session_repo)
@@ -47,7 +47,7 @@ class FastApiInventoryController:
         item = use_case.execute(dto)
 
         return PydanticCreateItemResponseDTO(
-            item=SqlModelInventoryModel.from_entity(item)
+            item=SQLModelInventoryModel.from_entity(item)
         )
 
     @staticmethod
@@ -63,7 +63,7 @@ class FastApiInventoryController:
         updated_item = use_case.execute(dto)
 
         return PydanticUpdateItemResponseDTO(
-            item=SqlModelInventoryModel.from_entity(updated_item)
+            item=SQLModelInventoryModel.from_entity(updated_item)
         )
 
     @staticmethod
@@ -79,7 +79,7 @@ class FastApiInventoryController:
         deleted_item = use_case.execute(dto)
 
         return PydanticDeleteItemResponseDTO(
-            item=SqlModelInventoryModel.from_entity(deleted_item)
+            item=SQLModelInventoryModel.from_entity(deleted_item)
         )
 
     @staticmethod
@@ -95,7 +95,7 @@ class FastApiInventoryController:
         item = use_case.execute(dto)
 
         return PydanticViewItemResponseDTO(
-            item=SqlModelInventoryModel.from_entity(item)
+            item=SQLModelInventoryModel.from_entity(item)
         )
 
     @staticmethod
@@ -109,7 +109,7 @@ class FastApiInventoryController:
 
         response_inventory_items = []
         for inventory_item in inventory_items:
-            model_inventory = SqlModelInventoryModel.from_entity(inventory_item)
+            model_inventory = SQLModelInventoryModel.from_entity(inventory_item)
             response_inventory_items.append(model_inventory)
 
         return PydanticViewAllInventoryItemsResponseDTO(

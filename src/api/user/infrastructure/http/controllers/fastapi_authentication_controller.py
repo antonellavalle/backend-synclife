@@ -37,11 +37,11 @@ from src.api.user.infrastructure.http.dtos import (
     PydanticVerifyAccountResponseDTO,
 )
 from src.api.user.infrastructure.persistence.models.sqlmodel_user_model import (
-    SqlModelUserModel,
+    SQLModelUserModel,
 )
 from src.api.user.infrastructure.persistence.repositories import (
     DragonflyValidationTokenRepository,
-    SqlModelUserRepository,
+    SQLModelUserRepository,
 )
 
 
@@ -101,7 +101,7 @@ class FastApiAuthenticationController:
             PydanticRegisterResponseDTO: Response DTO containing the registered user's
                                          data.
         """
-        user_repository = SqlModelUserRepository.get_repository()
+        user_repository = SQLModelUserRepository.get_repository()
         user_validation_repository = DragonflyValidationTokenRepository.get_repository()
         smtp_email_sender_repository = MailHogSMTPEmailSenderRepository.get_repository()
 
@@ -117,7 +117,7 @@ class FastApiAuthenticationController:
         user = use_case.execute(app_dto)
 
         return PydanticRegisterResponseDTO(
-            user=SqlModelUserModel.from_entity(user),
+            user=SQLModelUserModel.from_entity(user),
         )
 
     @staticmethod
@@ -151,7 +151,7 @@ class FastApiAuthenticationController:
             PydanticVerifyAccountResponseDTO: Response DTO containing the verified
                                               user's data and the session token.
         """
-        user_repository = SqlModelUserRepository.get_repository()
+        user_repository = SQLModelUserRepository.get_repository()
         user_validation_repository = DragonflyValidationTokenRepository.get_repository()
         session_repository = DragonflySessionRepository.get_repository()
 
@@ -162,7 +162,7 @@ class FastApiAuthenticationController:
         user, session_token = use_case.execute(app_dto)
 
         return PydanticVerifyAccountResponseDTO(
-            user=SqlModelUserModel.from_entity(user), session_token=session_token
+            user=SQLModelUserModel.from_entity(user), session_token=session_token
         )
 
     @staticmethod
@@ -193,13 +193,13 @@ class FastApiAuthenticationController:
             PydanticLoginResponseDTO: Response DTO containing the authenticated user's
                                       data and the session token.
         """
-        user_repository = SqlModelUserRepository.get_repository()
+        user_repository = SQLModelUserRepository.get_repository()
         session_repository = DragonflySessionRepository.get_repository()
         use_case = LoginUseCase(user_repository, session_repository)
         app_dto = request_dto.to_application()
         user, session_token = use_case.execute(app_dto)
 
         return PydanticLoginResponseDTO(
-            user=SqlModelUserModel.from_entity(user),
+            user=SQLModelUserModel.from_entity(user),
             session_token=session_token,
         )

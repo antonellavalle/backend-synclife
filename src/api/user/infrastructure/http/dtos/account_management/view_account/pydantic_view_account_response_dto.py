@@ -9,7 +9,7 @@ the view account use case, containing the updated user model.
 from pydantic import BaseModel
 
 from src.api.user.infrastructure.persistence.models.sqlmodel_user_model import (
-    SqlModelUserModel,
+    SQLModelUserModel,
 )
 
 
@@ -18,7 +18,7 @@ class PydanticViewAccountResponseDTO(BaseModel):
     Response Data Transfer Object for viewing a user's account.
 
     Attributes:
-        user (SqlModelUserModel): User model representing the user's account.
+        user (SQLModelUserModel): User model representing the user's account.
     """
 
-    user: SqlModelUserModel
+    user: SQLModelUserModel

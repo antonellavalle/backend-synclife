@@ -6,11 +6,11 @@ from sqlmodel import Field, Relationship, SQLModel
 from src.api.inventory.domain.entities.inventory import Inventory
 from src.api.shared.domain.value_objects import Uuid
 from src.api.user.infrastructure.persistence.models.sqlmodel_user_model import (
-    SqlModelUserModel,
+    SQLModelUserModel,
 )
 
 
-class SqlModelInventoryModel(SQLModel, table=True):
+class SQLModelInventoryModel(SQLModel, table=True):
     __tablename__ = "inventory_item"
 
     id: str = Field(primary_key=True)
@@ -21,10 +21,10 @@ class SqlModelInventoryModel(SQLModel, table=True):
     is_deleted: bool = Field(default=False)
     created_at: date = Field(default_factory=date.today)
     updated_at: Optional[date] = Field(default=None)
-    user: "SqlModelUserModel" = Relationship(back_populates="inventory_items")
+    user: "SQLModelUserModel" = Relationship(back_populates="inventory_items")
 
     @classmethod
-    def from_entity(cls, entity: "Inventory") -> "SqlModelInventoryModel":
+    def from_entity(cls, entity: "Inventory") -> "SQLModelInventoryModel":
 
         return cls(
             id=str(entity.id),

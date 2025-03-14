@@ -3,9 +3,9 @@ from typing import List
 from pydantic import BaseModel
 
 from src.api.notes.infrastructure.persistence.models.sqlmodel_tags_model import (
-    SqlModelTagsModel,
+    SQLModelTagsModel,
 )
 
 
 class PydanticViewAllTagsResponseDTO(BaseModel):
-    tags: List[SqlModelTagsModel]
+    tags: List[SQLModelTagsModel]

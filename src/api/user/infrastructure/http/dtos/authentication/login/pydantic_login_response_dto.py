@@ -8,7 +8,7 @@ the login use case, containing the user model and the generated session token.
 from pydantic import BaseModel
 
 from src.api.user.infrastructure.persistence.models.sqlmodel_user_model import (
-    SqlModelUserModel,
+    SQLModelUserModel,
 )
 
 
@@ -17,9 +17,9 @@ class PydanticLoginResponseDTO(BaseModel):
     Response Data Transfer Object for user login.
 
     Attributes:
-        user (SqlModelUserModel): User model representing the authenticated user.
+        user (SQLModelUserModel): User model representing the authenticated user.
         session_token (str): Session token generated after authentication.
     """
 
-    user: SqlModelUserModel
+    user: SQLModelUserModel
     session_token: str

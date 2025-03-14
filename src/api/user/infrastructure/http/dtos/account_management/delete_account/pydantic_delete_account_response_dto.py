@@ -9,7 +9,7 @@ the account deletion use case, containing the updated user model.
 from pydantic import BaseModel
 
 from src.api.user.infrastructure.persistence.models.sqlmodel_user_model import (
-    SqlModelUserModel,
+    SQLModelUserModel,
 )
 
 
@@ -18,8 +18,8 @@ class PydanticDeleteAccountResponseDTO(BaseModel):
     Response Data Transfer Object for account deletion.
 
     Attributes:
-        user (SqlModelUserModel): User model representing the deleted or
+        user (SQLModelUserModel): User model representing the deleted or
                                   marked-as-deleted user.
     """
 
-    user: SqlModelUserModel
+    user: SQLModelUserModel

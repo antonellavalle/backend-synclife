@@ -9,7 +9,7 @@ the registration use case, containing the created or updated user model.
 from pydantic import BaseModel
 
 from src.api.user.infrastructure.persistence.models.sqlmodel_user_model import (
-    SqlModelUserModel,
+    SQLModelUserModel,
 )
 
 
@@ -18,7 +18,7 @@ class PydanticRegisterResponseDTO(BaseModel):
     Response Data Transfer Object for user registration.
 
     Attributes:
-        user (SqlModelUserModel): User model representing the registered user.
+        user (SQLModelUserModel): User model representing the registered user.
     """
 
-    user: SqlModelUserModel
+    user: SQLModelUserModel

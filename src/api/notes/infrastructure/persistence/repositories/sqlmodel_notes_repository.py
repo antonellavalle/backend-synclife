@@ -9,10 +9,10 @@ from src.api.notes.infrastructure.persistence.models.sqlmodel_note_tag_link_mode
     NotesTagsLink,
 )
 from src.api.notes.infrastructure.persistence.models.sqlmodel_notes_model import (
-    SqlModelNotesModel,
+    SQLModelNotesModel,
 )
 from src.api.notes.infrastructure.persistence.models.sqlmodel_tags_model import (
-    SqlModelTagsModel,
+    SQLModelTagsModel,
 )
 from src.api.shared.domain.value_objects import Uuid
 from src.api.shared.infrastructure.persistence import get_db_connection
@@ -29,21 +29,21 @@ class SQLModelNotesRepository(NotesRepository):
 
     def find_all(self, include_deleted: bool = False) -> List[Notes]:
         query = (
-            select(SqlModelNotesModel)
+            select(SQLModelNotesModel)
             if include_deleted
-            else select(SqlModelNotesModel).where(not_(SqlModelNotesModel.is_deleted))
+            else select(SQLModelNotesModel).where(not_(SQLModelNotesModel.is_deleted))
         )
         notes = self.db_connection.exec(query).all()
         return [note.to_entity() for note in notes]
 
     def find_by_id(self, id: Uuid, include_deleted: bool = False) -> Optional[Notes]:
         query = (
-            select(SqlModelNotesModel).where(SqlModelNotesModel.id == str(id))
+            select(SQLModelNotesModel).where(SQLModelNotesModel.id == str(id))
             if include_deleted
             else (
-                select(SqlModelNotesModel)
-                .where(SqlModelNotesModel.id == str(id))
-                .where(not_(SqlModelNotesModel.is_deleted))
+                select(SQLModelNotesModel)
+                .where(SQLModelNotesModel.id == str(id))
+                .where(not_(SQLModelNotesModel.is_deleted))
             )
         )
         note = self.db_connection.exec(query).first()
@@ -51,11 +51,11 @@ class SQLModelNotesRepository(NotesRepository):
 
     def find_by_tag(self, tag_id: Uuid) -> List[Notes]:
         query = (
-            select(SqlModelNotesModel)
+            select(SQLModelNotesModel)
             .join(NotesTagsLink)
-            .join(SqlModelTagsModel)
-            .where(SqlModelTagsModel.id == str(tag_id))
-            .where(not_(SqlModelNotesModel.is_deleted))
+            .join(SQLModelTagsModel)
+            .where(SQLModelTagsModel.id == str(tag_id))
+            .where(not_(SQLModelNotesModel.is_deleted))
         )
         notes = self.db_connection.exec(query).all()
         return [note.to_entity() for note in notes]
@@ -63,33 +63,33 @@ class SQLModelNotesRepository(NotesRepository):
     def find_all_by_user_id(
         self, user_id: Uuid, include_deleted: bool = False
     ) -> List[Notes]:
-        query = select(SqlModelNotesModel).where(
-            SqlModelNotesModel.user_id == str(user_id)
+        query = select(SQLModelNotesModel).where(
+            SQLModelNotesModel.user_id == str(user_id)
         )
 
         if not include_deleted:
-            query = query.where(not_(SqlModelNotesModel.is_deleted))
+            query = query.where(not_(SQLModelNotesModel.is_deleted))
 
         notes = self.db_connection.exec(query).all()
         return [note.to_entity() for note in notes]
 
     def find_by_title_and_user_id(self, title: str, user_id: Uuid) -> Optional[Notes]:
         query = (
-            select(SqlModelNotesModel)
-            .where(SqlModelNotesModel.title == title)
-            .where(SqlModelNotesModel.user_id == str(user_id))
-            .where(not_(SqlModelNotesModel.is_deleted))
+            select(SQLModelNotesModel)
+            .where(SQLModelNotesModel.title == title)
+            .where(SQLModelNotesModel.user_id == str(user_id))
+            .where(not_(SQLModelNotesModel.is_deleted))
         )
         note = self.db_connection.exec(query).first()
         return note.to_entity() if note else None
 
     def save(self, note: Notes) -> bool:
-        note_model = SqlModelNotesModel.from_entity(note)
+        note_model = SQLModelNotesModel.from_entity(note)
 
         # Sincronizar tags
         for tag in note.tags:
             tag_model = self.db_connection.exec(
-                select(SqlModelTagsModel).where(SqlModelTagsModel.id == str(tag.id))
+                select(SQLModelTagsModel).where(SQLModelTagsModel.id == str(tag.id))
             ).first()
             if tag_model:
                 note_model.tags.append(tag_model)
@@ -100,9 +100,9 @@ class SQLModelNotesRepository(NotesRepository):
 
     def update(self, note: Notes) -> Tuple[bool, Optional[Notes]]:
         existing_note = self.db_connection.exec(
-            select(SqlModelNotesModel)
-            .where(SqlModelNotesModel.id == str(note.id))
-            .where(not_(SqlModelNotesModel.is_deleted))
+            select(SQLModelNotesModel)
+            .where(SQLModelNotesModel.id == str(note.id))
+            .where(not_(SQLModelNotesModel.is_deleted))
         ).first()
 
         if not existing_note:
@@ -125,7 +125,7 @@ class SQLModelNotesRepository(NotesRepository):
         # Agregar nuevas relaciones
         for tag_id in new_tags - existing_tags:
             tag = self.db_connection.exec(
-                select(SqlModelTagsModel).where(SqlModelTagsModel.id == tag_id)
+                select(SQLModelTagsModel).where(SQLModelTagsModel.id == tag_id)
             ).first()
             if tag:
                 existing_note.tags.append(tag)
@@ -146,9 +146,9 @@ class SQLModelNotesRepository(NotesRepository):
 
     def delete(self, note: Notes) -> Tuple[bool, Optional[Notes]]:
         existing_note = self.db_connection.exec(
-            select(SqlModelNotesModel)
-            .where(SqlModelNotesModel.id == str(note.id))
-            .where(not_(SqlModelNotesModel.is_deleted))
+            select(SQLModelNotesModel)
+            .where(SQLModelNotesModel.id == str(note.id))
+            .where(not_(SQLModelNotesModel.is_deleted))
         ).first()
 
         if not existing_note:

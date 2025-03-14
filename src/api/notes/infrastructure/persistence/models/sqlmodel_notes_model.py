@@ -8,15 +8,15 @@ from src.api.notes.infrastructure.persistence.models.sqlmodel_note_tag_link_mode
     NotesTagsLink,
 )
 from src.api.notes.infrastructure.persistence.models.sqlmodel_tags_model import (
-    SqlModelTagsModel,
+    SQLModelTagsModel,
 )
 from src.api.shared.domain.value_objects import Uuid
 from src.api.user.infrastructure.persistence.models.sqlmodel_user_model import (
-    SqlModelUserModel,
+    SQLModelUserModel,
 )
 
 
-class SqlModelNotesModel(SQLModel, table=True):
+class SQLModelNotesModel(SQLModel, table=True):
     __tablename__ = "notes"
 
     id: str = Field(primary_key=True)
@@ -26,13 +26,13 @@ class SqlModelNotesModel(SQLModel, table=True):
     is_deleted: bool = Field(default=False)
     created_at: datetime = Field(default_factory=datetime.today)
     updated_at: Optional[datetime] = Field(default=None)
-    user: "SqlModelUserModel" = Relationship(back_populates="notes")
-    tags: List["SqlModelTagsModel"] = Relationship(
+    user: "SQLModelUserModel" = Relationship(back_populates="notes")
+    tags: List["SQLModelTagsModel"] = Relationship(
         back_populates="notes", link_model=NotesTagsLink
     )
 
     @classmethod
-    def from_entity(cls, entity: "Notes") -> "SqlModelNotesModel":
+    def from_entity(cls, entity: "Notes") -> "SQLModelNotesModel":
         return cls(
             id=str(entity.id),
             user_id=str(entity.user_id),

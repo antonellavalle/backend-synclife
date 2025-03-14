@@ -11,14 +11,14 @@ from src.api.shared.domain.value_objects import Uuid
 
 if TYPE_CHECKING:
     from src.api.notes.infrastructure.persistence.models.sqlmodel_notes_model import (  # noqa: E501
-        SqlModelNotesModel,
+        SQLModelNotesModel,
     )
     from src.api.user.infrastructure.persistence.models.sqlmodel_user_model import (
-        SqlModelUserModel,
+        SQLModelUserModel,
     )
 
 
-class SqlModelTagsModel(SQLModel, table=True):
+class SQLModelTagsModel(SQLModel, table=True):
     __tablename__ = "tags"
 
     id: str = Field(primary_key=True)
@@ -27,13 +27,13 @@ class SqlModelTagsModel(SQLModel, table=True):
     is_deleted: bool = Field(default=False)
     created_at: datetime = Field(default_factory=datetime.today)
     updated_at: Optional[datetime] = Field(default=None)
-    user: "SqlModelUserModel" = Relationship(back_populates="tags")
-    notes: List["SqlModelNotesModel"] = Relationship(
+    user: "SQLModelUserModel" = Relationship(back_populates="tags")
+    notes: List["SQLModelNotesModel"] = Relationship(
         back_populates="tags", link_model=NotesTagsLink
     )
 
     @classmethod
-    def from_entity(cls, entity: "Tags") -> "SqlModelTagsModel":
+    def from_entity(cls, entity: "Tags") -> "SQLModelTagsModel":
         return cls(
             id=str(entity.id),
             user_id=str(entity.user_id),
