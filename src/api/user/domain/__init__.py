@@ -1,12 +1,3 @@
-"""
-User Domain Initialization Module.
-
-This module centralizes the import and exposure of the entities, errors,
-repositories, validators, and value objects related to the user domain. By
-defining the __all__ attribute, the elements that will be exported when the package is
-imported using 'from <package> import *' are explicitly specified.
-"""
-
 from .entities import User
 from .errors import (
     EmailError,

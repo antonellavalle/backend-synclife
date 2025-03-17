@@ -1,26 +1,3 @@
-"""
-Initialization module for the user package.
-
-This module centralizes the import and exposure of all components belonging to the
-domain, application, and infrastructure layers of the user module. It includes:
-
-  - In the application layer: DTOs and use cases for operations such as registration,
-                              login, account verification, account deletion, password
-                              change, personal information modification, and password
-                              change request.
-  - In the domain layer: Entities, value objects, and errors (along with their
-                         enumerations) associated with the validation, management, and
-                         persistence of users, as well as the repository interface and
-                         its validators.
-  - In the infrastructure layer: Concrete implementations of the HTTP controllers (using
-                                 FastAPI), Pydantic DTOs for validation and
-                                 serialization, and the persistence models and
-                                 repositories (SQLModel, Dragonfly, etc.).
-
-The __all__ attribute explicitly defines the names that will be exported when importing
-this package.
-"""
-
 from .application import (
     ChangePasswordDTO,
     ChangePasswordUseCase,

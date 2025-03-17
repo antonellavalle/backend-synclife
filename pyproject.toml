@@ -20,6 +20,7 @@ psycopg2-binary = "^2.9.10"
 zxcvbn = "^4.4.28"
 isort = "^5.13.2"
 redis = "^5.2.1"
+vulture = "^2.14"
 
 [tool.poetry.group.dev.dependencies]
 mypy = "^1.15.0"

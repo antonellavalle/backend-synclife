@@ -1,12 +1,3 @@
-"""
-Initialization module for user domain errors.
-
-This module imports and exposes the various errors related to user data validation and
-handling, including errors for email, full name, password, phone, repository,
-validation, and token verification. The __all__ attribute is used to explicitly define
-the names that will be exported when importing this package.
-"""
-
 from .email_error import EmailError, EmailTypeError
 from .full_name_error import FullNameError, FullNameTypeError
 from .password_error import PasswordError, PasswordTypeError

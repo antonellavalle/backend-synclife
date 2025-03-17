@@ -1,11 +1,3 @@
-"""
-Module that defines the SQLModel for the User entity in the infrastructure layer.
-
-This model is used to map the User entity to the database schema, allowing the
-persistence of user data. It also includes methods to transform a domain entity into
-this model and vice versa.
-"""
-
 from datetime import date, datetime
 from typing import TYPE_CHECKING, List, Optional
 
@@ -32,34 +24,6 @@ if TYPE_CHECKING:
 
 
 class SQLModelUserModel(SQLModel, table=True):
-    """
-    SQLModel for the User entity.
-
-    This model represents the "users" table in the database and maps the attributes of
-    the User entity, allowing its persistence and retrieval. It also defines
-    relationships with other entities such as inventory, notes, tags, and reminders.
-
-    Attributes:
-        id (str): Unique identifier of the user (primary key).
-        email (str): User's email address (unique and indexed).
-        password (str): User's encrypted password.
-        first_name (str): User's first name.
-        last_name (str): User's last name.
-        birth_date (date): User's date of birth.
-        phone (str): User's phone number.
-        account_verified (bool): Indicates whether the user's account has been verified.
-        is_deleted (bool): Indicates whether the user's account has been deleted.
-        created_at (datetime): Date and time when the record was created.
-        updated_at (Optional[datetime]): Date and time of the last update to the record.
-        inventory_items (List[SQLModelInventoryModel]): Relationship with inventory
-                                                        items associated with the user.
-        notes (List[SQLModelNotesModel]): Relationship with notes associated with the
-                                          user.
-        tags (List[SQLModelTagsModel]): Relationship with tags associated with the user.
-        reminder_items (List[SQLModelReminderModel]): Relationship with reminders
-                                                      associated with the user.
-    """
-
     __tablename__ = "users"
 
     id: str = Field(primary_key=True)
@@ -85,19 +49,6 @@ class SQLModelUserModel(SQLModel, table=True):
 
     @classmethod
     def from_entity(cls, entity: User) -> "SQLModelUserModel":
-        """
-        Creates an instance of SQLModelUserModel from a User domain entity.
-
-        Converts a User domain entity into its persistence representation in the
-        database.
-
-        Args:
-            entity (User): The User domain entity.
-
-        Returns:
-            SQLModelUserModel: An instance of the SQLModel mapped with the entity's
-                               data.
-        """
         return cls(
             id=str(entity.uuid.uuid),
             email=entity.email.email,
@@ -113,21 +64,6 @@ class SQLModelUserModel(SQLModel, table=True):
         )
 
     def to_entity(self, validate: bool = True) -> User:
-        """
-        Converts the SQLModel into a User domain entity.
-
-        Transforms the instance of the model (persisted in the database) into the User
-        domain entity, using the corresponding value objects and optionally validating
-        the password.
-
-        Args:
-            validate (bool, optional): Indicates whether the password should be
-                                       validated when creating the value object.
-                                       Defaults to True.
-
-        Returns:
-            User: The User domain entity corresponding to the record.
-        """
         return User(
             uuid=Uuid(self.id),
             email=Email(self.email),

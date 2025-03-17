@@ -1,24 +1,10 @@
-"""
-Module that defines the response DTO for viewing an account in the user infrastructure
-layer.
+from datetime import date
 
-This DTO uses Pydantic to validate and serialize the response returned after executing
-the view account use case, containing the updated user model.
-"""
-
-from pydantic import BaseModel
-
-from src.api.user.infrastructure.persistence.models.sqlmodel_user_model import (
-    SQLModelUserModel,
-)
+from pydantic import BaseModel, EmailStr
 
 
 class PydanticViewAccountResponseDTO(BaseModel):
-    """
-    Response Data Transfer Object for viewing a user's account.
-
-    Attributes:
-        user (SQLModelUserModel): User model representing the user's account.
-    """
-
-    user: SQLModelUserModel
+    email: EmailStr
+    full_name: str
+    birth_date: date
+    phone: str
