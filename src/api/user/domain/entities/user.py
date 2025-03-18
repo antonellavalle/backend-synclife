@@ -2,8 +2,13 @@ from datetime import date, datetime
 from typing import Optional
 
 from src.api.shared.domain.value_objects import Uuid
-from src.api.user.domain.errors import UserValidationError, UserValidationTypeError
-from src.api.user.domain.value_objects import Email, FullName, Password
+from src.api.user.domain.errors.user_validation_error import (
+    UserValidationError,
+    UserValidationTypeError,
+)
+from src.api.user.domain.value_objects.email import Email
+from src.api.user.domain.value_objects.full_name import FullName
+from src.api.user.domain.value_objects.password import Password
 from src.api.user.domain.value_objects.phone import Phone
 
 

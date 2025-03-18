@@ -2,8 +2,8 @@ from abc import ABC, abstractmethod
 from typing import List, Optional, Tuple
 
 from src.api.shared.domain.value_objects import Uuid
-from src.api.user.domain.entities import User
-from src.api.user.domain.value_objects import Email
+from src.api.user.domain.entities.user import User
+from src.api.user.domain.value_objects.email import Email
 
 
 class UserRepository(ABC):

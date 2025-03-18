@@ -5,8 +5,11 @@ from sqlalchemy.orm import Mapped
 from sqlmodel import Field, Relationship, SQLModel
 
 from src.api.shared.domain.value_objects import Uuid
-from src.api.user.domain.entities import User
-from src.api.user.domain.value_objects import Email, FullName, Password, Phone
+from src.api.user.domain.entities.user import User
+from src.api.user.domain.value_objects.email import Email
+from src.api.user.domain.value_objects.full_name import FullName
+from src.api.user.domain.value_objects.password import Password
+from src.api.user.domain.value_objects.phone import Phone
 
 if TYPE_CHECKING:
     from src.api.inventory.infrastructure.persistence.models.sqlmodel_inventory_model import (  # noqa: E501

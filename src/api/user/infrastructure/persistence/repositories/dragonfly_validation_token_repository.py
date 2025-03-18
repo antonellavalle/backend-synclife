@@ -5,7 +5,9 @@ import redis
 
 from src.api.shared.domain.value_objects import Uuid
 from src.api.shared.infrastructure.persistence import get_dragonfly_connection
-from src.api.user.domain.repositories import ValidationTokenRepository
+from src.api.user.domain.repositories.validation_token_repository import (
+    ValidationTokenRepository,
+)
 
 
 class DragonflyValidationTokenRepository(ValidationTokenRepository):

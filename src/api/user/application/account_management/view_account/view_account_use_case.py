@@ -4,8 +4,8 @@ from src.api.shared.domain.value_objects import Uuid
 from src.api.user.application.account_management.view_account.view_account_dto import (
     ViewAccountDTO,
 )
-from src.api.user.domain.entities import User
-from src.api.user.domain.repositories import UserRepository
+from src.api.user.domain.entities.user import User
+from src.api.user.domain.repositories.user_repository import UserRepository
 from src.api.user.domain.validators.user_repository_validator import (
     UserRepositoryValidator,
 )

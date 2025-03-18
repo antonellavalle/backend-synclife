@@ -2,14 +2,21 @@ from src.api.shared.domain.repositories import SessionRepository
 from src.api.user.application.authentication.verify_account.verify_account_dto import (
     VerifyAccountDTO,
 )
-from src.api.user.domain.errors import (
+from src.api.user.domain.errors.user_repository_error import (
     UserRepositoryError,
     UserRepositoryTypeError,
+)
+from src.api.user.domain.errors.validate_token_repository_error import (
     ValidateTokenRepositoryError,
     ValidateTokenRepositoryTypeError,
 )
-from src.api.user.domain.repositories import UserRepository, ValidationTokenRepository
-from src.api.user.domain.validators import UserRepositoryValidator
+from src.api.user.domain.repositories.user_repository import UserRepository
+from src.api.user.domain.repositories.validation_token_repository import (
+    ValidationTokenRepository,
+)
+from src.api.user.domain.validators.user_repository_validator import (
+    UserRepositoryValidator,
+)
 
 
 class VerifyAccountUseCase:

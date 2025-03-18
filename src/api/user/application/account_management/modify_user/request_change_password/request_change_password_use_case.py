@@ -1,7 +1,7 @@
 from src.api.shared.domain.repositories.smtp_email_sender_repository import (
     SMTPEmailSenderRepository,
 )
-from src.api.user.application.account_management.modify_user.request_change_password import (  # noqa: E501
+from src.api.user.application.account_management.modify_user.request_change_password.request_change_password_dto import (  # noqa: E501
     RequestChangePasswordDTO,
 )
 from src.api.user.domain.repositories.user_repository import UserRepository

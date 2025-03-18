@@ -1,14 +1,16 @@
 from typing import Optional
 
-from src.api.user.domain.entities import User
-from src.api.user.domain.errors import (
+from src.api.user.domain.entities.user import User
+from src.api.user.domain.errors.user_repository_error import (
     UserRepositoryError,
     UserRepositoryTypeError,
+)
+from src.api.user.domain.errors.user_validation_error import (
     UserValidationError,
     UserValidationTypeError,
 )
-from src.api.user.domain.repositories import UserRepository
-from src.api.user.domain.value_objects import Email
+from src.api.user.domain.repositories.user_repository import UserRepository
+from src.api.user.domain.value_objects.email import Email
 
 
 class UserRepositoryValidator:

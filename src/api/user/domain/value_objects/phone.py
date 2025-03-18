@@ -1,6 +1,6 @@
 import re
 
-from src.api.user.domain.errors import PhoneError, PhoneTypeError
+from src.api.user.domain.errors.phone_error import PhoneError, PhoneTypeError
 
 
 class Phone:

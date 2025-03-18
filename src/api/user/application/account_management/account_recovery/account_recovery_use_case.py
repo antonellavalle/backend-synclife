@@ -9,7 +9,7 @@ from src.api.user.domain.errors.validate_token_repository_error import (
     ValidateTokenRepositoryError,
     ValidateTokenRepositoryTypeError,
 )
-from src.api.user.domain.repositories import UserRepository
+from src.api.user.domain.repositories.user_repository import UserRepository
 from src.api.user.domain.repositories.validation_token_repository import (
     ValidationTokenRepository,
 )

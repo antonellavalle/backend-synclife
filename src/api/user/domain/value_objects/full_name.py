@@ -1,6 +1,6 @@
 import re
 
-from src.api.user.domain.errors import FullNameError, FullNameTypeError
+from src.api.user.domain.errors.full_name_error import FullNameError, FullNameTypeError
 
 
 class FullName:

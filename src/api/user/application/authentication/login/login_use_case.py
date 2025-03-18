@@ -1,11 +1,14 @@
 from src.api.shared.domain.repositories import SessionRepository
 from src.api.user.application.authentication.login.login_dto import LoginDTO
-from src.api.user.domain.errors import UserValidationError, UserValidationTypeError
+from src.api.user.domain.errors.user_validation_error import (
+    UserValidationError,
+    UserValidationTypeError,
+)
 from src.api.user.domain.repositories.user_repository import UserRepository
 from src.api.user.domain.validators.user_repository_validator import (
     UserRepositoryValidator,
 )
-from src.api.user.domain.value_objects import Email
+from src.api.user.domain.value_objects.email import Email
 
 
 class LoginUseCase:

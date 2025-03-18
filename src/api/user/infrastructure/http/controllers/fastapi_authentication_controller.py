@@ -7,21 +7,35 @@ from src.api.shared.infrastructure.persistence.repositories import (
     DragonflySessionRepository,
     MailHogSMTPEmailSenderRepository,
 )
-from src.api.user.application.authentication import (
-    LoginUseCase,
+from src.api.user.application.authentication.login.login_use_case import LoginUseCase
+from src.api.user.application.authentication.register.register_use_case import (
     RegisterUseCase,
+)
+from src.api.user.application.authentication.verify_account.verify_account_use_case import (  # noqa: E501
     VerifyAccountUseCase,
 )
-from src.api.user.infrastructure.http.dtos import (
+from src.api.user.infrastructure.http.dtos.authentication.login.pydantic_login_request_dto import (  # noqa: E501
     PydanticLoginRequestDTO,
+)
+from src.api.user.infrastructure.http.dtos.authentication.login.pydantic_login_response_dto import (  # noqa: E501
     PydanticLoginResponseDTO,
+)
+from src.api.user.infrastructure.http.dtos.authentication.register.pydantic_register_request_dto import (  # noqa: E501
     PydanticRegisterRequestDTO,
+)
+from src.api.user.infrastructure.http.dtos.authentication.register.pydantic_register_response_dto import (  # noqa: E501
     PydanticRegisterResponseDTO,
+)
+from src.api.user.infrastructure.http.dtos.authentication.verify_account.pydantic_verify_account_request_dto import (  # noqa: E501
     PydanticVerifyAccountRequestDTO,
+)
+from src.api.user.infrastructure.http.dtos.authentication.verify_account.pydantic_verify_account_response_dto import (  # noqa: E501
     PydanticVerifyAccountResponseDTO,
 )
-from src.api.user.infrastructure.persistence.repositories import (
+from src.api.user.infrastructure.persistence.repositories.dragonfly_validation_token_repository import (  # noqa: E501
     DragonflyValidationTokenRepository,
+)
+from src.api.user.infrastructure.persistence.repositories.sqlmodel_user_repository import (  # noqa: E501
     SQLModelUserRepository,
 )
 

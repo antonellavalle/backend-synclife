@@ -1,30 +1,70 @@
 from fastapi import APIRouter, Header
 
-from src.api.user.infrastructure.http.controllers import (
+from src.api.user.infrastructure.http.controllers.fastapi_account_management_controller import (  # noqa: E501
     FastAPIAccountManagementController,
+)
+from src.api.user.infrastructure.http.controllers.fastapi_authentication_controller import (  # noqa: E501
     FastAPIAuthenticationController,
 )
-from src.api.user.infrastructure.http.dtos import (
+from src.api.user.infrastructure.http.dtos.account_management.account_recovery.pydantic_account_recovery_request_dto import (  # noqa: E501
     PydanticAccountRecoveryRequestDTO,
+)
+from src.api.user.infrastructure.http.dtos.account_management.account_recovery.pydantic_account_recovery_response_dto import (  # noqa: E501
     PydanticAccountRecoveryResponseDTO,
+)
+from src.api.user.infrastructure.http.dtos.account_management.change_password.pydantic_change_password_request_dto import (  # noqa: E501
     PydanticChangePasswordRequestDTO,
+)
+from src.api.user.infrastructure.http.dtos.account_management.change_password.pydantic_change_password_response_dto import (  # noqa: E501
     PydanticChangePasswordResponseDTO,
+)
+from src.api.user.infrastructure.http.dtos.account_management.change_personal_information.pydantic_change_personal_information_request_dto import (  # noqa: E501
     PydanticChangePersonalInformationRequestDTO,
+)
+from src.api.user.infrastructure.http.dtos.account_management.change_personal_information.pydantic_change_personal_information_response_dto import (  # noqa: E501
     PydanticChangePersonalInformationResponseDTO,
+)
+from src.api.user.infrastructure.http.dtos.account_management.delete_account.pydantic_delete_account_request_dto import (  # noqa: E501
     PydanticDeleteAccountRequestDTO,
+)
+from src.api.user.infrastructure.http.dtos.account_management.delete_account.pydantic_delete_account_response_dto import (  # noqa: E501
     PydanticDeleteAccountResponseDTO,
-    PydanticLoginRequestDTO,
-    PydanticLoginResponseDTO,
-    PydanticRegisterRequestDTO,
-    PydanticRegisterResponseDTO,
+)
+from src.api.user.infrastructure.http.dtos.account_management.request_account_recovery.pydantic_request_account_recovery_request_dto import (  # noqa: E501
     PydanticRequestAccountRecoveryRequestDTO,
+)
+from src.api.user.infrastructure.http.dtos.account_management.request_account_recovery.pydantic_request_account_recovery_response_dto import (  # noqa: E501
     PydanticRequestAccountRecoveryResponseDTO,
+)
+from src.api.user.infrastructure.http.dtos.account_management.request_change_password.pydantic_request_change_password_request_dto import (  # noqa: E501
     PydanticRequestChangePasswordRequestDTO,
+)
+from src.api.user.infrastructure.http.dtos.account_management.request_change_password.pydantic_request_change_password_response_dto import (  # noqa: E501
     PydanticRequestChangePasswordResponseDTO,
-    PydanticVerifyAccountRequestDTO,
-    PydanticVerifyAccountResponseDTO,
+)
+from src.api.user.infrastructure.http.dtos.account_management.view_account.pydantic_view_account_request_dto import (  # noqa: E501
     PydanticViewAccountRequestDTO,
+)
+from src.api.user.infrastructure.http.dtos.account_management.view_account.pydantic_view_account_response_dto import (  # noqa: E501
     PydanticViewAccountResponseDTO,
+)
+from src.api.user.infrastructure.http.dtos.authentication.login.pydantic_login_request_dto import (  # noqa: E501
+    PydanticLoginRequestDTO,
+)
+from src.api.user.infrastructure.http.dtos.authentication.login.pydantic_login_response_dto import (  # noqa: E501
+    PydanticLoginResponseDTO,
+)
+from src.api.user.infrastructure.http.dtos.authentication.register.pydantic_register_request_dto import (  # noqa: E501
+    PydanticRegisterRequestDTO,
+)
+from src.api.user.infrastructure.http.dtos.authentication.register.pydantic_register_response_dto import (  # noqa: E501
+    PydanticRegisterResponseDTO,
+)
+from src.api.user.infrastructure.http.dtos.authentication.verify_account.pydantic_verify_account_request_dto import (  # noqa: E501
+    PydanticVerifyAccountRequestDTO,
+)
+from src.api.user.infrastructure.http.dtos.authentication.verify_account.pydantic_verify_account_response_dto import (  # noqa: E501
+    PydanticVerifyAccountResponseDTO,
 )
 
 router: APIRouter = APIRouter(prefix="/users", tags=["Users"])

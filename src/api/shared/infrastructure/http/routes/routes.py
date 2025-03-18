@@ -10,7 +10,9 @@ from src.api.reminder.infrastructure.http.routes.fastapi_reminder_routes import 
 from src.api.shared.infrastructure.persistence.repositories import (
     InMemorySessionRepository,
 )
-from src.api.user.infrastructure.http.routes import user_router
+from src.api.user.infrastructure.http.routes.fastapi_user_routes import (
+    router as user_router,
+)
 
 router: APIRouter = APIRouter()
 

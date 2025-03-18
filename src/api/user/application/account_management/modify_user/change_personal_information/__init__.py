@@ -1,4 +1,0 @@
-from .change_personal_information_dto import ChangePersonalInformationDTO
-from .change_personal_information_use_case import ChangePersonalInformationUseCase
-
-__all__ = ["ChangePersonalInformationDTO", "ChangePersonalInformationUseCase"]

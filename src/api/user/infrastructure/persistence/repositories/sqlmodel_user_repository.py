@@ -5,9 +5,9 @@ from sqlmodel import Session, not_, select
 
 from src.api.shared.domain.value_objects import Uuid
 from src.api.shared.infrastructure.persistence import get_db_connection
-from src.api.user.domain.entities import User
-from src.api.user.domain.repositories import UserRepository
-from src.api.user.domain.value_objects import Email
+from src.api.user.domain.entities.user import User
+from src.api.user.domain.repositories.user_repository import UserRepository
+from src.api.user.domain.value_objects.email import Email
 from src.api.user.infrastructure.persistence.models.sqlmodel_user_model import (
     SQLModelUserModel,
 )

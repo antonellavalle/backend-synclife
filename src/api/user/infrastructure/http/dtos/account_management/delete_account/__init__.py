@@ -1,4 +1,0 @@
-from .pydantic_delete_account_request_dto import PydanticDeleteAccountRequestDTO
-from .pydantic_delete_account_response_dto import PydanticDeleteAccountResponseDTO
-
-__all__ = ["PydanticDeleteAccountRequestDTO", "PydanticDeleteAccountResponseDTO"]

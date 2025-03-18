@@ -3,7 +3,7 @@ import re
 import bcrypt
 from zxcvbn import zxcvbn
 
-from src.api.user.domain.errors import PasswordError, PasswordTypeError
+from src.api.user.domain.errors.password_error import PasswordError, PasswordTypeError
 
 
 class Password:

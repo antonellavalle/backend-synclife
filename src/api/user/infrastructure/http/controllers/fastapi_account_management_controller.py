@@ -7,33 +7,73 @@ from src.api.shared.infrastructure.persistence.repositories import (
     DragonflySessionRepository,
     MailHogSMTPEmailSenderRepository,
 )
-from src.api.user.application import (
+from src.api.user.application.account_management.account_recovery.account_recovery_use_case import (  # noqa: E501
     AccountRecoveryUseCase,
-    ChangePasswordUseCase,
-    ChangePersonalInformationUseCase,
+)
+from src.api.user.application.account_management.delete_account.delete_account_use_case import (  # noqa: E501
     DeleteAccountUseCase,
-    RequestAccountRecoveryUseCase,
+)
+from src.api.user.application.account_management.modify_user.change_password.change_password_use_case import (  # noqa: E501
+    ChangePasswordUseCase,
+)
+from src.api.user.application.account_management.modify_user.change_personal_information.change_personal_information_use_case import (  # noqa: E501
+    ChangePersonalInformationUseCase,
+)
+from src.api.user.application.account_management.modify_user.request_change_password.request_change_password_use_case import (  # noqa: E501
     RequestChangePasswordUseCase,
+)
+from src.api.user.application.account_management.request_account_recovery.request_account_recovery_use_case import (  # noqa: E501
+    RequestAccountRecoveryUseCase,
+)
+from src.api.user.application.account_management.view_account.view_account_use_case import (  # noqa: E501
     ViewAccountUseCase,
 )
-from src.api.user.infrastructure.http.dtos import (
+from src.api.user.infrastructure.http.dtos.account_management.account_recovery.pydantic_account_recovery_request_dto import (  # noqa: E501
     PydanticAccountRecoveryRequestDTO,
+)
+from src.api.user.infrastructure.http.dtos.account_management.account_recovery.pydantic_account_recovery_response_dto import (  # noqa: E501
     PydanticAccountRecoveryResponseDTO,
+)
+from src.api.user.infrastructure.http.dtos.account_management.change_password.pydantic_change_password_request_dto import (  # noqa: E501
     PydanticChangePasswordRequestDTO,
+)
+from src.api.user.infrastructure.http.dtos.account_management.change_password.pydantic_change_password_response_dto import (  # noqa: E501
     PydanticChangePasswordResponseDTO,
+)
+from src.api.user.infrastructure.http.dtos.account_management.change_personal_information.pydantic_change_personal_information_request_dto import (  # noqa: E501
     PydanticChangePersonalInformationRequestDTO,
+)
+from src.api.user.infrastructure.http.dtos.account_management.change_personal_information.pydantic_change_personal_information_response_dto import (  # noqa: E501
     PydanticChangePersonalInformationResponseDTO,
+)
+from src.api.user.infrastructure.http.dtos.account_management.delete_account.pydantic_delete_account_request_dto import (  # noqa: E501
     PydanticDeleteAccountRequestDTO,
+)
+from src.api.user.infrastructure.http.dtos.account_management.delete_account.pydantic_delete_account_response_dto import (  # noqa: E501
     PydanticDeleteAccountResponseDTO,
+)
+from src.api.user.infrastructure.http.dtos.account_management.request_account_recovery.pydantic_request_account_recovery_request_dto import (  # noqa: E501
     PydanticRequestAccountRecoveryRequestDTO,
+)
+from src.api.user.infrastructure.http.dtos.account_management.request_account_recovery.pydantic_request_account_recovery_response_dto import (  # noqa: E501
     PydanticRequestAccountRecoveryResponseDTO,
+)
+from src.api.user.infrastructure.http.dtos.account_management.request_change_password.pydantic_request_change_password_request_dto import (  # noqa: E501
     PydanticRequestChangePasswordRequestDTO,
+)
+from src.api.user.infrastructure.http.dtos.account_management.request_change_password.pydantic_request_change_password_response_dto import (  # noqa: E501
     PydanticRequestChangePasswordResponseDTO,
+)
+from src.api.user.infrastructure.http.dtos.account_management.view_account.pydantic_view_account_request_dto import (  # noqa: E501
     PydanticViewAccountRequestDTO,
+)
+from src.api.user.infrastructure.http.dtos.account_management.view_account.pydantic_view_account_response_dto import (  # noqa: E501
     PydanticViewAccountResponseDTO,
 )
-from src.api.user.infrastructure.persistence.repositories import (
+from src.api.user.infrastructure.persistence.repositories.dragonfly_validation_token_repository import (  # noqa: E501
     DragonflyValidationTokenRepository,
+)
+from src.api.user.infrastructure.persistence.repositories.sqlmodel_user_repository import (  # noqa: E501
     SQLModelUserRepository,
 )
 

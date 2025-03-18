@@ -4,13 +4,18 @@ from src.api.shared.domain.value_objects.uuid import Uuid
 from src.api.user.application.account_management.modify_user.change_personal_information.change_personal_information_dto import (  # noqa: E501
     ChangePersonalInformationDTO,
 )
-from src.api.user.domain.entities import User
-from src.api.user.domain.errors import UserRepositoryError, UserRepositoryTypeError
-from src.api.user.domain.repositories import UserRepository
+from src.api.user.domain.entities.user import User
+from src.api.user.domain.errors.user_repository_error import (
+    UserRepositoryError,
+    UserRepositoryTypeError,
+)
+from src.api.user.domain.repositories.user_repository import UserRepository
 from src.api.user.domain.validators.user_repository_validator import (
     UserRepositoryValidator,
 )
-from src.api.user.domain.value_objects import Email, FullName, Phone
+from src.api.user.domain.value_objects.email import Email
+from src.api.user.domain.value_objects.full_name import FullName
+from src.api.user.domain.value_objects.phone import Phone
 
 
 class ChangePersonalInformationUseCase:

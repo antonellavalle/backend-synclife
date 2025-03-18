@@ -1,4 +1,0 @@
-from .pydantic_change_password_request_dto import PydanticChangePasswordRequestDTO
-from .pydantic_change_password_response_dto import PydanticChangePasswordResponseDTO
-
-__all__ = ["PydanticChangePasswordRequestDTO", "PydanticChangePasswordResponseDTO"]

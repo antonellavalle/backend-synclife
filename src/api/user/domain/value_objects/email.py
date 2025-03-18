@@ -1,6 +1,6 @@
 import re
 
-from src.api.user.domain.errors import EmailError, EmailTypeError
+from src.api.user.domain.errors.email_error import EmailError, EmailTypeError
 
 
 class Email:

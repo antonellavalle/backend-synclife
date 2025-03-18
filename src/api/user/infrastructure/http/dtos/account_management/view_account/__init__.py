@@ -1,4 +1,0 @@
-from .pydantic_view_account_request_dto import PydanticViewAccountRequestDTO
-from .pydantic_view_account_response_dto import PydanticViewAccountResponseDTO
-
-__all__ = ["PydanticViewAccountRequestDTO", "PydanticViewAccountResponseDTO"]

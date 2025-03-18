@@ -4,8 +4,11 @@ from src.api.shared.domain.value_objects import Uuid
 from src.api.user.application.account_management.delete_account.delete_account_dto import (  # noqa: E501
     DeleteAccountDTO,
 )
-from src.api.user.domain.errors import UserRepositoryError, UserRepositoryTypeError
-from src.api.user.domain.repositories import UserRepository
+from src.api.user.domain.errors.user_repository_error import (
+    UserRepositoryError,
+    UserRepositoryTypeError,
+)
+from src.api.user.domain.repositories.user_repository import UserRepository
 from src.api.user.domain.validators.user_repository_validator import (
     UserRepositoryValidator,
 )

@@ -1,6 +1,6 @@
 from pydantic import BaseModel, EmailStr
 
-from src.api.user.application.account_management.request_account_recovery import (
+from src.api.user.application.account_management.request_account_recovery.request_account_recovery_dto import (  # noqa: E501
     RequestAccountRecoveryDTO,
 )
 
