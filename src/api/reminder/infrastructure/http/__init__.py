@@ -11,6 +11,7 @@ from .dtos import (
     PydanticViewReminderRequestDTO,
     PydanticViewReminderResponseDTO,
 )
+from .routes import reminder_router
 
 __all__ = [
     "FastAPIReminderController",
@@ -24,4 +25,5 @@ __all__ = [
     "PydanticViewAllRemindersResponseDTO",
     "PydanticViewReminderRequestDTO",
     "PydanticViewReminderResponseDTO",
+    "reminder_router",
 ]

@@ -26,7 +26,6 @@ flake8 = "^7.1.2"
 black = "^25.1.0"
 isort = "^6.0.1"
 vulture = "^2.14"
-pyright = "^1.1.396"
 
 [tool.mypy]
 allow_redefinition = true         # Permite redefinir métodos (útil para @property y @setter)

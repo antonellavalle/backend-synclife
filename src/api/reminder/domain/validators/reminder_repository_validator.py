@@ -15,9 +15,7 @@ class ReminderRepositoryValidator:
         reminder: Optional[Reminder],
     ) -> Reminder:
         if reminder is None:
-            raise ReminderRepositoryError(
-                ReminderRepositoryTypeError.REMINDER_NOT_FOUND
-            )
+            raise ReminderRepositoryError(ReminderRepositoryTypeError.NOT_FOUND)
         return reminder
 
     @staticmethod
@@ -30,6 +28,4 @@ class ReminderRepositoryValidator:
             reminder_repository.find_by_id(reminder_uuid)
         )
         if reminder.user_uuid != user_uuid:
-            raise ReminderRepositoryError(
-                ReminderRepositoryTypeError.REMINDER_NOT_OWNED_BY_USER
-            )
+            raise ReminderRepositoryError(ReminderRepositoryTypeError.NOT_OWNED_BY_USER)

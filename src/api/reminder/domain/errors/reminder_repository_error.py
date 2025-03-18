@@ -5,8 +5,8 @@ from src.api.reminder.domain.errors.reminder_error import ReminderError
 
 
 class ReminderRepositoryTypeError(Enum):
-    REMINDER_NOT_FOUND = {"msg": "El recordatorio no fue encontrado.", "code": 400}
-    REMINDER_NOT_OWNED_BY_USER = {
+    NOT_FOUND = {"msg": "El recordatorio no fue encontrado.", "code": 400}
+    NOT_OWNED_BY_USER = {
         "msg": "Este recordatorio no pertenece al usuario.",
         "code": 400,
     }

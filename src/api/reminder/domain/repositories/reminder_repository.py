@@ -16,7 +16,7 @@ class ReminderRepository(ABC):
 
     @abstractmethod
     def find_all_by_user_id(
-        self, id: Uuid, include_deleted: bool = False
+        self, user_id: Uuid, include_deleted: bool = False
     ) -> List[Reminder]:
         pass
 

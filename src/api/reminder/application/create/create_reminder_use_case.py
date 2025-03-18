@@ -32,11 +32,11 @@ class CreateReminderUseCase:
         reminder = Reminder(
             uuid=Uuid(),
             user_uuid=Uuid(user_request_uuid),
-            is_deleted=False,
             title=dto.title,
             remind_date=dto.remind_date,
             created_at=datetime.now(),
             updated_at=None,
+            is_deleted=False,
         )
 
         is_saved, reminder_saved = self.__reminder_repository.save(reminder)

@@ -1,5 +1,4 @@
 from src.api.reminder.application.delete.delete_reminder_dto import DeleteReminderDTO
-from src.api.reminder.domain.entities import Reminder
 from src.api.reminder.domain.errors.reminder_repository_error import (
     ReminderRepositoryError,
     ReminderRepositoryTypeError,
@@ -24,7 +23,7 @@ class DeleteReminderUseCase:
         self.__reminder_repository = reminder_repository
         self.__session_repository = session_repository
 
-    def execute(self, dto: DeleteReminderDTO) -> Reminder:
+    def execute(self, dto: DeleteReminderDTO) -> None:
         user_request_uuid = SessionRepositoryValidator.validate_session_token(
             session_repository=self.__session_repository,
             session_token=dto.session_token,
@@ -44,5 +43,3 @@ class DeleteReminderUseCase:
         is_deleted, reminder_deleted = self.__reminder_repository.delete(reminder)
         if not is_deleted or reminder_deleted is None:
             raise ReminderRepositoryError(ReminderRepositoryTypeError.OPERATION_FAILED)
-
-        return reminder_deleted
