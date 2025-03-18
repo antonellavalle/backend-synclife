@@ -1,6 +1,6 @@
 from .controllers import (
-    FastApiAccountManagementController,
-    FastApiAuthenticationController,
+    FastAPIAccountManagementController,
+    FastAPIAuthenticationController,
 )
 from .dtos import (
     PydanticChangePasswordRequestDTO,
@@ -23,8 +23,8 @@ from .dtos import (
 from .routes import user_router
 
 __all__ = [
-    "FastApiAccountManagementController",
-    "FastApiAuthenticationController",
+    "FastAPIAccountManagementController",
+    "FastAPIAuthenticationController",
     "PydanticChangePasswordRequestDTO",
     "PydanticChangePasswordResponseDTO",
     "PydanticChangePersonalInformationRequestDTO",

@@ -42,8 +42,8 @@ from .domain import (
 )
 from .infrastructure import (
     DragonflyValidationTokenRepository,
-    FastApiAccountManagementController,
-    FastApiAuthenticationController,
+    FastAPIAccountManagementController,
+    FastAPIAuthenticationController,
     PydanticChangePasswordRequestDTO,
     PydanticChangePasswordResponseDTO,
     PydanticChangePersonalInformationRequestDTO,
@@ -103,8 +103,8 @@ __all__ = [
     "Phone",
     "ValidateTokenRepositoryError",
     "ValidateTokenRepositoryTypeError",
-    "FastApiAccountManagementController",
-    "FastApiAuthenticationController",
+    "FastAPIAccountManagementController",
+    "FastAPIAuthenticationController",
     "PydanticChangePasswordRequestDTO",
     "PydanticChangePasswordResponseDTO",
     "PydanticChangePersonalInformationRequestDTO",

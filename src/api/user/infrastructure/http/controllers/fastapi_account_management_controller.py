@@ -38,7 +38,7 @@ from src.api.user.infrastructure.persistence.repositories import (
 )
 
 
-class FastApiAccountManagementController:
+class FastAPIAccountManagementController:
     @staticmethod
     @handle_exceptions
     async def view_account(

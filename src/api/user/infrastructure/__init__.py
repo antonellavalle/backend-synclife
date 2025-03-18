@@ -1,6 +1,6 @@
 from .http import (
-    FastApiAccountManagementController,
-    FastApiAuthenticationController,
+    FastAPIAccountManagementController,
+    FastAPIAuthenticationController,
     PydanticChangePasswordRequestDTO,
     PydanticChangePasswordResponseDTO,
     PydanticChangePersonalInformationRequestDTO,
@@ -25,8 +25,8 @@ from .persistence import (
 )
 
 __all__ = [
-    "FastApiAccountManagementController",
-    "FastApiAuthenticationController",
+    "FastAPIAccountManagementController",
+    "FastAPIAuthenticationController",
     "PydanticChangePasswordRequestDTO",
     "PydanticChangePasswordResponseDTO",
     "PydanticChangePersonalInformationRequestDTO",

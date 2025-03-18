@@ -32,7 +32,7 @@ from src.api.user.infrastructure.persistence.repositories.sqlmodel_user_reposito
 )
 
 
-class FastApiInventoryController:
+class FastAPIInventoryController:
     @staticmethod
     @handle_exceptions
     async def create(

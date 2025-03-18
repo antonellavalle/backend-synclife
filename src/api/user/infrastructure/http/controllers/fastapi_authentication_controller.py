@@ -26,7 +26,7 @@ from src.api.user.infrastructure.persistence.repositories import (
 )
 
 
-class FastApiAuthenticationController:
+class FastAPIAuthenticationController:
     @staticmethod
     @handle_exceptions
     async def register(

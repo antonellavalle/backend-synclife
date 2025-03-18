@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Header
 
 from src.api.user.infrastructure.http.controllers import (
-    FastApiAccountManagementController,
-    FastApiAuthenticationController,
+    FastAPIAccountManagementController,
+    FastAPIAuthenticationController,
 )
 from src.api.user.infrastructure.http.dtos import (
     PydanticAccountRecoveryRequestDTO,
@@ -37,7 +37,7 @@ router: APIRouter = APIRouter(prefix="/users", tags=["Users"])
 async def register(
     request_dto: PydanticRegisterRequestDTO,
 ) -> PydanticRegisterResponseDTO:
-    return await FastApiAuthenticationController.register(request_dto)
+    return await FastAPIAuthenticationController.register(request_dto)
 
 
 @router.get(
@@ -47,7 +47,7 @@ async def register(
 async def verify_account(
     request_dto: PydanticVerifyAccountRequestDTO, validate_token: str
 ) -> PydanticVerifyAccountResponseDTO:
-    return await FastApiAuthenticationController.verify_account(
+    return await FastAPIAuthenticationController.verify_account(
         request_dto, validate_token
     )
 
@@ -57,7 +57,7 @@ async def verify_account(
     response_model=PydanticLoginResponseDTO,
 )
 async def login(request_dto: PydanticLoginRequestDTO) -> PydanticLoginResponseDTO:
-    return await FastApiAuthenticationController.login(request_dto)
+    return await FastAPIAuthenticationController.login(request_dto)
 
 
 @router.get(
@@ -67,7 +67,7 @@ async def login(request_dto: PydanticLoginRequestDTO) -> PydanticLoginResponseDT
 async def view_account(
     request_dto: PydanticViewAccountRequestDTO, session_token: str = Header(...)
 ) -> PydanticViewAccountResponseDTO:
-    return await FastApiAccountManagementController.view_account(
+    return await FastAPIAccountManagementController.view_account(
         request_dto, session_token
     )
 
@@ -79,7 +79,7 @@ async def view_account(
 async def delete_account(
     request_dto: PydanticDeleteAccountRequestDTO, session_token: str = Header(...)
 ) -> PydanticDeleteAccountResponseDTO:
-    return await FastApiAccountManagementController.delete_account(
+    return await FastAPIAccountManagementController.delete_account(
         request_dto, session_token
     )
 
@@ -91,7 +91,7 @@ async def delete_account(
 async def request_change_password(
     request_dto: PydanticRequestChangePasswordRequestDTO,
 ) -> PydanticRequestChangePasswordResponseDTO:
-    return await FastApiAccountManagementController.request_change_password(request_dto)
+    return await FastAPIAccountManagementController.request_change_password(request_dto)
 
 
 @router.patch(
@@ -101,7 +101,7 @@ async def request_change_password(
 async def change_password(
     request_dto: PydanticChangePasswordRequestDTO, validate_token: str
 ) -> PydanticChangePasswordResponseDTO:
-    return await FastApiAccountManagementController.change_password(
+    return await FastAPIAccountManagementController.change_password(
         request_dto, validate_token
     )
 
@@ -114,7 +114,7 @@ async def change_personal_information(
     request_dto: PydanticChangePersonalInformationRequestDTO,
     session_token: str = Header(...),
 ) -> PydanticChangePersonalInformationResponseDTO:
-    return await FastApiAccountManagementController.change_personal_information(
+    return await FastAPIAccountManagementController.change_personal_information(
         request_dto, session_token
     )
 
@@ -126,7 +126,7 @@ async def change_personal_information(
 async def request_account_recovery(
     request_dto: PydanticRequestAccountRecoveryRequestDTO,
 ) -> PydanticRequestAccountRecoveryResponseDTO:
-    return await FastApiAccountManagementController.request_account_recovery(
+    return await FastAPIAccountManagementController.request_account_recovery(
         request_dto
     )
 
@@ -138,6 +138,6 @@ async def request_account_recovery(
 async def account_recovery(
     request_dto: PydanticAccountRecoveryRequestDTO, validate_token: str
 ) -> PydanticAccountRecoveryResponseDTO:
-    return await FastApiAccountManagementController.account_recovery(
+    return await FastAPIAccountManagementController.account_recovery(
         request_dto, validate_token
     )
