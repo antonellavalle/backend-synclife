@@ -1,3 +1,7 @@
+from .account_recovery import (
+    PydanticAccountRecoveryRequestDTO,
+    PydanticAccountRecoveryResponseDTO,
+)
 from .change_password import (
     PydanticChangePasswordRequestDTO,
     PydanticChangePasswordResponseDTO,
@@ -9,6 +13,10 @@ from .change_personal_information import (
 from .delete_account import (
     PydanticDeleteAccountRequestDTO,
     PydanticDeleteAccountResponseDTO,
+)
+from .request_account_recovery import (
+    PydanticRequestAccountRecoveryRequestDTO,
+    PydanticRequestAccountRecoveryResponseDTO,
 )
 from .request_change_password import (
     PydanticRequestChangePasswordRequestDTO,
@@ -27,4 +35,8 @@ __all__ = [
     "PydanticChangePersonalInformationResponseDTO",
     "PydanticRequestChangePasswordRequestDTO",
     "PydanticRequestChangePasswordResponseDTO",
+    "PydanticAccountRecoveryRequestDTO",
+    "PydanticAccountRecoveryResponseDTO",
+    "PydanticRequestAccountRecoveryRequestDTO",
+    "PydanticRequestAccountRecoveryResponseDTO",
 ]

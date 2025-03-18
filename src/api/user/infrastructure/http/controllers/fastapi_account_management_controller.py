@@ -1,27 +1,32 @@
 import os
 
 from dotenv import load_dotenv
-from fastapi import APIRouter, Header
 
 from src.api.shared.infrastructure.http.decorators import handle_exceptions
 from src.api.shared.infrastructure.persistence.repositories import (
-    InMemorySessionRepository,
+    DragonflySessionRepository,
     MailHogSMTPEmailSenderRepository,
 )
 from src.api.user.application import (
+    AccountRecoveryUseCase,
     ChangePasswordUseCase,
     ChangePersonalInformationUseCase,
     DeleteAccountUseCase,
+    RequestAccountRecoveryUseCase,
     RequestChangePasswordUseCase,
     ViewAccountUseCase,
 )
 from src.api.user.infrastructure.http.dtos import (
+    PydanticAccountRecoveryRequestDTO,
+    PydanticAccountRecoveryResponseDTO,
     PydanticChangePasswordRequestDTO,
     PydanticChangePasswordResponseDTO,
     PydanticChangePersonalInformationRequestDTO,
     PydanticChangePersonalInformationResponseDTO,
     PydanticDeleteAccountRequestDTO,
     PydanticDeleteAccountResponseDTO,
+    PydanticRequestAccountRecoveryRequestDTO,
+    PydanticRequestAccountRecoveryResponseDTO,
     PydanticRequestChangePasswordRequestDTO,
     PydanticRequestChangePasswordResponseDTO,
     PydanticViewAccountRequestDTO,
@@ -34,25 +39,13 @@ from src.api.user.infrastructure.persistence.repositories import (
 
 
 class FastApiAccountManagementController:
-    __router: APIRouter = APIRouter(prefix="/users", tags=["Users"])
-
-    @classmethod
-    def router(cls) -> APIRouter:
-        return cls.__router
-
     @staticmethod
-    @__router.get(
-        "/",
-        name="View Account",
-        description="Retrieve user account details.",
-        response_model=PydanticViewAccountResponseDTO,
-    )
     @handle_exceptions
     async def view_account(
-        request_dto: PydanticViewAccountRequestDTO, session_token: str = Header(...)
+        request_dto: PydanticViewAccountRequestDTO, session_token: str
     ) -> PydanticViewAccountResponseDTO:
         user_repository = SQLModelUserRepository.get_repository()
-        session_repository = InMemorySessionRepository.get_repository()
+        session_repository = DragonflySessionRepository.get_repository()
 
         use_case = ViewAccountUseCase(user_repository, session_repository)
         app_dto = request_dto.to_application(session_token)
@@ -66,18 +59,12 @@ class FastApiAccountManagementController:
         )
 
     @staticmethod
-    @__router.delete(
-        "/",
-        name="Delete Account",
-        description="Delete user account permanently.",
-        response_model=PydanticDeleteAccountResponseDTO,
-    )
     @handle_exceptions
     async def delete_account(
-        request_dto: PydanticDeleteAccountRequestDTO, session_token: str = Header(...)
+        request_dto: PydanticDeleteAccountRequestDTO, session_token: str
     ) -> PydanticDeleteAccountResponseDTO:
         user_repository = SQLModelUserRepository.get_repository()
-        session_repository = InMemorySessionRepository.get_repository()
+        session_repository = DragonflySessionRepository.get_repository()
 
         use_case = DeleteAccountUseCase(user_repository, session_repository)
         app_dto = request_dto.to_application(session_token)
@@ -88,12 +75,6 @@ class FastApiAccountManagementController:
         )
 
     @staticmethod
-    @__router.post(
-        "/request-change-password",
-        name="Request Change Password",
-        description="Request a password reset link.",
-        response_model=PydanticRequestChangePasswordResponseDTO,
-    )
     @handle_exceptions
     async def request_change_password(
         request_dto: PydanticRequestChangePasswordRequestDTO,
@@ -110,6 +91,7 @@ class FastApiAccountManagementController:
             smtp_email_sender_repository=smtp_email_sender_repository,
         )
 
+        # TODO: hay que cambiar esto para que despues sea la url del front
         load_dotenv()
         base_url = str(os.getenv("URL_BASE"))
         url = base_url + "/api/users/change-password"
@@ -122,12 +104,6 @@ class FastApiAccountManagementController:
         )
 
     @staticmethod
-    @__router.patch(
-        "/{validate_token}",
-        description="Change user password using a validation token.",
-        name="Change Password",
-        response_model=PydanticChangePasswordResponseDTO,
-    )
     @handle_exceptions
     async def change_password(
         request_dto: PydanticChangePasswordRequestDTO, validate_token: str
@@ -149,19 +125,13 @@ class FastApiAccountManagementController:
         )
 
     @staticmethod
-    @__router.put(
-        "/",
-        description="Update user's personal information.",
-        name="Change Personal Information",
-        response_model=PydanticChangePersonalInformationResponseDTO,
-    )
     @handle_exceptions
     async def change_personal_information(
         request_dto: PydanticChangePersonalInformationRequestDTO,
-        session_token: str = Header(...),
+        session_token: str,
     ) -> PydanticChangePersonalInformationResponseDTO:
         user_repository = SQLModelUserRepository.get_repository()
-        session_repository = InMemorySessionRepository.get_repository()
+        session_repository = DragonflySessionRepository.get_repository()
 
         use_case = ChangePersonalInformationUseCase(user_repository, session_repository)
 
@@ -173,4 +143,55 @@ class FastApiAccountManagementController:
             birth_date=user.birth_date,
             full_name=user.full_name.get_full_name(),
             phone=str(user.phone),
+        )
+
+    @staticmethod
+    @handle_exceptions
+    async def request_account_recovery(
+        request_dto: PydanticRequestAccountRecoveryRequestDTO,
+    ) -> PydanticRequestAccountRecoveryResponseDTO:
+        user_repository = SQLModelUserRepository.get_repository()
+        validation_token_repository = (
+            DragonflyValidationTokenRepository.get_repository()
+        )
+        smtp_email_sender_repository = MailHogSMTPEmailSenderRepository.get_repository()
+
+        use_case = RequestAccountRecoveryUseCase(
+            user_repository=user_repository,
+            validation_token_repository=validation_token_repository,
+            smtp_email_sender_repository=smtp_email_sender_repository,
+        )
+
+        # TODO: hay que cambiar esto para que despues sea la url del front
+        load_dotenv()
+        base_url = str(os.getenv("URL_BASE"))
+        url = base_url + "/api/users/account-recovery"
+
+        app_dto = request_dto.to_application(url=url)
+        use_case.execute(app_dto)
+
+        return PydanticRequestAccountRecoveryResponseDTO(
+            msg="The confirmation email was sent correctly."
+        )
+
+    @staticmethod
+    @handle_exceptions
+    async def account_recovery(
+        request_dto: PydanticAccountRecoveryRequestDTO, validate_token: str
+    ) -> PydanticAccountRecoveryResponseDTO:
+        user_repository = SQLModelUserRepository.get_repository()
+        validation_token_repository = (
+            DragonflyValidationTokenRepository.get_repository()
+        )
+
+        use_case = AccountRecoveryUseCase(
+            user_repository=user_repository,
+            validation_token_repository=validation_token_repository,
+        )
+
+        app_dto = request_dto.to_application(validate_token=validate_token)
+        use_case.execute(app_dto)
+
+        return PydanticAccountRecoveryResponseDTO(
+            msg="The account was successfully recovered."
         )

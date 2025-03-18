@@ -25,8 +25,10 @@ class DragonflySessionRepository(SessionRepository):
         return session_token
 
     def get_user_from_session(self, session_token: str) -> Optional[str]:
-        user = str(self.__client.get(session_token))
-        return user if user else None
+        user = self.__client.get(session_token)
+        if user is not None:
+            return str(user)
+        return None
 
     def delete_session(self, session_token: str) -> None:
         self.__client.delete(session_token)

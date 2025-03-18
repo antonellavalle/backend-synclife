@@ -33,7 +33,7 @@ class SQLModelUserRepository(UserRepository):
 
     def find_by_id(self, id: Uuid, include_deleted: bool = False) -> Optional[User]:
         query = (
-            select(SQLModelUserModel).where(SQLModelUserModel.id == id)
+            select(SQLModelUserModel).where(SQLModelUserModel.id == str(id))
             if include_deleted
             else (
                 select(SQLModelUserModel)
@@ -83,6 +83,7 @@ class SQLModelUserRepository(UserRepository):
             "account_verified": user.account_verified,
             "birth_date": user.birth_date,
             "phone": user.phone.phone,
+            "is_deleted": user.is_deleted,
         }
         for field, value in updates.items():
             if getattr(db_user, field) != value:

@@ -1,10 +1,14 @@
 from .account_management import (
+    PydanticAccountRecoveryRequestDTO,
+    PydanticAccountRecoveryResponseDTO,
     PydanticChangePasswordRequestDTO,
     PydanticChangePasswordResponseDTO,
     PydanticChangePersonalInformationRequestDTO,
     PydanticChangePersonalInformationResponseDTO,
     PydanticDeleteAccountRequestDTO,
     PydanticDeleteAccountResponseDTO,
+    PydanticRequestAccountRecoveryRequestDTO,
+    PydanticRequestAccountRecoveryResponseDTO,
     PydanticRequestChangePasswordRequestDTO,
     PydanticRequestChangePasswordResponseDTO,
     PydanticViewAccountRequestDTO,
@@ -36,4 +40,8 @@ __all__ = [
     "PydanticVerifyAccountResponseDTO",
     "PydanticRequestChangePasswordRequestDTO",
     "PydanticRequestChangePasswordResponseDTO",
+    "PydanticAccountRecoveryResponseDTO",
+    "PydanticAccountRecoveryRequestDTO",
+    "PydanticRequestAccountRecoveryRequestDTO",
+    "PydanticRequestAccountRecoveryResponseDTO",
 ]

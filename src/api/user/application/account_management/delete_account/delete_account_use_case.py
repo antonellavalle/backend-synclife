@@ -20,7 +20,8 @@ class DeleteAccountUseCase:
 
     def execute(self, dto: DeleteAccountDTO) -> None:
         user_request_uuid = SessionRepositoryValidator.validate_session_token(
-            self.__session_repository, dto.session_token
+            session_repository=self.__session_repository,
+            session_token=dto.session_token,
         )
 
         user = UserRepositoryValidator.user_found(

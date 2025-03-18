@@ -1,10 +1,14 @@
 from .account_management import (
+    AccountRecoveryDTO,
+    AccountRecoveryUseCase,
     ChangePasswordDTO,
     ChangePasswordUseCase,
     ChangePersonalInformationDTO,
     ChangePersonalInformationUseCase,
     DeleteAccountDTO,
     DeleteAccountUseCase,
+    RequestAccountRecoveryDTO,
+    RequestAccountRecoveryUseCase,
     RequestChangePasswordDTO,
     RequestChangePasswordUseCase,
     ViewAccountDTO,
@@ -36,4 +40,8 @@ __all__ = [
     "RegisterUseCase",
     "VerifyAccountDTO",
     "VerifyAccountUseCase",
+    "RequestAccountRecoveryUseCase",
+    "AccountRecoveryDTO",
+    "AccountRecoveryUseCase",
+    "RequestAccountRecoveryDTO",
 ]

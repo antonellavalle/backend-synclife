@@ -20,6 +20,7 @@ from .dtos import (
     PydanticViewAccountRequestDTO,
     PydanticViewAccountResponseDTO,
 )
+from .routes import user_router
 
 __all__ = [
     "FastApiAccountManagementController",
@@ -40,4 +41,5 @@ __all__ = [
     "PydanticRegisterResponseDTO",
     "PydanticVerifyAccountRequestDTO",
     "PydanticVerifyAccountResponseDTO",
+    "user_router",
 ]

@@ -1,7 +1,6 @@
 import os
 
 from dotenv import load_dotenv
-from fastapi import APIRouter
 
 from src.api.shared.infrastructure.http.decorators import handle_exceptions
 from src.api.shared.infrastructure.persistence.repositories import (
@@ -28,19 +27,7 @@ from src.api.user.infrastructure.persistence.repositories import (
 
 
 class FastApiAuthenticationController:
-    __router: APIRouter = APIRouter(prefix="/users", tags=["Users"])
-
-    @classmethod
-    def router(cls) -> APIRouter:
-        return cls.__router
-
     @staticmethod
-    @__router.post(
-        "/register",
-        name="Register",
-        description="Register a new user by providing required details.",
-        response_model=PydanticRegisterResponseDTO,
-    )
     @handle_exceptions
     async def register(
         request_dto: PydanticRegisterRequestDTO,
@@ -53,6 +40,7 @@ class FastApiAuthenticationController:
             user_repository, smtp_email_sender_repository, user_validation_repository
         )
 
+        # TODO: hay que cambiar esto para que despues sea la url del front
         load_dotenv()
         base_url = str(os.getenv("URL_BASE"))
         url = base_url + "/api/users"
@@ -65,12 +53,6 @@ class FastApiAuthenticationController:
         )
 
     @staticmethod
-    @__router.get(
-        "/{validate_token}",
-        name="Verify Account",
-        description="Verify a user's account using a token.",
-        response_model=PydanticVerifyAccountResponseDTO,
-    )
     @handle_exceptions
     async def verify_account(
         request_dto: PydanticVerifyAccountRequestDTO, validate_token: str
@@ -88,12 +70,6 @@ class FastApiAuthenticationController:
         return PydanticVerifyAccountResponseDTO(session_token=session_token)
 
     @staticmethod
-    @__router.post(
-        "/login",
-        name="Login",
-        description="Authenticate a user with email and password.",
-        response_model=PydanticLoginResponseDTO,
-    )
     @handle_exceptions
     async def login(request_dto: PydanticLoginRequestDTO) -> PydanticLoginResponseDTO:
         user_repository = SQLModelUserRepository.get_repository()
