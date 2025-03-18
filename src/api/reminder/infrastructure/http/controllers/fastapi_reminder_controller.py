@@ -1,26 +1,53 @@
-from src.api.reminder.application import (
+from src.api.reminder.application.create.create_reminder_use_case import (
     CreateReminderUseCase,
-    DeleteReminderUseCase,
-    UpdateReminderUseCase,
-    ViewAllRemindersUseCase,
-    ViewReminderUseCase,
 )
-from src.api.reminder.infrastructure.http.dtos import (
+from src.api.reminder.application.delete.delete_reminder_use_case import (
+    DeleteReminderUseCase,
+)
+from src.api.reminder.application.update.update_reminder_use_case import (
+    UpdateReminderUseCase,
+)
+from src.api.reminder.application.view.view_reminder_use_case import ViewReminderUseCase
+from src.api.reminder.application.view_all.view_all_reminders_use_case import (
+    ViewAllRemindersUseCase,
+)
+from src.api.reminder.infrastructure.http.dtos.create.pydantic_create_reminder_request_dto import (  # noqa: E501
     PydanticCreateReminderRequestDTO,
+)
+from src.api.reminder.infrastructure.http.dtos.create.pydantic_create_reminder_response_dto import (  # noqa: E501
     PydanticCreateReminderResponseDTO,
+)
+from src.api.reminder.infrastructure.http.dtos.delete.pydantic_delete_reminder_request_dto import (  # noqa: E501
     PydanticDeleteReminderRequestDTO,
+)
+from src.api.reminder.infrastructure.http.dtos.delete.pydantic_delete_reminder_response_dto import (  # noqa: E501
     PydanticDeleteReminderResponseDTO,
+)
+from src.api.reminder.infrastructure.http.dtos.update.pydantic_update_reminder_request_dto import (  # noqa: E501
     PydanticUpdateReminderRequestDTO,
+)
+from src.api.reminder.infrastructure.http.dtos.update.pydantic_update_reminder_response_dto import (  # noqa: E501
     PydanticUpdateReminderResponseDTO,
-    PydanticViewAllRemindersRequestDTO,
-    PydanticViewAllRemindersResponseDTO,
+)
+from src.api.reminder.infrastructure.http.dtos.view.pydantic_view_reminder_request_dto import (  # noqa: E501
     PydanticViewReminderRequestDTO,
+)
+from src.api.reminder.infrastructure.http.dtos.view.pydantic_view_reminder_response_dto import (  # noqa: E501
     PydanticViewReminderResponseDTO,
 )
-from src.api.reminder.infrastructure.persistence.repositories import (
+from src.api.reminder.infrastructure.http.dtos.view_all.pydantic_view_all_reminders_request_dto import (  # noqa: E501
+    PydanticViewAllRemindersRequestDTO,
+)
+from src.api.reminder.infrastructure.http.dtos.view_all.pydantic_view_all_reminders_response_dto import (  # noqa: E501
+    PydanticViewAllRemindersResponseDTO,
+    ReminderResponseType,
+)
+from src.api.reminder.infrastructure.persistence.repositories.sqlmodel_reminder_repository import (  # noqa: E501
     SQLModelReminderRepository,
 )
-from src.api.shared.infrastructure.http.decorators import handle_exceptions
+from src.api.shared.infrastructure.http.decorators.handle_exceptions import (
+    handle_exceptions,
+)
 from src.api.shared.infrastructure.persistence.repositories import (
     DragonflySessionRepository,
 )
@@ -129,13 +156,13 @@ class FastAPIReminderController:
         )
         reminder_items = use_case.execute(dto)
 
-        response_reminders_items = []
-        for reminder_item in reminder_items:
-            reminder = {
-                "uuid": str(reminder_item.uuid),
-                "title": reminder_item.title,
-                "remind_date": reminder_item.remind_date,
-            }
-            response_reminders_items.append(reminder)
+        response_reminders_items = [
+            ReminderResponseType(
+                uuid=str(reminder_item.uuid),
+                title=reminder_item.title,
+                remind_date=reminder_item.remind_date,
+            )
+            for reminder_item in reminder_items
+        ]
 
         return PydanticViewAllRemindersResponseDTO(items=response_reminders_items)

@@ -3,9 +3,11 @@ from typing import List, Optional, Tuple
 
 from sqlmodel import Session, not_, select
 
-from src.api.reminder.domain.entities import Reminder
-from src.api.reminder.domain.repositories import ReminderRepository
-from src.api.reminder.infrastructure.persistence.models import SQLModelReminderModel
+from src.api.reminder.domain.entities.reminder import Reminder
+from src.api.reminder.domain.repositories.reminder_repository import ReminderRepository
+from src.api.reminder.infrastructure.persistence.models.sqlmodel_reminder_model import (
+    SQLModelReminderModel,
+)
 from src.api.shared.domain.value_objects import Uuid
 from src.api.shared.infrastructure.persistence import get_db_connection
 

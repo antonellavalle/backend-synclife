@@ -1,10 +1,10 @@
 from src.api.reminder.application.update.update_reminder_dto import UpdateReminderDTO
-from src.api.reminder.domain.entities import Reminder
-from src.api.reminder.domain.errors import (
+from src.api.reminder.domain.entities.reminder import Reminder
+from src.api.reminder.domain.errors.reminder_repository_error import (
     ReminderRepositoryError,
     ReminderRepositoryTypeError,
 )
-from src.api.reminder.domain.repositories import ReminderRepository
+from src.api.reminder.domain.repositories.reminder_repository import ReminderRepository
 from src.api.reminder.domain.validators.reminder_repository_validator import (
     ReminderRepositoryValidator,
 )

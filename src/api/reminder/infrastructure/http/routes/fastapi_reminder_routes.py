@@ -1,17 +1,31 @@
 from fastapi import APIRouter, Header
 
-from src.api.reminder.infrastructure.http.controllers import (
+from src.api.reminder.infrastructure.http.controllers.fastapi_reminder_controller import (  # noqa: E501
     FastAPIReminderController,
 )
-from src.api.reminder.infrastructure.http.dtos import (
+from src.api.reminder.infrastructure.http.dtos.create.pydantic_create_reminder_request_dto import (  # noqa: E501
     PydanticCreateReminderRequestDTO,
+)
+from src.api.reminder.infrastructure.http.dtos.create.pydantic_create_reminder_response_dto import (  # noqa: E501
     PydanticCreateReminderResponseDTO,
+)
+from src.api.reminder.infrastructure.http.dtos.delete.pydantic_delete_reminder_request_dto import (  # noqa: E501
     PydanticDeleteReminderRequestDTO,
+)
+from src.api.reminder.infrastructure.http.dtos.delete.pydantic_delete_reminder_response_dto import (  # noqa: E501
     PydanticDeleteReminderResponseDTO,
+)
+from src.api.reminder.infrastructure.http.dtos.update.pydantic_update_reminder_request_dto import (  # noqa: E501
     PydanticUpdateReminderRequestDTO,
+)
+from src.api.reminder.infrastructure.http.dtos.update.pydantic_update_reminder_response_dto import (  # noqa: E501
     PydanticUpdateReminderResponseDTO,
-    PydanticViewAllRemindersResponseDTO,
+)
+from src.api.reminder.infrastructure.http.dtos.view.pydantic_view_reminder_response_dto import (  # noqa: E501
     PydanticViewReminderResponseDTO,
+)
+from src.api.reminder.infrastructure.http.dtos.view_all.pydantic_view_all_reminders_response_dto import (  # noqa: E501
+    PydanticViewAllRemindersResponseDTO,
 )
 
 router: APIRouter = APIRouter(prefix="/reminder", tags=["Reminder"])

@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Optional
 
-from src.api.reminder.domain.errors import (
+from src.api.reminder.domain.errors.reminder_validation_error import (
     ReminderValidationError,
     ReminderValidationTypeError,
 )

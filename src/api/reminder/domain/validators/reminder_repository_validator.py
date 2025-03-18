@@ -1,7 +1,7 @@
 from typing import Optional
 
 from src.api.reminder.domain.entities.reminder import Reminder
-from src.api.reminder.domain.errors import (
+from src.api.reminder.domain.errors.reminder_repository_error import (
     ReminderRepositoryError,
     ReminderRepositoryTypeError,
 )

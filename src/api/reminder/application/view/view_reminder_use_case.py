@@ -1,5 +1,5 @@
 from src.api.reminder.application.view.view_reminder_dto import ViewReminderDTO
-from src.api.reminder.domain.entities import Reminder
+from src.api.reminder.domain.entities.reminder import Reminder
 from src.api.reminder.domain.repositories.reminder_repository import ReminderRepository
 from src.api.reminder.domain.validators.reminder_repository_validator import (
     ReminderRepositoryValidator,

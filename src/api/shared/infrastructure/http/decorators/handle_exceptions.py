@@ -5,7 +5,7 @@ from fastapi import HTTPException
 from src.api.inventory.domain.errors import InventoryItemError
 from src.api.notes.domain.errors.notes import NoteError
 from src.api.notes.domain.errors.tags import TagError
-from src.api.reminder.domain.errors import ReminderValidationError
+from src.api.reminder.domain.errors.reminder_error import ReminderError
 from src.api.shared.domain.errors.shared_error import SharedError
 from src.api.user.domain.errors.user_error import UserError
 
@@ -22,7 +22,7 @@ def handle_exceptions(func: Callable[..., Awaitable[T]]) -> Callable[..., Awaita
             NoteError,
             InventoryItemError,
             TagError,
-            ReminderValidationError,
+            ReminderError,
         ) as e:
             detail = str(e)
             code = int(e.code)

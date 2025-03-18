@@ -2,7 +2,7 @@ from datetime import datetime
 
 from pydantic import BaseModel
 
-from src.api.reminder.application.update import UpdateReminderDTO
+from src.api.reminder.application.update.update_reminder_dto import UpdateReminderDTO
 
 
 class PydanticUpdateReminderRequestDTO(BaseModel):

@@ -1,12 +1,12 @@
 from datetime import datetime
 
 from src.api.reminder.application.create.create_reminder_dto import CreateReminderDTO
-from src.api.reminder.domain.entities import Reminder
-from src.api.reminder.domain.errors import (
+from src.api.reminder.domain.entities.reminder import Reminder
+from src.api.reminder.domain.errors.reminder_repository_error import (
     ReminderRepositoryError,
     ReminderRepositoryTypeError,
 )
-from src.api.reminder.domain.repositories import ReminderRepository
+from src.api.reminder.domain.repositories.reminder_repository import ReminderRepository
 from src.api.shared.domain.repositories.session_repository import SessionRepository
 from src.api.shared.domain.validators.session_repository_validator import (
     SessionRepositoryValidator,

@@ -15,7 +15,9 @@ from src.api.notes.infrastructure.persistence.models.sqlmodel_notes_model import
 from src.api.notes.infrastructure.persistence.models.sqlmodel_tags_model import (
     SQLModelTagsModel,
 )
-from src.api.reminder.infrastructure.persistence.models import SQLModelReminderModel
+from src.api.reminder.infrastructure.persistence.models.sqlmodel_reminder_model import (  # noqa: E501
+    SQLModelReminderModel,
+)
 from src.api.user.infrastructure.persistence.models.sqlmodel_user_model import (  # noqa: E501
     SQLModelUserModel,
 )

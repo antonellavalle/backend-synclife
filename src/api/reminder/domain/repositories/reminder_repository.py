@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import List, Optional, Tuple
 
-from src.api.reminder.domain.entities import Reminder
+from src.api.reminder.domain.entities.reminder import Reminder
 from src.api.shared.domain.value_objects import Uuid
 
 

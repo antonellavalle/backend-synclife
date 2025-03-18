@@ -18,7 +18,7 @@ if TYPE_CHECKING:
     from src.api.notes.infrastructure.persistence.models.sqlmodel_tags_model import (
         SQLModelTagsModel,
     )
-    from src.api.reminder.infrastructure.persistence.models import (  # noqa: E501
+    from src.api.reminder.infrastructure.persistence.models.sqlmodel_reminder_model import (  # noqa: E501
         SQLModelReminderModel,
     )
 

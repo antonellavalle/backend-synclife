@@ -1,4 +1,0 @@
-from .pydantic_update_reminder_request_dto import PydanticUpdateReminderRequestDTO
-from .pydantic_update_reminder_response_dto import PydanticUpdateReminderResponseDTO
-
-__all__ = ["PydanticUpdateReminderRequestDTO", "PydanticUpdateReminderResponseDTO"]

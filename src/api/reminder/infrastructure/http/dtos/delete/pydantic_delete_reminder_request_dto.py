@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-from src.api.reminder.application.delete import DeleteReminderDTO
+from src.api.reminder.application.delete.delete_reminder_dto import DeleteReminderDTO
 
 
 class PydanticDeleteReminderRequestDTO(BaseModel):
