@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "synclife-api"
 version = "0.0.1"
-description = "FastAPI project started"
+description = "API para la logica de SyncLife"
 authors = ["Giuliano Poeta <giuliano.poeta.laboral@gmail.com>"]
 readme = "README.md"
 package-mode = false
@@ -21,11 +21,11 @@ redis = "^5.2.1"
 [tool.poetry.group.dev.dependencies]
 mypy = "^1.15.0"
 types-zxcvbn = "^4.4.1.20240106"
-pdoc = "^15.0.1"
 flake8 = "^7.1.2"
 black = "^25.1.0"
 isort = "^6.0.1"
 vulture = "^2.14"
+sphinx = "^8.2.3"
 
 [tool.mypy]
 allow_redefinition = true         # Permite redefinir métodos (útil para @property y @setter)
