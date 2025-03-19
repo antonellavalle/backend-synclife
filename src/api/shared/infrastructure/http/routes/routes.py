@@ -2,7 +2,9 @@ from typing import Any
 
 from fastapi import APIRouter, Header, HTTPException
 
-from src.api.inventory.infrastructure.http.routes import inventory_router
+from src.api.inventory.infrastructure.http.routes.fastapi_inventory_routes import (
+    router as inventory_router,
+)
 from src.api.notes.infrastructure.http.routes import note_router, tag_router
 from src.api.reminder.infrastructure.http.routes.fastapi_reminder_routes import (
     router as reminder_router,

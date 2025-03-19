@@ -20,6 +20,7 @@ class ReminderRepository(ABC):
     ) -> List[Reminder]:
         pass
 
+    # TODO: ver de arreglar esto, no hace falta la tupla
     @abstractmethod
     def save(self, reminder: Reminder) -> Tuple[bool, Optional[Reminder]]:
         pass

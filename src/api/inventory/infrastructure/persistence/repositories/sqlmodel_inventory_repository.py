@@ -38,11 +38,11 @@ class SQLModelInventoryRepository(InventoryRepository):
         self, id: Uuid, include_deleted: bool = False
     ) -> Optional[Inventory]:
         query = (
-            select(SQLModelInventoryModel).where(SQLModelInventoryModel.id == str(id))
+            select(SQLModelInventoryModel).where(SQLModelInventoryModel.uuid == str(id))
             if include_deleted
             else (
                 select(SQLModelInventoryModel)
-                .where(SQLModelInventoryModel.id == str(id))
+                .where(SQLModelInventoryModel.uuid == str(id))
                 .where(not_(SQLModelInventoryModel.is_deleted))
             )
         )
@@ -50,10 +50,10 @@ class SQLModelInventoryRepository(InventoryRepository):
         return item.to_entity() if item else None
 
     def find_all_by_user_id(
-        self, user_id: Uuid, include_deleted: bool = False
+        self, id: Uuid, include_deleted: bool = False
     ) -> List[Inventory]:
         query = select(SQLModelInventoryModel).where(
-            SQLModelInventoryModel.user_id == str(user_id)
+            SQLModelInventoryModel.user_uuid == str(id)
         )
 
         if not include_deleted:
@@ -62,16 +62,16 @@ class SQLModelInventoryRepository(InventoryRepository):
         items = self.db_connection.exec(query).all()
         return [item.to_entity() for item in items]
 
-    def save(self, item: Inventory) -> bool:
-        item_model = SQLModelInventoryModel.from_entity(item)
+    def save(self, product: Inventory) -> bool:
+        item_model = SQLModelInventoryModel.from_entity(product)
         self.db_connection.add(item_model)
         self.db_connection.commit()
         return True
 
-    def update(self, item: Inventory) -> Tuple[bool, Optional[Inventory]]:
+    def update(self, product: Inventory) -> Tuple[bool, Optional[Inventory]]:
         existing_item = self.db_connection.exec(
             select(SQLModelInventoryModel)
-            .where(SQLModelInventoryModel.id == str(item.id))
+            .where(SQLModelInventoryModel.uuid == str(product.uuid))
             .where(not_(SQLModelInventoryModel.is_deleted))
         ).first()
 
@@ -79,9 +79,9 @@ class SQLModelInventoryRepository(InventoryRepository):
             return (False, None)
 
         updates = {
-            "product_name": item.product_name,
-            "amount": item.amount,
-            "expiration_date": item.expiration_date,
+            "product_name": product.product_name,
+            "amount": product.amount,
+            "expiration_date": product.expiration_date,
             "updated_at": datetime.now(),
         }
         for field, value in updates.items():
@@ -96,10 +96,10 @@ class SQLModelInventoryRepository(InventoryRepository):
         print(f"update() result: {result}")  # Imprime el resultado antes de devolverlo
         return result
 
-    def delete(self, item: Inventory) -> Tuple[bool, Optional[Inventory]]:
+    def delete(self, product: Inventory) -> Tuple[bool, Optional[Inventory]]:
         existing_item = self.db_connection.exec(
             select(SQLModelInventoryModel)
-            .where(SQLModelInventoryModel.id == str(item.id))
+            .where(SQLModelInventoryModel.uuid == str(product.uuid))
             .where(not_(SQLModelInventoryModel.is_deleted))
         ).first()
 

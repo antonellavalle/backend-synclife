@@ -2,7 +2,7 @@ from typing import Any, Awaitable, Callable, TypeVar
 
 from fastapi import HTTPException
 
-from src.api.inventory.domain.errors import InventoryItemError
+from src.api.inventory.domain.errors.inventory_error import InventoryError
 from src.api.notes.domain.errors.notes import NoteError
 from src.api.notes.domain.errors.tags import TagError
 from src.api.reminder.domain.errors.reminder_error import ReminderError
@@ -20,7 +20,7 @@ def handle_exceptions(func: Callable[..., Awaitable[T]]) -> Callable[..., Awaita
             SharedError,
             UserError,
             NoteError,
-            InventoryItemError,
+            InventoryError,
             TagError,
             ReminderError,
         ) as e:

@@ -1,34 +1,58 @@
-from src.api.inventory.application.create_item import CreateItemUseCase
-from src.api.inventory.application.delete_item import DeleteItemUseCase
-from src.api.inventory.application.update_item import UpdateItemUseCase
-from src.api.inventory.application.view_all_items import ViewAllInventoryItemsUseCase
-from src.api.inventory.application.view_all_items.view_all_item_dto import (
-    ViewAllInventoryItemsDTO,
+from src.api.inventory.application.create.create_inventory_use_case import (
+    CreateInventoryUseCase,
 )
-from src.api.inventory.application.view_item import ViewItemUseCase
-from src.api.inventory.infrastructure.http.dtos import (
-    PydanticCreateItemRequestDTO,
-    PydanticCreateItemResponseDTO,
-    PydanticDeleteItemRequestDTO,
-    PydanticDeleteItemResponseDTO,
-    PydanticUpdateItemRequestDTO,
-    PydanticUpdateItemResponseDTO,
-    PydanticViewAllInventoryItemsResponseDTO,
-    PydanticViewItemRequestDTO,
-    PydanticViewItemResponseDTO,
+from src.api.inventory.application.delete.delete_inventory_use_case import (
+    DeleteInventoryUseCase,
+)
+from src.api.inventory.application.update.update_inventory_use_case import (
+    UpdateInventoryUseCase,
+)
+from src.api.inventory.application.view.view_inventory_use_case import (
+    ViewInventoryUseCase,
+)
+from src.api.inventory.application.view_all.view_all_inventory_use_case import (
+    ViewAllInventoryUseCase,
+)
+from src.api.inventory.infrastructure.http.dtos.create.pydantic_create_inventory_request_dto import (  # noqa: E501
+    PydanticCreateInventoryRequestDTO,
+)
+from src.api.inventory.infrastructure.http.dtos.create.pydantic_create_inventory_response_dto import (  # noqa: E501
+    PydanticCreateInventoryResponseDTO,
+)
+from src.api.inventory.infrastructure.http.dtos.delete.pydantic_delete_inventory_request_dto import (  # noqa: E501
+    PydanticDeleteInventoryRequestDTO,
+)
+from src.api.inventory.infrastructure.http.dtos.delete.pydantic_delete_inventory_response_dto import (  # noqa: E501
+    PydanticDeleteInventoryResponseDTO,
+)
+from src.api.inventory.infrastructure.http.dtos.update.pydantic_update_inventory_request_dto import (  # noqa: E501
+    PydanticUpdateInventoryRequestDTO,
+)
+from src.api.inventory.infrastructure.http.dtos.update.pydantic_update_inventory_response_dto import (  # noqa: E501
+    PydanticUpdateInventoryResponseDTO,
+)
+from src.api.inventory.infrastructure.http.dtos.view.pydantic_view_inventory_request_dto import (  # noqa: E501
+    PydanticViewInventoryRequestDTO,
+)
+from src.api.inventory.infrastructure.http.dtos.view.pydantic_view_inventory_response_dto import (  # noqa: E501
+    PydanticViewInventoryResponseDTO,
+)
+from src.api.inventory.infrastructure.http.dtos.view_all.pydantic_view_all_inventory_request_dto import (  # noqa: E501
+    PydanticViewAllInventoryRequestDTO,
+)
+from src.api.inventory.infrastructure.http.dtos.view_all.pydantic_view_all_inventory_response_dto import (  # noqa: E501
+    InventoryResponseType,
+    PydanticViewAllInventoryResponseDTO,
 )
 from src.api.inventory.infrastructure.persistence.models.sqlmodel_inventory_model import (  # noqa: E501
     SQLModelInventoryModel,
 )
-from src.api.inventory.infrastructure.persistence.repositories import (
+from src.api.inventory.infrastructure.persistence.repositories.sqlmodel_inventory_repository import (  # noqa: E501
     SQLModelInventoryRepository,
 )
 from src.api.shared.infrastructure.http.decorators import handle_exceptions
-from src.api.shared.infrastructure.persistence.repositories import (
-    InMemorySessionRepository,
-)
-from src.api.user.infrastructure.persistence.repositories.sqlmodel_user_repository import (  # noqa: E501
-    SQLModelUserRepository,
+from src.api.shared.infrastructure.persistence.repositories.dragonfly_session_repository import (  # noqa: E501
+    DragonflySessionRepository,
 )
 
 
@@ -36,82 +60,110 @@ class FastAPIInventoryController:
     @staticmethod
     @handle_exceptions
     async def create(
-        item_data: PydanticCreateItemRequestDTO, session_token: str
-    ) -> PydanticCreateItemResponseDTO:
-        invenory_repo = SQLModelInventoryRepository.get_repository()
-        user_repo = SQLModelUserRepository.get_repository()
-        session_repo = InMemorySessionRepository.get_repository()
+        request_dto: PydanticCreateInventoryRequestDTO, session_token: str
+    ) -> PydanticCreateInventoryResponseDTO:
+        inventory_repo = SQLModelInventoryRepository.get_repository()
+        session_repo = DragonflySessionRepository.get_repository()
 
-        use_case = CreateItemUseCase(invenory_repo, user_repo, session_repo)
-        dto = item_data.to_application(session_token)
-        item = use_case.execute(dto)
+        use_case = CreateInventoryUseCase(
+            inventory_repository=inventory_repo, session_repository=session_repo
+        )
+        app_dto = request_dto.to_application(session_token)
 
-        return PydanticCreateItemResponseDTO(
-            item=SQLModelInventoryModel.from_entity(item)
+        inventory = use_case.execute(app_dto)
+
+        # TODO: optimizar response
+        return PydanticCreateInventoryResponseDTO(
+            item=SQLModelInventoryModel.from_entity(inventory)
         )
 
     @staticmethod
     @handle_exceptions
     async def update(
-        item_data: PydanticUpdateItemRequestDTO, session_token: str
-    ) -> PydanticUpdateItemResponseDTO:
+        request_dto: PydanticUpdateInventoryRequestDTO, session_token: str
+    ) -> PydanticUpdateInventoryResponseDTO:
         inventory_repo = SQLModelInventoryRepository.get_repository()
-        session_repo = InMemorySessionRepository.get_repository()
+        session_repo = DragonflySessionRepository.get_repository()
 
-        use_case = UpdateItemUseCase(inventory_repo, session_repo)
-        dto = item_data.to_application(session_token)
-        updated_item = use_case.execute(dto)
+        use_case = UpdateInventoryUseCase(
+            inventory_repository=inventory_repo, session_repository=session_repo
+        )
+        app_dto = request_dto.to_application(session_token)
 
-        return PydanticUpdateItemResponseDTO(
-            item=SQLModelInventoryModel.from_entity(updated_item)
+        inventory = use_case.execute(app_dto)
+
+        # TODO: optimizar response
+        return PydanticUpdateInventoryResponseDTO(
+            item=SQLModelInventoryModel.from_entity(inventory)
         )
 
     @staticmethod
     @handle_exceptions
     async def delete(
-        request_dto: PydanticDeleteItemRequestDTO, session_token: str
-    ) -> PydanticDeleteItemResponseDTO:
+        request_dto: PydanticDeleteInventoryRequestDTO, session_token: str
+    ) -> PydanticDeleteInventoryResponseDTO:
         inventory_repo = SQLModelInventoryRepository.get_repository()
-        session_inventory = InMemorySessionRepository.get_repository()
+        session_inventory = DragonflySessionRepository.get_repository()
 
-        use_case = DeleteItemUseCase(inventory_repo, session_inventory)
+        use_case = DeleteInventoryUseCase(inventory_repo, session_inventory)
         dto = request_dto.to_application(session_token)
-        deleted_item = use_case.execute(dto)
 
-        return PydanticDeleteItemResponseDTO(
-            item=SQLModelInventoryModel.from_entity(deleted_item)
+        inventory = use_case.execute(dto)
+
+        # TODO: optimizar response
+        return PydanticDeleteInventoryResponseDTO(
+            item=SQLModelInventoryModel.from_entity(inventory)
         )
 
     @staticmethod
     @handle_exceptions
     async def view(
-        request_dto: PydanticViewItemRequestDTO, session_token: str
-    ) -> PydanticViewItemResponseDTO:
+        inventory_uuid: str, session_token: str
+    ) -> PydanticViewInventoryResponseDTO:
         inventory_repo = SQLModelInventoryRepository.get_repository()
-        session_repo = InMemorySessionRepository.get_repository()
+        session_repo = DragonflySessionRepository.get_repository()
 
-        use_case = ViewItemUseCase(inventory_repo, session_repo)
-        dto = request_dto.to_application(session_token)
-        item = use_case.execute(dto)
+        use_case = ViewInventoryUseCase(inventory_repo, session_repo)
+        app_dto = PydanticViewInventoryRequestDTO(
+            inventory_uuid=inventory_uuid
+        ).to_application(session_token=session_token)
 
-        return PydanticViewItemResponseDTO(
-            item=SQLModelInventoryModel.from_entity(item)
+        inventory = use_case.execute(app_dto)
+
+        # TODO: optimizar response
+        return PydanticViewInventoryResponseDTO(
+            item=SQLModelInventoryModel.from_entity(inventory)
         )
 
     @staticmethod
-    async def view_all(session_token: str) -> PydanticViewAllInventoryItemsResponseDTO:
+    async def view_all(session_token: str) -> PydanticViewAllInventoryResponseDTO:
         inventory_repo = SQLModelInventoryRepository.get_repository()
-        session_repo = InMemorySessionRepository.get_repository()
+        session_repo = DragonflySessionRepository.get_repository()
 
-        use_case = ViewAllInventoryItemsUseCase(inventory_repo, session_repo)
-        dto = ViewAllInventoryItemsDTO(session_token=session_token)
-        inventory_items = use_case.execute(dto)
+        use_case = ViewAllInventoryUseCase(
+            inventory_repository=inventory_repo, session_repository=session_repo
+        )
+        app_dto = PydanticViewAllInventoryRequestDTO().to_application(
+            session_token=session_token
+        )
 
-        response_inventory_items = []
-        for inventory_item in inventory_items:
-            model_inventory = SQLModelInventoryModel.from_entity(inventory_item)
-            response_inventory_items.append(model_inventory)
+        inventory_items = use_case.execute(app_dto)
 
-        return PydanticViewAllInventoryItemsResponseDTO(
+        response_inventory_items = [
+            InventoryResponseType(
+                uuid=str(inventory.uuid),
+                user_uuid=str(inventory.user_uuid),
+                product_name=inventory.product_name,
+                amount=inventory.amount,
+                expiration_date=inventory.expiration_date,
+                is_deleted=inventory.is_deleted,
+                created_at=inventory.created_at,
+                updated_at=inventory.updated_at,
+            )
+            for inventory in inventory_items
+        ]
+
+        # TODO: optimizar response
+        return PydanticViewAllInventoryResponseDTO(
             inventory_items=response_inventory_items
         )

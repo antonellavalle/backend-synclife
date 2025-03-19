@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime
 from typing import Optional
 
 from sqlmodel import Field, Relationship, SQLModel
@@ -11,35 +11,39 @@ from src.api.user.infrastructure.persistence.models.sqlmodel_user_model import (
 
 
 class SQLModelInventoryModel(SQLModel, table=True):
-    __tablename__ = "inventory_item"
+    __tablename__ = "inventory"
 
-    id: str = Field(primary_key=True)
-    user_id: str = Field(foreign_key="users.id")
+    uuid: str = Field(primary_key=True)
+    user_uuid: str = Field(foreign_key="users.id")
     product_name: str
     amount: int
     expiration_date: date
     is_deleted: bool = Field(default=False)
-    created_at: date = Field(default_factory=date.today)
-    updated_at: Optional[date] = Field(default=None)
+    created_at: datetime = Field(default_factory=datetime.now)
+    updated_at: Optional[datetime] = Field(default=None)
     user: "SQLModelUserModel" = Relationship(back_populates="inventory_items")
 
     @classmethod
     def from_entity(cls, entity: "Inventory") -> "SQLModelInventoryModel":
-
         return cls(
-            id=str(entity.id),
-            user_id=str(entity.user_id),
-            product_name=str(entity.product_name),
-            amount=int(entity.amount),
-            expiration_date=str(entity.expiration_date),
-            is_deleted=False,
+            uuid=str(entity.uuid),
+            user_uuid=str(entity.user_uuid),
+            product_name=entity.product_name,
+            amount=entity.amount,
+            expiration_date=entity.expiration_date,
+            is_deleted=entity.is_deleted,
+            created_at=entity.created_at,
+            updated_at=entity.updated_at,
         )
 
     def to_entity(self) -> "Inventory":
         return Inventory(
-            id=Uuid(self.id),
-            user_id=Uuid(self.user_id),
+            uuid=Uuid(self.uuid),
+            user_uuid=Uuid(self.user_uuid),
             product_name=self.product_name,
             amount=self.amount,
             expiration_date=self.expiration_date,
+            is_deleted=self.is_deleted,
+            created_at=self.created_at,
+            updated_at=self.updated_at,
         )
