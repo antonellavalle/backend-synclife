@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from typing import List, Optional, Tuple
 
 from src.api.notes.domain.entities.note import Note
-from src.api.shared.domain.value_objects import Uuid
+from src.api.shared.domain.value_objects.uuid import Uuid
 
 
 class NoteRepository(ABC):

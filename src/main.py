@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from src.api.shared.infrastructure.http.routes import base_router
+from src.api.shared.infrastructure.http.routes.routes import router as base_router
 
 app = FastAPI(
     title="SyncLife API",

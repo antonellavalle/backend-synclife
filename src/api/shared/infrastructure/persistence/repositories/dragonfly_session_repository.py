@@ -3,9 +3,11 @@ from typing import Optional
 
 import redis
 
-from src.api.shared.domain.repositories import SessionRepository
-from src.api.shared.domain.value_objects import Uuid
-from src.api.shared.infrastructure.persistence import get_dragonfly_connection
+from src.api.shared.domain.repositories.session_repository import SessionRepository
+from src.api.shared.domain.value_objects.uuid import Uuid
+from src.api.shared.infrastructure.persistence.dragonfly_connection import (
+    get_dragonfly_connection,
+)
 
 
 class DragonflySessionRepository(SessionRepository):
@@ -17,10 +19,10 @@ class DragonflySessionRepository(SessionRepository):
     def get_repository() -> "DragonflySessionRepository":
         return DragonflySessionRepository(get_dragonfly_connection())
 
-    def create_session(self, user_id: Uuid) -> str:
+    def create_session(self, user_uuid: Uuid) -> str:
         session_token = str(Uuid())
         self.__client.setex(
-            session_token, int(self.__session_duration.total_seconds()), str(user_id)
+            session_token, int(self.__session_duration.total_seconds()), str(user_uuid)
         )
         return session_token
 

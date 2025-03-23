@@ -10,8 +10,10 @@ from src.api.inventory.domain.repositories.inventory_repository import (
 from src.api.inventory.infrastructure.persistence.models.sqlmodel_inventory_model import (  # noqa: E501
     SQLModelInventoryModel,
 )
-from src.api.shared.domain.value_objects import Uuid
-from src.api.shared.infrastructure.persistence import get_db_connection
+from src.api.shared.domain.value_objects.uuid import Uuid
+from src.api.shared.infrastructure.persistence.sqlmodel_connection import (
+    get_session as get_db_connection,
+)
 
 
 class SQLModelInventoryRepository(InventoryRepository):

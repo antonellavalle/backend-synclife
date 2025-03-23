@@ -23,13 +23,13 @@ def handle_exceptions(func: Callable[..., Awaitable[T]]) -> Callable[..., Awaita
             InventoryError,
             TagError,
             ReminderError,
-        ) as e:
-            detail = str(e)
-            code = int(e.code)
+        ) as error:
+            detail = str(error)
+            code = int(error.code)
             raise HTTPException(status_code=code, detail=detail)
-        except Exception as e:
+        except Exception as error:
             raise HTTPException(
-                status_code=500, detail=f"Error interno del servidor: {e}"
+                status_code=500, detail=f"Error interno del servidor: {error}"
             )
 
     return wrapper

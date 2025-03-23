@@ -51,7 +51,7 @@ from src.api.reminder.infrastructure.persistence.repositories.sqlmodel_reminder_
 from src.api.shared.infrastructure.http.decorators.handle_exceptions import (
     handle_exceptions,
 )
-from src.api.shared.infrastructure.persistence.repositories import (
+from src.api.shared.infrastructure.persistence.repositories.dragonfly_session_repository import (  # noqa: E501
     DragonflySessionRepository,
 )
 

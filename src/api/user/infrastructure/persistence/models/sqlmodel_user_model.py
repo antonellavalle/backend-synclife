@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING, List, Optional
 from sqlalchemy.orm import Mapped
 from sqlmodel import Field, Relationship, SQLModel
 
-from src.api.shared.domain.value_objects import Uuid
+from src.api.shared.domain.value_objects.uuid import Uuid
 from src.api.user.domain.entities.user import User
 from src.api.user.domain.value_objects.email import Email
 from src.api.user.domain.value_objects.full_name import FullName

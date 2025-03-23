@@ -4,7 +4,9 @@ from email.message import EmailMessage
 
 from dotenv import load_dotenv
 
-from src.api.shared.domain.repositories import SMTPEmailSenderRepository
+from src.api.shared.domain.repositories.smtp_email_sender_repository import (
+    SMTPEmailSenderRepository,
+)
 
 
 class MailHogSMTPEmailSenderRepository(SMTPEmailSenderRepository):

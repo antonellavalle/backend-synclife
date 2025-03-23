@@ -6,7 +6,7 @@ from src.api.notes.domain.errors.tag.tag_repository_error import (
     TagRepositoryTypeError,
 )
 from src.api.notes.domain.repositories.tag_repository import TagRepository
-from src.api.shared.domain.value_objects import Uuid
+from src.api.shared.domain.value_objects.uuid import Uuid
 
 
 class TagRepositoryValidator:

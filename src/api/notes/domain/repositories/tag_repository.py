@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from typing import List, Optional, Tuple
 
 from src.api.notes.domain.entities.tag import Tag
-from src.api.shared.domain.value_objects import Uuid
+from src.api.shared.domain.value_objects.uuid import Uuid
 
 
 class TagRepository(ABC):

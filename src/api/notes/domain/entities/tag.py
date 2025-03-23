@@ -5,7 +5,7 @@ from src.api.notes.domain.errors.tag.tag_validation_error import (
     TagValidationError,
     TagValidationTypeError,
 )
-from src.api.shared.domain.value_objects import Uuid
+from src.api.shared.domain.value_objects.uuid import Uuid
 
 
 class Tag:

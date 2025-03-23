@@ -1,4 +1,4 @@
-from src.api.shared.domain.repositories import SessionRepository
+from src.api.shared.domain.repositories.session_repository import SessionRepository
 from src.api.user.application.authentication.login.login_dto import LoginDTO
 from src.api.user.domain.errors.user_validation_error import (
     UserValidationError,
@@ -31,4 +31,4 @@ class LoginUseCase:
                 error_type=UserValidationTypeError.INVALID_CREDENTIALS
             )
 
-        return self.__session_repository.create_session(user_id=user.uuid)
+        return self.__session_repository.create_session(user_uuid=user.uuid)

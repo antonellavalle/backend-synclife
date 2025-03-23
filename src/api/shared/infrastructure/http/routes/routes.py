@@ -14,7 +14,7 @@ from src.api.notes.infrastructure.http.routes.fastapi_tag_routes import (
 from src.api.reminder.infrastructure.http.routes.fastapi_reminder_routes import (
     router as reminder_router,
 )
-from src.api.shared.infrastructure.persistence.repositories import (
+from src.api.shared.infrastructure.persistence.repositories.dragonfly_session_repository import (  # noqa: E501
     DragonflySessionRepository,
 )
 from src.api.user.infrastructure.http.routes.fastapi_user_routes import (

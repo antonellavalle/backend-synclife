@@ -1,6 +1,6 @@
 import uuid
 
-from src.api.shared.domain.errors import UuidError, UuidTypeError
+from src.api.shared.domain.errors.uuid_error import UuidError, UuidTypeError
 
 
 class Uuid:
@@ -28,6 +28,6 @@ class Uuid:
             try:
                 self.__uuid = str(uuid.UUID(value))
             except ValueError:
-                raise UuidError(UuidTypeError.INVALID_UUID)
+                raise UuidError(error_type=UuidTypeError.INVALID_UUID)
         else:
             self.__uuid = str(uuid.uuid4())

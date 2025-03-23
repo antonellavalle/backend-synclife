@@ -1,7 +1,7 @@
 from datetime import date, datetime
 from typing import Optional
 
-from src.api.shared.domain.value_objects import Uuid
+from src.api.shared.domain.value_objects.uuid import Uuid
 from src.api.user.domain.errors.user_validation_error import (
     UserValidationError,
     UserValidationTypeError,

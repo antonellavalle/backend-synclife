@@ -10,4 +10,4 @@ class UuidTypeError(Enum):
 
 class UuidError(SharedError):
     def __init__(self, error_type: UuidTypeError):
-        super().__init__(cast(Dict[str, str | int], error_type.value))
+        super().__init__(error=cast(Dict[str, str | int], error_type.value))

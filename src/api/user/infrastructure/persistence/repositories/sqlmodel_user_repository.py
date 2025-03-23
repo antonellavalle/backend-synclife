@@ -3,8 +3,10 @@ from typing import List, Optional, Tuple
 
 from sqlmodel import Session, not_, select
 
-from src.api.shared.domain.value_objects import Uuid
-from src.api.shared.infrastructure.persistence import get_db_connection
+from src.api.shared.domain.value_objects.uuid import Uuid
+from src.api.shared.infrastructure.persistence.sqlmodel_connection import (
+    get_session as get_db_connection,
+)
 from src.api.user.domain.entities.user import User
 from src.api.user.domain.repositories.user_repository import UserRepository
 from src.api.user.domain.value_objects.email import Email

@@ -50,7 +50,9 @@ from src.api.inventory.infrastructure.persistence.models.sqlmodel_inventory_mode
 from src.api.inventory.infrastructure.persistence.repositories.sqlmodel_inventory_repository import (  # noqa: E501
     SQLModelInventoryRepository,
 )
-from src.api.shared.infrastructure.http.decorators import handle_exceptions
+from src.api.shared.infrastructure.http.decorators.handle_exceptions import (
+    handle_exceptions,
+)
 from src.api.shared.infrastructure.persistence.repositories.dragonfly_session_repository import (  # noqa: E501
     DragonflySessionRepository,
 )

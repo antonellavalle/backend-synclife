@@ -5,7 +5,7 @@ from src.api.reminder.domain.errors.reminder_validation_error import (
     ReminderValidationError,
     ReminderValidationTypeError,
 )
-from src.api.shared.domain.value_objects import Uuid
+from src.api.shared.domain.value_objects.uuid import Uuid
 
 
 class Reminder:

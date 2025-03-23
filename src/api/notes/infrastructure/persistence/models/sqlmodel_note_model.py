@@ -10,7 +10,7 @@ from src.api.notes.infrastructure.persistence.models.sqlmodel_note_tag_link_mode
 from src.api.notes.infrastructure.persistence.models.sqlmodel_tag_model import (
     SQLModelTagModel,
 )
-from src.api.shared.domain.value_objects import Uuid
+from src.api.shared.domain.value_objects.uuid import Uuid
 from src.api.user.infrastructure.persistence.models.sqlmodel_user_model import (
     SQLModelUserModel,
 )

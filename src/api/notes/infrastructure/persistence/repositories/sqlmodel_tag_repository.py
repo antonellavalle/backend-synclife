@@ -8,8 +8,10 @@ from src.api.notes.domain.repositories.tag_repository import TagRepository
 from src.api.notes.infrastructure.persistence.models.sqlmodel_tag_model import (
     SQLModelTagModel,
 )
-from src.api.shared.domain.value_objects import Uuid
-from src.api.shared.infrastructure.persistence import get_db_connection
+from src.api.shared.domain.value_objects.uuid import Uuid
+from src.api.shared.infrastructure.persistence.sqlmodel_connection import (
+    get_session as get_db_connection,
+)
 
 
 class SQLModelTagRepository(TagRepository):

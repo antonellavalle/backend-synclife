@@ -6,7 +6,7 @@ from src.api.notes.domain.errors.note.note_repository_error import (
     NoteRepositoryTypeError,
 )
 from src.api.notes.domain.repositories.note_repository import NoteRepository
-from src.api.shared.domain.value_objects import Uuid
+from src.api.shared.domain.value_objects.uuid import Uuid
 
 
 class NotesRepositoryValidator:

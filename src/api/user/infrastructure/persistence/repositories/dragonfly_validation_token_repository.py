@@ -3,8 +3,10 @@ from typing import Optional
 
 import redis
 
-from src.api.shared.domain.value_objects import Uuid
-from src.api.shared.infrastructure.persistence import get_dragonfly_connection
+from src.api.shared.domain.value_objects.uuid import Uuid
+from src.api.shared.infrastructure.persistence.dragonfly_connection import (
+    get_dragonfly_connection,
+)
 from src.api.user.domain.repositories.validation_token_repository import (
     ValidationTokenRepository,
 )

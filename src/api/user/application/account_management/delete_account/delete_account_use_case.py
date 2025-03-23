@@ -1,6 +1,8 @@
 from src.api.shared.domain.repositories.session_repository import SessionRepository
-from src.api.shared.domain.validators import SessionRepositoryValidator
-from src.api.shared.domain.value_objects import Uuid
+from src.api.shared.domain.validators.session_repository_validator import (
+    SessionRepositoryValidator,
+)
+from src.api.shared.domain.value_objects.uuid import Uuid
 from src.api.user.application.account_management.delete_account.delete_account_dto import (  # noqa: E501
     DeleteAccountDTO,
 )

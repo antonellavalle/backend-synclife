@@ -1,8 +1,8 @@
 # from datetime import datetime, timedelta
 # from typing import Any, Dict, Optional
 
-# from src.api.shared.domain.repositories import SessionRepository
-# from src.api.shared.domain.value_objects import Uuid
+# from src.api.shared.domain.repositories.session_repository import SessionRepository
+# from src.api.shared.domain.value_objects.uuid import Uuid
 
 
 # class InMemorySessionRepository(SessionRepository):

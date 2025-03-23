@@ -2,9 +2,13 @@ import os
 
 from dotenv import load_dotenv
 
-from src.api.shared.infrastructure.http.decorators import handle_exceptions
-from src.api.shared.infrastructure.persistence.repositories import (
+from src.api.shared.infrastructure.http.decorators.handle_exceptions import (
+    handle_exceptions,
+)
+from src.api.shared.infrastructure.persistence.repositories.dragonfly_session_repository import (  # noqa: E501
     DragonflySessionRepository,
+)
+from src.api.shared.infrastructure.persistence.repositories.mailhog_smtp_email_sender_repository import (  # noqa: E501
     MailHogSMTPEmailSenderRepository,
 )
 from src.api.user.application.authentication.login.login_use_case import LoginUseCase

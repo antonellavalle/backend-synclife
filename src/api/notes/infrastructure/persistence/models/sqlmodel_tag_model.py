@@ -7,7 +7,7 @@ from src.api.notes.domain.entities.tag import Tag
 from src.api.notes.infrastructure.persistence.models.sqlmodel_note_tag_link_model import (  # noqa: E501
     SQLModelNoteTagModel,
 )
-from src.api.shared.domain.value_objects import Uuid
+from src.api.shared.domain.value_objects.uuid import Uuid
 
 if TYPE_CHECKING:
     from src.api.notes.infrastructure.persistence.models.sqlmodel_note_model import (  # noqa: E501

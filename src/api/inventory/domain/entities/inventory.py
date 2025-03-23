@@ -5,7 +5,7 @@ from src.api.inventory.domain.errors.inventory_validation_error import (
     InventoryValidationError,
     InventoryValidationTypeError,
 )
-from src.api.shared.domain.value_objects import Uuid
+from src.api.shared.domain.value_objects.uuid import Uuid
 
 
 class Inventory:

@@ -1,4 +1,4 @@
-from src.api.shared.domain.repositories import SessionRepository
+from src.api.shared.domain.repositories.session_repository import SessionRepository
 from src.api.user.application.authentication.verify_account.verify_account_dto import (
     VerifyAccountDTO,
 )
@@ -60,4 +60,4 @@ class VerifyAccountUseCase:
                 error_type=UserRepositoryTypeError.OPERATION_FAILED
             )
 
-        return self.__session_repository.create_session(user_id=user_updated.uuid)
+        return self.__session_repository.create_session(user_uuid=user_updated.uuid)

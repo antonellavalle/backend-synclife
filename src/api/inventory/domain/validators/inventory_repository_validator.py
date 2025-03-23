@@ -8,7 +8,7 @@ from src.api.inventory.domain.errors.inventory_repository_error import (
 from src.api.inventory.domain.repositories.inventory_repository import (
     InventoryRepository,
 )
-from src.api.shared.domain.value_objects import Uuid
+from src.api.shared.domain.value_objects.uuid import Uuid
 
 
 class InventoryRepositoryValidator:

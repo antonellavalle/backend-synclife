@@ -71,8 +71,10 @@ from src.api.notes.infrastructure.persistence.repositories.sqlmodel_note_reposit
 from src.api.notes.infrastructure.persistence.repositories.sqlmodel_tag_repository import (  # noqa: E501
     SQLModelTagRepository,
 )
-from src.api.shared.infrastructure.http.decorators import handle_exceptions
-from src.api.shared.infrastructure.persistence.repositories import (
+from src.api.shared.infrastructure.http.decorators.handle_exceptions import (
+    handle_exceptions,
+)
+from src.api.shared.infrastructure.persistence.repositories.dragonfly_session_repository import (  # noqa: E501
     DragonflySessionRepository,
 )
 

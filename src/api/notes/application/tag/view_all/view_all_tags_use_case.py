@@ -3,8 +3,10 @@ from typing import List
 from src.api.notes.application.tag.view_all.view_all_tags_dto import ViewAllTagDTO
 from src.api.notes.domain.entities.tag import Tag
 from src.api.notes.domain.repositories.tag_repository import TagRepository
-from src.api.shared.domain.repositories import SessionRepository
-from src.api.shared.domain.validators import SessionRepositoryValidator
+from src.api.shared.domain.repositories.session_repository import SessionRepository
+from src.api.shared.domain.validators.session_repository_validator import (
+    SessionRepositoryValidator,
+)
 from src.api.shared.domain.value_objects.uuid import Uuid
 
 

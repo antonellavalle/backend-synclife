@@ -4,7 +4,7 @@ from typing import Optional
 from sqlmodel import Field, Relationship, SQLModel
 
 from src.api.reminder.domain.entities.reminder import Reminder
-from src.api.shared.domain.value_objects import Uuid
+from src.api.shared.domain.value_objects.uuid import Uuid
 from src.api.user.infrastructure.persistence.models.sqlmodel_user_model import (
     SQLModelUserModel,
 )

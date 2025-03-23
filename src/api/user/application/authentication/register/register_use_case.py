@@ -1,7 +1,9 @@
 from datetime import datetime
 
-from src.api.shared.domain.repositories import SMTPEmailSenderRepository
-from src.api.shared.domain.value_objects import Uuid
+from src.api.shared.domain.repositories.smtp_email_sender_repository import (
+    SMTPEmailSenderRepository,
+)
+from src.api.shared.domain.value_objects.uuid import Uuid
 from src.api.user.application.authentication.register.register_dto import RegisterDTO
 from src.api.user.domain.entities.user import User
 from src.api.user.domain.errors.user_repository_error import (

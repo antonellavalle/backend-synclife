@@ -9,11 +9,11 @@ from src.api.notes.domain.repositories.tag_repository import TagRepository
 from src.api.notes.domain.validators.tag_repository_validator import (
     TagRepositoryValidator,
 )
-from src.api.shared.domain.repositories import SessionRepository
+from src.api.shared.domain.repositories.session_repository import SessionRepository
 from src.api.shared.domain.validators.session_repository_validator import (
     SessionRepositoryValidator,
 )
-from src.api.shared.domain.value_objects import Uuid
+from src.api.shared.domain.value_objects.uuid import Uuid
 
 
 class FilterNotesByTagUseCase:

@@ -6,7 +6,7 @@ from src.api.reminder.domain.errors.reminder_repository_error import (
     ReminderRepositoryTypeError,
 )
 from src.api.reminder.domain.repositories.reminder_repository import ReminderRepository
-from src.api.shared.domain.value_objects import Uuid
+from src.api.shared.domain.value_objects.uuid import Uuid
 
 
 class ReminderRepositoryValidator:
