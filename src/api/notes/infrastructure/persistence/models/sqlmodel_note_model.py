@@ -20,7 +20,7 @@ class SQLModelNoteModel(SQLModel, table=True):
     __tablename__ = "note"
 
     uuid: str = Field(primary_key=True)
-    user_uuid: str = Field(foreign_key="users.id")
+    user_uuid: str = Field(foreign_key="user.uuid")
     title: str
     content: str
     is_deleted: bool = Field(default=False)
@@ -45,11 +45,11 @@ class SQLModelNoteModel(SQLModel, table=True):
 
     def to_entity(self) -> "Note":
         return Note(
-            uuid=Uuid(self.uuid),
-            user_uuid=Uuid(self.user_uuid),
+            uuid=Uuid(uuid=self.uuid),
+            user_uuid=Uuid(uuid=self.user_uuid),
             title=self.title,
             content=self.content,
-            tags=[SQLModelTagModel.to_entity(tag) for tag in self.tags],
+            tags=[SQLModelTagModel.to_entity(self=tag) for tag in self.tags],
             is_deleted=self.is_deleted,
             created_at=self.created_at,
             updated_at=self.updated_at,

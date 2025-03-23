@@ -34,11 +34,11 @@ class FullName:
     def __validate_format(self, name: str) -> None:
         name_regex = r"^[a-zA-Z]+(?:[-' ][a-zA-Z]+)*$"
         if not re.match(name_regex, name):
-            raise FullNameError(FullNameTypeError.INVALID_NAME_FORMAT)
+            raise FullNameError(error_type=FullNameTypeError.INVALID_NAME_FORMAT)
 
         max_name_length = 50
         if len(name) > max_name_length:
-            raise FullNameError(FullNameTypeError.NAME_TOO_LONG)
+            raise FullNameError(error_type=FullNameTypeError.NAME_TOO_LONG)
 
     @property
     def first_name(self) -> str:
@@ -46,7 +46,7 @@ class FullName:
 
     @first_name.setter
     def first_name(self, valor: str) -> None:
-        self.__validate_format(valor)
+        self.__validate_format(name=valor)
         self.__first_name = valor.title()
 
     @property
@@ -55,5 +55,5 @@ class FullName:
 
     @last_name.setter
     def last_name(self, value: str) -> None:
-        self.__validate_format(value)
+        self.__validate_format(name=value)
         self.__last_name = value.title()

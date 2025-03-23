@@ -68,13 +68,13 @@ class FastAPIInventoryController:
         use_case = CreateInventoryUseCase(
             inventory_repository=inventory_repo, session_repository=session_repo
         )
-        app_dto = request_dto.to_application(session_token)
+        app_dto = request_dto.to_application(session_token=session_token)
 
-        inventory = use_case.execute(app_dto)
+        inventory = use_case.execute(dto=app_dto)
 
         # TODO: optimizar response
         return PydanticCreateInventoryResponseDTO(
-            item=SQLModelInventoryModel.from_entity(inventory)
+            item=SQLModelInventoryModel.from_entity(entity=inventory)
         )
 
     @staticmethod
@@ -88,13 +88,13 @@ class FastAPIInventoryController:
         use_case = UpdateInventoryUseCase(
             inventory_repository=inventory_repo, session_repository=session_repo
         )
-        app_dto = request_dto.to_application(session_token)
+        app_dto = request_dto.to_application(session_token=session_token)
 
-        inventory = use_case.execute(app_dto)
+        inventory = use_case.execute(dto=app_dto)
 
         # TODO: optimizar response
         return PydanticUpdateInventoryResponseDTO(
-            item=SQLModelInventoryModel.from_entity(inventory)
+            item=SQLModelInventoryModel.from_entity(entity=inventory)
         )
 
     @staticmethod
@@ -105,14 +105,16 @@ class FastAPIInventoryController:
         inventory_repo = SQLModelInventoryRepository.get_repository()
         session_inventory = DragonflySessionRepository.get_repository()
 
-        use_case = DeleteInventoryUseCase(inventory_repo, session_inventory)
-        dto = request_dto.to_application(session_token)
+        use_case = DeleteInventoryUseCase(
+            inventory_repository=inventory_repo, session_repository=session_inventory
+        )
+        dto = request_dto.to_application(session_token=session_token)
 
-        inventory = use_case.execute(dto)
+        inventory = use_case.execute(dto=dto)
 
         # TODO: optimizar response
         return PydanticDeleteInventoryResponseDTO(
-            item=SQLModelInventoryModel.from_entity(inventory)
+            item=SQLModelInventoryModel.from_entity(entity=inventory)
         )
 
     @staticmethod
@@ -123,16 +125,18 @@ class FastAPIInventoryController:
         inventory_repo = SQLModelInventoryRepository.get_repository()
         session_repo = DragonflySessionRepository.get_repository()
 
-        use_case = ViewInventoryUseCase(inventory_repo, session_repo)
+        use_case = ViewInventoryUseCase(
+            inventory_repository=inventory_repo, session_repository=session_repo
+        )
         app_dto = PydanticViewInventoryRequestDTO(
             inventory_uuid=inventory_uuid
         ).to_application(session_token=session_token)
 
-        inventory = use_case.execute(app_dto)
+        inventory = use_case.execute(dto=app_dto)
 
         # TODO: optimizar response
         return PydanticViewInventoryResponseDTO(
-            item=SQLModelInventoryModel.from_entity(inventory)
+            item=SQLModelInventoryModel.from_entity(entity=inventory)
         )
 
     @staticmethod
@@ -147,19 +151,10 @@ class FastAPIInventoryController:
             session_token=session_token
         )
 
-        inventory_items = use_case.execute(app_dto)
+        inventory_items = use_case.execute(dto=app_dto)
 
         response_inventory_items = [
-            InventoryResponseType(
-                uuid=str(inventory.uuid),
-                user_uuid=str(inventory.user_uuid),
-                product_name=inventory.product_name,
-                amount=inventory.amount,
-                expiration_date=inventory.expiration_date,
-                is_deleted=inventory.is_deleted,
-                created_at=inventory.created_at,
-                updated_at=inventory.updated_at,
-            )
+            InventoryResponseType.from_entity(entity=inventory)
             for inventory in inventory_items
         ]
 

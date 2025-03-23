@@ -17,17 +17,19 @@ class InventoryRepositoryValidator:
         inventory: Optional[Inventory],
     ) -> Inventory:
         if inventory is None:
-            raise InventoryRepositoryError(InventoryRepositoryTypeError.NOT_FOUND)
+            raise InventoryRepositoryError(
+                error_type=InventoryRepositoryTypeError.NOT_FOUND
+            )
         return inventory
 
     @staticmethod
     def user_owns_inventory(
-        repository: InventoryRepository,
-        user_id: Uuid,
-        inventory_id: Uuid,
+        inventory_repository: InventoryRepository,
+        user_uuid: Uuid,
+        inventory_uuid: Uuid,
     ) -> None:
-        inventory = repository.find_by_id(inventory_id)
-        if inventory is None or inventory.user_uuid != user_id:
+        inventory = inventory_repository.find_by_uuid(uuid=inventory_uuid)
+        if inventory is None or inventory.user_uuid != user_uuid:
             raise InventoryRepositoryError(
-                InventoryRepositoryTypeError.NOT_OWNED_BY_USER
+                error_type=InventoryRepositoryTypeError.NOT_OWNED_BY_USER
             )

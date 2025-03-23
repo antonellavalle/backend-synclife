@@ -31,13 +31,13 @@ class SQLModelUserRepository(UserRepository):
         users = self.__db_connection.exec(query).all()
         return [user.to_entity() for user in users]
 
-    def find_by_id(self, id: Uuid, include_deleted: bool = False) -> Optional[User]:
+    def find_by_uuid(self, uuid: Uuid, include_deleted: bool = False) -> Optional[User]:
         query = (
-            select(SQLModelUserModel).where(SQLModelUserModel.id == str(id))
+            select(SQLModelUserModel).where(SQLModelUserModel.uuid == str(uuid))
             if include_deleted
             else (
                 select(SQLModelUserModel)
-                .where(SQLModelUserModel.id == str(id))
+                .where(SQLModelUserModel.uuid == str(uuid))
                 .where(not_(SQLModelUserModel.is_deleted))
             )
         )
@@ -68,7 +68,7 @@ class SQLModelUserRepository(UserRepository):
 
     def update(self, user: User) -> Tuple[bool, Optional[User]]:
         statement = select(SQLModelUserModel).where(
-            SQLModelUserModel.id == str(user.uuid)
+            SQLModelUserModel.uuid == str(user.uuid)
         )
         db_user = self.__db_connection.exec(statement).first()
 
@@ -98,7 +98,7 @@ class SQLModelUserRepository(UserRepository):
 
     def delete(self, user: User) -> Tuple[bool, Optional[User]]:
         statement = select(SQLModelUserModel).where(
-            SQLModelUserModel.id == user.uuid.uuid
+            SQLModelUserModel.uuid == user.uuid.uuid
         )
         db_user = self.__db_connection.exec(statement).first()
 

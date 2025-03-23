@@ -93,6 +93,7 @@ class FastAPINotesController:
 
         note = use_case.execute(dto=app_dto)
 
+        # TODO: optimizar response
         return PydanticCreateNoteResponseDTO(
             note=SQLModelNoteModel.from_entity(entity=note)
         )
@@ -112,6 +113,7 @@ class FastAPINotesController:
 
         updated_note = use_case.execute(dto=dto)
 
+        # TODO: optimizar response
         return PydanticUpdateNoteResponseDTO(
             note=SQLModelNoteModel.from_entity(entity=updated_note)
         )
@@ -131,6 +133,7 @@ class FastAPINotesController:
 
         deleted_note = use_case.execute(dto=dto)
 
+        # TODO: optimizar response
         return PydanticDeleteNoteResponseDTO(
             note=SQLModelNoteModel.from_entity(entity=deleted_note)
         )
@@ -150,6 +153,7 @@ class FastAPINotesController:
 
         note = use_case.execute(dto=dto)
 
+        # TODO: optimizar response
         return PydanticViewNoteResponseDTO(
             note=SQLModelNoteModel.from_entity(entity=note)
         )
@@ -171,6 +175,7 @@ class FastAPINotesController:
 
         response_notes = [NoteResponseType.from_entity(entity=note) for note in notes]
 
+        # TODO: optimizar response
         return PydanticViewAllNotesResponseDTO(notes=response_notes)
 
     @staticmethod
@@ -190,6 +195,7 @@ class FastAPINotesController:
         dto = request_dto.to_application(session_token=session_token)
         note = use_case.execute(dto=dto)
 
+        # TODO: optimizar response
         return PydanticAddTagsResponseDTO(
             note=SQLModelNoteModel.from_entity(entity=note)
         )
@@ -211,6 +217,7 @@ class FastAPINotesController:
         dto = remove_data.to_application(session_token=session_token)
         updated_note = use_case.execute(dto=dto)
 
+        # TODO: optimizar response
         return PydanticRemoveTagResponseDTO(
             note=SQLModelNoteModel.from_entity(entity=updated_note)
         )
@@ -237,4 +244,5 @@ class FastAPINotesController:
             FilterNotesByTagResponseType.from_entity(entity=note) for note in notes
         ]
 
+        # TODO: optimizar response
         return PydanticFilterNotesByTagResponseDTO(notes=response_notes)

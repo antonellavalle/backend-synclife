@@ -27,5 +27,5 @@ class Phone:
     def phone(self, value: str) -> None:
         phone_regex = r"^\+?1?\d{9,15}$"
         if not re.match(phone_regex, value):
-            raise PhoneError(PhoneTypeError.INVALID_PHONE)
+            raise PhoneError(error_type=PhoneTypeError.INVALID_PHONE)
         self.__phone = value

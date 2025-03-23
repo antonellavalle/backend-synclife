@@ -31,7 +31,7 @@ class CreateReminderUseCase:
 
         reminder = Reminder(
             uuid=Uuid(),
-            user_uuid=Uuid(user_request_uuid),
+            user_uuid=Uuid(uuid=user_request_uuid),
             title=dto.title,
             remind_date=dto.remind_date,
             created_at=datetime.now(),
@@ -39,8 +39,10 @@ class CreateReminderUseCase:
             is_deleted=False,
         )
 
-        is_saved, reminder_saved = self.__reminder_repository.save(reminder)
-        if not is_saved or reminder_saved is None:
-            raise ReminderRepositoryError(ReminderRepositoryTypeError.OPERATION_FAILED)
+        is_saved = self.__reminder_repository.save(reminder=reminder)
+        if not is_saved:
+            raise ReminderRepositoryError(
+                error_type=ReminderRepositoryTypeError.OPERATION_FAILED
+            )
 
-        return reminder_saved
+        return reminder

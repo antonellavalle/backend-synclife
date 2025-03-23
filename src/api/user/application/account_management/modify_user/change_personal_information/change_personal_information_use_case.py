@@ -27,21 +27,24 @@ class ChangePersonalInformationUseCase:
 
     def execute(self, dto: ChangePersonalInformationDTO) -> User:
         user_request_uuid = SessionRepositoryValidator.validate_session_token(
-            self.__session_repository, dto.session_token
+            session_repository=self.__session_repository,
+            session_token=dto.session_token,
         )
 
         user = UserRepositoryValidator.user_found(
-            self.__user_repository.find_by_id(Uuid(user_request_uuid))
+            user=self.__user_repository.find_by_uuid(uuid=Uuid(uuid=user_request_uuid))
         )
 
-        user.email = Email(dto.email)
-        user.full_name = FullName(dto.first_name, dto.last_name)
+        user.email = Email(email=dto.email)
+        user.full_name = FullName(first_name=dto.first_name, last_name=dto.last_name)
         user.birth_date = dto.birth_date
-        user.phone = Phone(dto.phone)
+        user.phone = Phone(phone=dto.phone)
 
-        is_updated, user_updated = self.__user_repository.update(user)
+        is_updated, user_updated = self.__user_repository.update(user=user)
 
         if not is_updated or user_updated is None:
-            raise UserRepositoryError(UserRepositoryTypeError.OPERATION_FAILED)
+            raise UserRepositoryError(
+                error_type=UserRepositoryTypeError.OPERATION_FAILED
+            )
 
         return user_updated

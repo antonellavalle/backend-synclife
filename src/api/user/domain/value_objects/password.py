@@ -31,19 +31,19 @@ class Password:
 
     def __validate_format(self, password: str) -> None:
         if len(password) < 8:
-            raise PasswordError(PasswordTypeError.TOO_SHORT)
+            raise PasswordError(error_type=PasswordTypeError.TOO_SHORT)
         if not re.search(r"\d", password):
-            raise PasswordError(PasswordTypeError.MISSING_NUMBER)
+            raise PasswordError(error_type=PasswordTypeError.MISSING_NUMBER)
         if not re.search(r"[A-Z]", password):
-            raise PasswordError(PasswordTypeError.MISSING_UPPERCASE)
+            raise PasswordError(error_type=PasswordTypeError.MISSING_UPPERCASE)
         if not re.search(r"[a-z]", password):
-            raise PasswordError(PasswordTypeError.MISSING_LOWERCASE)
+            raise PasswordError(error_type=PasswordTypeError.MISSING_LOWERCASE)
         if not re.search(r"[\W_]", password):
-            raise PasswordError(PasswordTypeError.MISSING_SPECIAL)
+            raise PasswordError(error_type=PasswordTypeError.MISSING_SPECIAL)
 
         result = zxcvbn(password)
         if result["score"] < 3:
-            raise PasswordError(PasswordTypeError.WEAK_PASSWORD)
+            raise PasswordError(error_type=PasswordTypeError.WEAK_PASSWORD)
 
     def __encrypt_password(self, password: str) -> str:
         return bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
@@ -54,9 +54,9 @@ class Password:
 
     @password.setter
     def password(self, value: str) -> None:
-        if not self.__is_encrypted(value):
+        if not self.__is_encrypted(password=value):
             if self.__validate:
-                self.__validate_format(value)
-            self.__password = self.__encrypt_password(value)
+                self.__validate_format(password=value)
+            self.__password = self.__encrypt_password(password=value)
         else:
             self.__password = value

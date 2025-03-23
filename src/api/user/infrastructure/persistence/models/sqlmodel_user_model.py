@@ -27,9 +27,9 @@ if TYPE_CHECKING:
 
 
 class SQLModelUserModel(SQLModel, table=True):
-    __tablename__ = "users"
+    __tablename__ = "user"
 
-    id: str = Field(primary_key=True)
+    uuid: str = Field(primary_key=True)
     email: str = Field(unique=True, index=True)
     password: str
     first_name: str
@@ -53,13 +53,13 @@ class SQLModelUserModel(SQLModel, table=True):
     @classmethod
     def from_entity(cls, entity: User) -> "SQLModelUserModel":
         return cls(
-            id=str(entity.uuid.uuid),
-            email=entity.email.email,
+            uuid=str(entity.uuid),
+            email=str(entity.email),
             password=entity.password.password,
             first_name=entity.full_name.first_name,
             last_name=entity.full_name.last_name,
             birth_date=entity.birth_date,
-            phone=entity.phone.phone,
+            phone=str(entity.phone),
             account_verified=entity.account_verified,
             is_deleted=entity.is_deleted,
             created_at=entity.created_at,
@@ -68,7 +68,7 @@ class SQLModelUserModel(SQLModel, table=True):
 
     def to_entity(self, validate: bool = True) -> User:
         return User(
-            uuid=Uuid(self.id),
+            uuid=Uuid(self.uuid),
             email=Email(self.email),
             password=Password(self.password, validate),
             full_name=FullName(self.first_name, self.last_name),

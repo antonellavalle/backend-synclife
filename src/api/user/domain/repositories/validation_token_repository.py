@@ -10,7 +10,9 @@ class ValidationTokenRepository(ABC):
         pass
 
     @abstractmethod
-    def find_user_from_validation_request(self, validate_token: str) -> Optional[Uuid]:
+    def find_user_from_validation_request(
+        self, validation_token: str
+    ) -> Optional[Uuid]:
         pass
 
     @abstractmethod

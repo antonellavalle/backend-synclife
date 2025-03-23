@@ -7,27 +7,29 @@ from src.api.shared.domain.value_objects import Uuid
 
 class InventoryRepository(ABC):
     @abstractmethod
-    def find_all(self) -> List[Inventory]:
+    def find_all(self, include_deleted: bool = False) -> List[Inventory]:
         pass
 
     @abstractmethod
-    def find_by_id(self, id: Uuid) -> Optional[Inventory]:
+    def find_by_uuid(
+        self, uuid: Uuid, include_deleted: bool = False
+    ) -> Optional[Inventory]:
         pass
 
     @abstractmethod
-    def find_all_by_user_id(
-        self, id: Uuid, include_deleted: bool = False
+    def find_all_by_user_uuid(
+        self, user_uuid: Uuid, include_deleted: bool = False
     ) -> List[Inventory]:
         pass
 
     @abstractmethod
-    def save(self, product: Inventory) -> bool:
+    def save(self, inventory: Inventory) -> bool:
         pass
 
     @abstractmethod
-    def delete(self, product: Inventory) -> Tuple[bool, Optional[Inventory]]:
+    def delete(self, inventory: Inventory) -> Tuple[bool, Optional[Inventory]]:
         pass
 
     @abstractmethod
-    def update(self, product: Inventory) -> Tuple[bool, Optional[Inventory]]:
+    def update(self, inventory: Inventory) -> Tuple[bool, Optional[Inventory]]:
         pass

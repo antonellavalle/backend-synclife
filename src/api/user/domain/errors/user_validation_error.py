@@ -14,11 +14,4 @@ class UserValidationTypeError(Enum):
 
 class UserValidationError(UserError):
     def __init__(self, error_type: UserValidationTypeError):
-        """
-        Initializes the UserValidationError exception.
-
-        Args:
-            error_type (UserValidationTypeError): The type of error that occurred during
-                                                  validation.
-        """
-        super().__init__(cast(Dict[str, str | int], error_type.value))
+        super().__init__(error=cast(Dict[str, str | int], error_type.value))

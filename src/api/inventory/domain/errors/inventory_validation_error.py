@@ -21,4 +21,4 @@ class InventoryValidationTypeError(Enum):
 
 class InventoryValidationError(InventoryError):
     def __init__(self, error_type: InventoryValidationTypeError):
-        super().__init__(cast(Dict[str, str | int], error_type.value))
+        super().__init__(error=cast(Dict[str, str | int], error_type.value))

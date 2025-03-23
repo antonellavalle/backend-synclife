@@ -26,8 +26,10 @@ class DragonflyValidationTokenRepository(ValidationTokenRepository):
         )
         return validate_token
 
-    def find_user_from_validation_request(self, validate_token: str) -> Optional[Uuid]:
-        user = self.__client.get(validate_token)
+    def find_user_from_validation_request(
+        self, validation_token: str
+    ) -> Optional[Uuid]:
+        user = self.__client.get(validation_token)
         return Uuid(str(user)) if user else None
 
     def delete_validation_request(self, validation_token: str) -> None:

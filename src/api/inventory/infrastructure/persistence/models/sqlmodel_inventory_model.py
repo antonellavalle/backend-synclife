@@ -14,7 +14,7 @@ class SQLModelInventoryModel(SQLModel, table=True):
     __tablename__ = "inventory"
 
     uuid: str = Field(primary_key=True)
-    user_uuid: str = Field(foreign_key="users.id")
+    user_uuid: str = Field(foreign_key="user.uuid")
     product_name: str
     amount: int
     expiration_date: date
@@ -38,8 +38,8 @@ class SQLModelInventoryModel(SQLModel, table=True):
 
     def to_entity(self) -> "Inventory":
         return Inventory(
-            uuid=Uuid(self.uuid),
-            user_uuid=Uuid(self.user_uuid),
+            uuid=Uuid(uuid=self.uuid),
+            user_uuid=Uuid(uuid=self.user_uuid),
             product_name=self.product_name,
             amount=self.amount,
             expiration_date=self.expiration_date,

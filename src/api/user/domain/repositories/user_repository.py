@@ -8,11 +8,11 @@ from src.api.user.domain.value_objects.email import Email
 
 class UserRepository(ABC):
     @abstractmethod
-    def find_all(self) -> List[User]:
+    def find_all(self, include_deleted: bool = False) -> List[User]:
         pass
 
     @abstractmethod
-    def find_by_id(self, id: Uuid, include_deleted: bool = False) -> Optional[User]:
+    def find_by_uuid(self, uuid: Uuid, include_deleted: bool = False) -> Optional[User]:
         pass
 
     @abstractmethod

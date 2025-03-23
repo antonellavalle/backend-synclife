@@ -64,6 +64,7 @@ class FastAPITagController:
 
         tag = use_case.execute(dto=dto)
 
+        # TODO: optimizar response
         return PydanticCreateTagResponseDTO(
             tag=SQLModelTagModel.from_entity(entity=tag)
         )
@@ -82,6 +83,7 @@ class FastAPITagController:
         dto = request_dto.to_application(session_token=session_token)
         tag = use_case.execute(dto=dto)
 
+        # TODO: optimizar response
         return PydanticUpdateTagResponseDTO(
             tag=SQLModelTagModel.from_entity(entity=tag)
         )
@@ -100,6 +102,7 @@ class FastAPITagController:
         dto = request_dto.to_application(session_token=session_token)
         tag = use_case.execute(dto=dto)
 
+        # TODO: optimizar response
         return PydanticDeleteTagResponseDTO(
             tag=SQLModelTagModel.from_entity(entity=tag)
         )
@@ -118,6 +121,7 @@ class FastAPITagController:
         )
         tag = use_case.execute(dto=dto)
 
+        # TODO: optimizar response
         return PydanticViewTagResponseDTO(tag=SQLModelTagModel.from_entity(entity=tag))
 
     @staticmethod
@@ -137,4 +141,5 @@ class FastAPITagController:
 
         response_tags = [TagResponseType.from_entity(entity=tag) for tag in tags]
 
+        # TODO: optimizar response
         return PydanticViewAllTagsResponseDTO(tags=response_tags)

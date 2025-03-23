@@ -33,10 +33,10 @@ class RequestAccountRecoveryUseCase:
         )
 
     def execute(self, dto: RequestAccountRecoveryDTO) -> None:
-        email = Email(dto.email)
+        email = Email(email=dto.email)
 
         user = UserRepositoryValidator.user_found(
-            self.__user_repository.find_by_email(email=email, include_deleted=True)
+            user=self.__user_repository.find_by_email(email=email, include_deleted=True)
         )
 
         verify_token = self.__validation_token_repository.create_validation_request(

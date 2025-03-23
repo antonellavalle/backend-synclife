@@ -72,7 +72,9 @@ class Reminder:
     @title.setter
     def title(self, value: str) -> None:
         if not value:
-            raise ReminderValidationError(ReminderValidationTypeError.INVALID_TITLE)
+            raise ReminderValidationError(
+                error_type=ReminderValidationTypeError.INVALID_TITLE
+            )
         self.__title = value.strip()
 
     @property
@@ -86,7 +88,7 @@ class Reminder:
 
         if remind_date < current_date:
             raise ReminderValidationError(
-                ReminderValidationTypeError.INVALID_REMINDER_DATE
+                error_type=ReminderValidationTypeError.INVALID_REMINDER_DATE
             )
         self.__remind_date = remind_date
 

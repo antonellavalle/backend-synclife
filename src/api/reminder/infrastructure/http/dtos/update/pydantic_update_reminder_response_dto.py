@@ -1,9 +1,9 @@
-from datetime import datetime
-
 from pydantic import BaseModel
+
+from src.api.reminder.infrastructure.persistence.models.sqlmodel_reminder_model import (
+    SQLModelReminderModel,
+)
 
 
 class PydanticUpdateReminderResponseDTO(BaseModel):
-    uuid: str
-    title: str
-    remind_date: datetime
+    reminder: SQLModelReminderModel

@@ -27,8 +27,8 @@ class ViewAllRemindersUseCase:
             session_token=dto.session_token,
         )
 
-        reminders = self.__reminder_repository.find_all_by_user_id(
-            Uuid(user_request_uuid)
+        reminders = self.__reminder_repository.find_all_by_user_uuid(
+            user_uuid=Uuid(uuid=user_request_uuid)
         )
 
         return reminders

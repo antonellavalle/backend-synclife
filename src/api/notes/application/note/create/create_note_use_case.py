@@ -2,6 +2,10 @@ from datetime import datetime
 
 from src.api.notes.application.note.create.create_note_dto import CreateNoteDTO
 from src.api.notes.domain.entities.note import Note
+from src.api.notes.domain.errors.note.note_repository_error import (
+    NoteRepositoryError,
+    NoteRepositoryTypeError,
+)
 from src.api.notes.domain.repositories.note_repository import NoteRepository
 from src.api.notes.domain.validators.notes_repository_validator import (
     NotesRepositoryValidator,
@@ -44,5 +48,11 @@ class CreateNoteUseCase:
             tags=[],
         )
 
-        self.__note_repository.save(note=note)
+        is_saved = self.__note_repository.save(note=note)
+
+        if not is_saved:
+            raise NoteRepositoryError(
+                error_type=NoteRepositoryTypeError.OPERATION_FAILED
+            )
+
         return note

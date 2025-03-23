@@ -11,18 +11,19 @@ class ReminderRepository(ABC):
         pass
 
     @abstractmethod
-    def find_by_id(self, id: Uuid, include_deleted: bool = False) -> Optional[Reminder]:
+    def find_by_uuid(
+        self, uuid: Uuid, include_deleted: bool = False
+    ) -> Optional[Reminder]:
         pass
 
     @abstractmethod
-    def find_all_by_user_id(
-        self, user_id: Uuid, include_deleted: bool = False
+    def find_all_by_user_uuid(
+        self, user_uuid: Uuid, include_deleted: bool = False
     ) -> List[Reminder]:
         pass
 
-    # TODO: ver de arreglar esto, no hace falta la tupla
     @abstractmethod
-    def save(self, reminder: Reminder) -> Tuple[bool, Optional[Reminder]]:
+    def save(self, reminder: Reminder) -> bool:
         pass
 
     @abstractmethod

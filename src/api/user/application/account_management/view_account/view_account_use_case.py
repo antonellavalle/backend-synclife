@@ -20,11 +20,12 @@ class ViewAccountUseCase:
 
     def execute(self, dto: ViewAccountDTO) -> User:
         user_request_uuid = SessionRepositoryValidator.validate_session_token(
-            self.__session_repository, dto.session_token
+            session_repository=self.__session_repository,
+            session_token=dto.session_token,
         )
 
         user = UserRepositoryValidator.user_found(
-            self.__user_repository.find_by_id(Uuid(user_request_uuid))
+            user=self.__user_repository.find_by_uuid(uuid=Uuid(uuid=user_request_uuid))
         )
 
         return user

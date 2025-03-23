@@ -19,13 +19,16 @@ class LoginUseCase:
         self.__session_repository = session_repository
 
     def execute(self, dto: LoginDTO) -> str:
-        email = Email(dto.email)
+        email = Email(email=dto.email)
 
         user = UserRepositoryValidator.user_found(
-            self.__user_repository.find_by_email(email=email, validate=False), True
+            user=self.__user_repository.find_by_email(email=email, validate=False),
+            is_login=True,
         )
 
-        if not user.password.check_password(dto.password):
-            raise UserValidationError(UserValidationTypeError.INVALID_CREDENTIALS)
+        if not user.password.check_password(plain_password=dto.password):
+            raise UserValidationError(
+                error_type=UserValidationTypeError.INVALID_CREDENTIALS
+            )
 
-        return self.__session_repository.create_session(user.uuid)
+        return self.__session_repository.create_session(user_id=user.uuid)

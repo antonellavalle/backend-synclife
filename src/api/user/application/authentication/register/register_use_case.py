@@ -41,12 +41,16 @@ class RegisterUseCase:
         )
 
     def execute(self, dto: RegisterDTO) -> User:
-        email = Email(dto.email)
+        email = Email(email=dto.email)
 
-        existing_user = self.__user_repository.find_by_email(email, True)
+        existing_user = self.__user_repository.find_by_email(
+            email=email, include_deleted=True
+        )
         if existing_user is not None:
             if existing_user.account_verified:
-                raise UserRepositoryError(UserRepositoryTypeError.USER_ALREADY_EXISTS)
+                raise UserRepositoryError(
+                    error_type=UserRepositoryTypeError.USER_ALREADY_EXISTS
+                )
             else:
                 verify_token = (
                     self.__validate_user_repository.create_validation_request(
@@ -57,16 +61,16 @@ class RegisterUseCase:
                 return existing_user
 
         UserRepositoryValidator.is_email_already_registered(
-            self.__user_repository, email
+            user_repository=self.__user_repository, email=email
         )
 
         user = User(
             uuid=Uuid(),
             email=email,
-            password=Password(dto.password),
-            full_name=FullName(dto.first_name, dto.last_name),
+            password=Password(password=dto.password),
+            full_name=FullName(first_name=dto.first_name, last_name=dto.last_name),
             birth_date=dto.birth_date,
-            phone=Phone(dto.phone),
+            phone=Phone(phone=dto.phone),
             account_verified=False,
             is_deleted=False,
             created_at=datetime.now(),
@@ -77,6 +81,11 @@ class RegisterUseCase:
             user_uuid=user.uuid
         )
         self.__send_email(to=str(email), url=f"{dto.url}/{verify_token}")
-        self.__user_repository.save(user=user)
+        is_saved = self.__user_repository.save(user=user)
+
+        if not is_saved:
+            raise UserRepositoryError(
+                error_type=UserRepositoryTypeError.OPERATION_FAILED
+            )
 
         return user

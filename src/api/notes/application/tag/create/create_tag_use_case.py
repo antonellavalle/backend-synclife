@@ -2,6 +2,10 @@ from datetime import datetime
 
 from src.api.notes.application.tag.create.create_tag_dto import CreateTagDTO
 from src.api.notes.domain.entities.tag import Tag
+from src.api.notes.domain.errors.tag.tag_repository_error import (
+    TagRepositoryError,
+    TagRepositoryTypeError,
+)
 from src.api.notes.domain.repositories.tag_repository import TagRepository
 from src.api.notes.domain.validators.tag_repository_validator import (
     TagRepositoryValidator,
@@ -40,5 +44,9 @@ class CreateTagUseCase:
             is_deleted=False,
         )
 
-        self.__tag_repository.save(tag=tag)
+        is_saved = self.__tag_repository.save(tag=tag)
+
+        if not is_saved:
+            raise TagRepositoryError(error_type=TagRepositoryTypeError.OPERATION_FAILED)
+
         return tag

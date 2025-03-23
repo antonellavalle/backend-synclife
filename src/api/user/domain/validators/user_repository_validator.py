@@ -15,16 +15,24 @@ from src.api.user.domain.value_objects.email import Email
 
 class UserRepositoryValidator:
     @staticmethod
-    def is_email_already_registered(repository: UserRepository, email: Email) -> None:
-        existing_user = repository.find_by_email(email, True)
+    def is_email_already_registered(
+        user_repository: UserRepository, email: Email
+    ) -> None:
+        existing_user = user_repository.find_by_email(email=email, include_deleted=True)
         if existing_user is not None:
-            raise UserRepositoryError(UserRepositoryTypeError.USER_ALREADY_EXISTS)
+            raise UserRepositoryError(
+                error_type=UserRepositoryTypeError.USER_ALREADY_EXISTS
+            )
 
     @staticmethod
     def user_found(user: Optional[User], is_login: bool = False) -> User:
         if user is None:
             if is_login:
-                raise UserValidationError(UserValidationTypeError.INVALID_CREDENTIALS)
+                raise UserValidationError(
+                    error_type=UserValidationTypeError.INVALID_CREDENTIALS
+                )
             else:
-                raise UserRepositoryError(UserRepositoryTypeError.USER_NOT_FOUND)
+                raise UserRepositoryError(
+                    error_type=UserRepositoryTypeError.USER_NOT_FOUND
+                )
         return user

@@ -31,22 +31,24 @@ class ChangePasswordUseCase:
     def execute(self, dto: ChangePasswordDTO) -> None:
         user_uuid = (
             self.__validation_token_repository.find_user_from_validation_request(
-                dto.validate_token
+                validation_token=dto.validate_token
             )
         )
 
         if user_uuid is None:
             raise ValidateTokenRepositoryError(
-                ValidateTokenRepositoryTypeError.INVALID_TOKEN
+                error_type=ValidateTokenRepositoryTypeError.INVALID_TOKEN
             )
 
         user = UserRepositoryValidator.user_found(
-            self.__user_repository.find_by_id(user_uuid)
+            user=self.__user_repository.find_by_uuid(uuid=user_uuid)
         )
 
-        user.password = Password(dto.new_password)
+        user.password = Password(password=dto.new_password)
 
-        is_updated, user_updated = self.__user_repository.update(user)
+        is_updated, user_updated = self.__user_repository.update(user=user)
 
         if not is_updated or user_updated is None:
-            raise UserRepositoryError(UserRepositoryTypeError.OPERATION_FAILED)
+            raise UserRepositoryError(
+                error_type=UserRepositoryTypeError.OPERATION_FAILED
+            )

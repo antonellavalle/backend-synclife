@@ -33,10 +33,10 @@ class RequestChangePasswordUseCase:
         )
 
     def execute(self, dto: RequestChangePasswordDTO) -> None:
-        email = Email(dto.email)
+        email = Email(email=dto.email)
 
         user = UserRepositoryValidator.user_found(
-            self.__user_repository.find_by_email(email=email)
+            user=self.__user_repository.find_by_email(email=email)
         )
 
         verify_token = self.__validation_token_repository.create_validation_request(

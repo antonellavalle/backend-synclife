@@ -33,29 +33,31 @@ class VerifyAccountUseCase:
     def execute(self, dto: VerifyAccountDTO) -> str:
         user_uuid = (
             self.__validation_token_repository.find_user_from_validation_request(
-                dto.validate_token
+                validation_token=dto.validate_token
             )
         )
 
         if user_uuid is None:
             raise ValidateTokenRepositoryError(
-                ValidateTokenRepositoryTypeError.INVALID_TOKEN
+                error_type=ValidateTokenRepositoryTypeError.INVALID_TOKEN
             )
 
         user = UserRepositoryValidator.user_found(
-            self.__user_repository.find_by_id(user_uuid)
+            user=self.__user_repository.find_by_uuid(uuid=user_uuid)
         )
 
         if user.account_verified:
             raise ValidateTokenRepositoryError(
-                ValidateTokenRepositoryTypeError.ALREADY_VERIFIED
+                error_type=ValidateTokenRepositoryTypeError.ALREADY_VERIFIED
             )
 
         user.account_verified = True
 
-        is_updated, user_updated = self.__user_repository.update(user)
+        is_updated, user_updated = self.__user_repository.update(user=user)
 
         if not is_updated or user_updated is None:
-            raise UserRepositoryError(UserRepositoryTypeError.OPERATION_FAILED)
+            raise UserRepositoryError(
+                error_type=UserRepositoryTypeError.OPERATION_FAILED
+            )
 
-        return self.__session_repository.create_session(user_updated.uuid)
+        return self.__session_repository.create_session(user_id=user_updated.uuid)

@@ -22,7 +22,7 @@ class SQLModelTagModel(SQLModel, table=True):
     __tablename__ = "tag"
 
     uuid: str = Field(primary_key=True)
-    user_uuid: str = Field(foreign_key="users.id")
+    user_uuid: str = Field(foreign_key="user.uuid")
     name: str
     is_deleted: bool = Field(default=False)
     created_at: datetime = Field(default_factory=datetime.today)
@@ -45,8 +45,8 @@ class SQLModelTagModel(SQLModel, table=True):
 
     def to_entity(self) -> "Tag":
         return Tag(
-            uuid=Uuid(self.uuid),
-            user_uuid=Uuid(self.user_uuid),
+            uuid=Uuid(uuid=self.uuid),
+            user_uuid=Uuid(uuid=self.user_uuid),
             name=self.name,
             is_deleted=self.is_deleted,
             created_at=self.created_at,

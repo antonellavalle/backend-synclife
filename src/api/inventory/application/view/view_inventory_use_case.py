@@ -28,15 +28,15 @@ class ViewInventoryUseCase:
             session_token=dto.session_token,
         )
 
-        inventory_uuid = Uuid(dto.inventory_uuid)
+        inventory_uuid = Uuid(uuid=dto.inventory_uuid)
         inventory = InventoryRepositoryValidator.inventory_found(
-            self.__inventory_repository.find_by_id(inventory_uuid)
+            inventory=self.__inventory_repository.find_by_uuid(uuid=inventory_uuid)
         )
 
         InventoryRepositoryValidator.user_owns_inventory(
-            repository=self.__inventory_repository,
-            user_id=Uuid(user_request_uuid),
-            inventory_id=inventory_uuid,
+            inventory_repository=self.__inventory_repository,
+            user_uuid=Uuid(uuid=user_request_uuid),
+            inventory_uuid=inventory_uuid,
         )
 
         return inventory

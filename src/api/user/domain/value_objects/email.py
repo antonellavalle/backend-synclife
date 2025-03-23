@@ -28,4 +28,4 @@ class Email:
         if re.match(email_regex, value):
             self.__email = value
             return
-        raise EmailError(EmailTypeError.INVALID_EMAIL)
+        raise EmailError(error_type=EmailTypeError.INVALID_EMAIL)

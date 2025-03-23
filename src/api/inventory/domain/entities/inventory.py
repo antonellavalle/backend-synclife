@@ -75,7 +75,7 @@ class Inventory:
     def product_name(self, value: str) -> None:
         if not value:
             raise InventoryValidationError(
-                InventoryValidationTypeError.INVALID_PRODUCT_NAME
+                error_type=InventoryValidationTypeError.INVALID_PRODUCT_NAME
             )
         self.__product_name = value
 
@@ -86,7 +86,9 @@ class Inventory:
     @amount.setter
     def amount(self, value: int) -> None:
         if value <= 0:
-            raise InventoryValidationError(InventoryValidationTypeError.INVALID_AMOUNT)
+            raise InventoryValidationError(
+                error_type=InventoryValidationTypeError.INVALID_AMOUNT
+            )
         self.__amount = value
 
     @property
@@ -96,7 +98,9 @@ class Inventory:
     @expiration_date.setter
     def expiration_date(self, value: date) -> None:
         if value < date.today():
-            raise InventoryValidationError(InventoryValidationTypeError.EXPIRED_ITEM)
+            raise InventoryValidationError(
+                error_type=InventoryValidationTypeError.EXPIRED_ITEM
+            )
         self.__expiration_date = value
 
     @property

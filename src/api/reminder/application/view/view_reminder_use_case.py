@@ -26,14 +26,14 @@ class ViewReminderUseCase:
             session_token=dto.session_token,
         )
 
-        reminder_uuid = Uuid(dto.reminder_uuid)
+        reminder_uuid = Uuid(uuid=dto.reminder_uuid)
         reminder = ReminderRepositoryValidator.reminder_found(
-            self.__reminder_repository.find_by_id(reminder_uuid)
+            reminder=self.__reminder_repository.find_by_uuid(uuid=reminder_uuid)
         )
 
         ReminderRepositoryValidator.user_owns_reminder(
             reminder_repository=self.__reminder_repository,
-            user_uuid=Uuid(user_request_uuid),
+            user_uuid=Uuid(uuid=user_request_uuid),
             reminder_uuid=reminder_uuid,
         )
 

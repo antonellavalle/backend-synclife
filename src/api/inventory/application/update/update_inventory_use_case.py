@@ -32,27 +32,28 @@ class UpdateInventoryUseCase:
             session_token=dto.session_token,
         )
 
-        inventory_uuid = Uuid(dto.inventory_uuid)
+        inventory_uuid = Uuid(uuid=dto.inventory_uuid)
         inventory = InventoryRepositoryValidator.inventory_found(
-            self.__inventory_repository.find_by_id(inventory_uuid)
+            inventory=self.__inventory_repository.find_by_uuid(uuid=inventory_uuid)
         )
 
         InventoryRepositoryValidator.user_owns_inventory(
-            inventory_id=inventory_uuid,
-            repository=self.__inventory_repository,
-            user_id=Uuid(user_request_uuid),
+            inventory_uuid=inventory_uuid,
+            inventory_repository=self.__inventory_repository,
+            user_uuid=Uuid(uuid=user_request_uuid),
         )
 
-        # Actualiza item
         inventory.product_name = dto.product_name
         inventory.amount = dto.amount
         inventory.expiration_date = dto.expiration_date
 
-        is_updated, inventory_modified = self.__inventory_repository.update(inventory)
+        is_updated, inventory_modified = self.__inventory_repository.update(
+            inventory=inventory
+        )
 
         if not is_updated or inventory_modified is None:
             raise InventoryRepositoryError(
-                InventoryRepositoryTypeError.OPERATION_FAILED
+                error_type=InventoryRepositoryTypeError.OPERATION_FAILED
             )
 
         return inventory_modified

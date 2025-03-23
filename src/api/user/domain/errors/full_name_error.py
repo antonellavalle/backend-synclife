@@ -15,12 +15,4 @@ class FullNameTypeError(Enum):
 
 class FullNameError(UserError):
     def __init__(self, error_type: FullNameTypeError):
-        """
-        Initializes the FullNameError exception using an error type defined in
-        FullNameTypeError.
-
-        Args:
-            error_type (FullNameTypeError): The type of error that occurred during
-                                            validation.
-        """
-        super().__init__(cast(Dict[str, str | int], error_type.value))
+        super().__init__(error=cast(Dict[str, str | int], error_type.value))

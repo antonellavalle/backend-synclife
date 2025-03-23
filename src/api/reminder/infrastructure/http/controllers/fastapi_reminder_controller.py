@@ -42,6 +42,9 @@ from src.api.reminder.infrastructure.http.dtos.view_all.pydantic_view_all_remind
     PydanticViewAllRemindersResponseDTO,
     ReminderResponseType,
 )
+from src.api.reminder.infrastructure.persistence.models.sqlmodel_reminder_model import (
+    SQLModelReminderModel,
+)
 from src.api.reminder.infrastructure.persistence.repositories.sqlmodel_reminder_repository import (  # noqa: E501
     SQLModelReminderRepository,
 )
@@ -66,14 +69,13 @@ class FastAPIReminderController:
         use_case = CreateReminderUseCase(
             reminder_repository=reminder_repo, session_repository=session_repo
         )
+        dto = request_dto.to_application(session_token=session_token)
 
-        dto = request_dto.to_application(session_token)
-        reminder = use_case.execute(dto)
+        reminder = use_case.execute(dto=dto)
 
+        # TODO: optimizar response
         return PydanticCreateReminderResponseDTO(
-            uuid=str(reminder.uuid),
-            title=reminder.title,
-            remind_date=reminder.remind_date,
+            reminder=SQLModelReminderModel.from_entity(entity=reminder)
         )
 
     @staticmethod
@@ -87,14 +89,13 @@ class FastAPIReminderController:
         use_case = UpdateReminderUseCase(
             reminder_repository=reminder_repo, session_repository=session_repo
         )
+        dto = request_dto.to_application(session_token=session_token)
 
-        dto = request_dto.to_application(session_token)
-        reminder = use_case.execute(dto)
+        reminder = use_case.execute(dto=dto)
 
+        # TODO: optimizar response
         return PydanticUpdateReminderResponseDTO(
-            uuid=str(reminder.uuid),
-            title=reminder.title,
-            remind_date=reminder.remind_date,
+            reminder=SQLModelReminderModel.from_entity(entity=reminder)
         )
 
     @staticmethod
@@ -108,12 +109,13 @@ class FastAPIReminderController:
         use_case = DeleteReminderUseCase(
             reminder_repository=reminder_repo, session_repository=session_repo
         )
+        dto = request_dto.to_application(session_token=session_token)
 
-        dto = request_dto.to_application(session_token)
-        use_case.execute(dto)
+        reminder = use_case.execute(dto=dto)
 
+        # TODO: optimizar response
         return PydanticDeleteReminderResponseDTO(
-            msg="The reminder was successfully deleted."
+            reminder=SQLModelReminderModel.from_entity(entity=reminder)
         )
 
     @staticmethod
@@ -127,16 +129,15 @@ class FastAPIReminderController:
         use_case = ViewReminderUseCase(
             reminder_repository=reminder_repo, session_repository=session_repo
         )
-
         dto = PydanticViewReminderRequestDTO(
             reminder_uuid=reminder_uuid
         ).to_application(session_token=session_token)
+
         reminder = use_case.execute(dto)
 
+        # TODO: optimizar response
         return PydanticViewReminderResponseDTO(
-            uuid=str(reminder.uuid),
-            title=reminder.title,
-            remind_date=reminder.remind_date,
+            reminder=SQLModelReminderModel.from_entity(entity=reminder)
         )
 
     @staticmethod
@@ -150,19 +151,15 @@ class FastAPIReminderController:
         use_case = ViewAllRemindersUseCase(
             reminder_repository=reminder_repo, session_repository=session_repo
         )
-
         dto = PydanticViewAllRemindersRequestDTO().to_application(
             session_token=session_token
         )
-        reminder_items = use_case.execute(dto)
+
+        reminders = use_case.execute(dto)
 
         response_reminders_items = [
-            ReminderResponseType(
-                uuid=str(reminder_item.uuid),
-                title=reminder_item.title,
-                remind_date=reminder_item.remind_date,
-            )
-            for reminder_item in reminder_items
+            ReminderResponseType.from_entity(entity=reminder) for reminder in reminders
         ]
 
+        # TODO: optimizar response
         return PydanticViewAllRemindersResponseDTO(items=response_reminders_items)

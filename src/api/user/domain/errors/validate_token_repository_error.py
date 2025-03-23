@@ -11,4 +11,4 @@ class ValidateTokenRepositoryTypeError(Enum):
 
 class ValidateTokenRepositoryError(UserError):
     def __init__(self, error_type: ValidateTokenRepositoryTypeError):
-        super().__init__(cast(Dict[str, str | int], error_type.value))
+        super().__init__(error=cast(Dict[str, str | int], error_type.value))

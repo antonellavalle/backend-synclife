@@ -15,4 +15,4 @@ class InventoryRepositoryTypeError(Enum):
 
 class InventoryRepositoryError(InventoryError):
     def __init__(self, error_type: InventoryRepositoryTypeError):
-        super().__init__(cast(Dict[str, str | int], error_type.value))
+        super().__init__(error=cast(Dict[str, str | int], error_type.value))

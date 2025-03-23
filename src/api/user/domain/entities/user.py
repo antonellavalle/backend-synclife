@@ -106,7 +106,9 @@ class User:
         )
 
         if (age < minimum_age) or (valor > today):
-            raise UserValidationError(UserValidationTypeError.INVALID_BIRTHDATE)
+            raise UserValidationError(
+                error_type=UserValidationTypeError.INVALID_BIRTHDATE
+            )
         self.__birth_date = valor
 
     @property

@@ -27,8 +27,8 @@ class ViewAllInventoryUseCase:
             session_token=dto.session_token,
         )
 
-        inventory_items = self.__inventory_repository.find_all_by_user_id(
-            Uuid(user_request_uuid)
+        inventory_items = self.__inventory_repository.find_all_by_user_uuid(
+            user_uuid=Uuid(uuid=user_request_uuid)
         )
 
         return inventory_items

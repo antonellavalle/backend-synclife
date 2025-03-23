@@ -4,6 +4,8 @@ from typing import List, Optional
 
 from pydantic import BaseModel
 
+from src.api.inventory.domain.entities.inventory import Inventory
+
 
 @dataclass
 class InventoryResponseType:
@@ -15,6 +17,19 @@ class InventoryResponseType:
     created_at: datetime
     updated_at: Optional[datetime]
     is_deleted: bool
+
+    @staticmethod
+    def from_entity(entity: Inventory) -> "InventoryResponseType":
+        return InventoryResponseType(
+            uuid=str(entity.uuid),
+            user_uuid=str(entity.user_uuid),
+            product_name=entity.product_name,
+            amount=entity.amount,
+            expiration_date=entity.expiration_date,
+            created_at=entity.created_at,
+            updated_at=entity.updated_at,
+            is_deleted=entity.is_deleted,
+        )
 
 
 class PydanticViewAllInventoryResponseDTO(BaseModel):

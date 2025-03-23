@@ -28,10 +28,12 @@ class DeleteAccountUseCase:
         )
 
         user = UserRepositoryValidator.user_found(
-            self.__user_repository.find_by_id(Uuid(user_request_uuid))
+            user=self.__user_repository.find_by_uuid(uuid=Uuid(uuid=user_request_uuid))
         )
 
-        is_deleted, user_deleted = self.__user_repository.delete(user)
+        is_deleted, user_deleted = self.__user_repository.delete(user=user)
 
         if not is_deleted or user_deleted is None:
-            raise UserRepositoryError(UserRepositoryTypeError.OPERATION_FAILED)
+            raise UserRepositoryError(
+                error_type=UserRepositoryTypeError.OPERATION_FAILED
+            )

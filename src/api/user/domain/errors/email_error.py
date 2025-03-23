@@ -10,4 +10,4 @@ class EmailTypeError(Enum):
 
 class EmailError(UserError):
     def __init__(self, error_type: EmailTypeError):
-        super().__init__(cast(Dict[str, str | int], error_type.value))
+        super().__init__(error=cast(Dict[str, str | int], error_type.value))

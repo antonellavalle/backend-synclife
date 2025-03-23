@@ -32,24 +32,26 @@ class SQLModelReminderRepository(ReminderRepository):
         reminders = self.db_connection.exec(query).all()
         return [reminder.to_entity() for reminder in reminders]
 
-    def find_by_id(self, id: Uuid, include_deleted: bool = False) -> Optional[Reminder]:
+    def find_by_uuid(
+        self, uuid: Uuid, include_deleted: bool = False
+    ) -> Optional[Reminder]:
         query = (
-            select(SQLModelReminderModel).where(SQLModelReminderModel.id == str(id))
+            select(SQLModelReminderModel).where(SQLModelReminderModel.uuid == str(uuid))
             if include_deleted
             else (
                 select(SQLModelReminderModel)
-                .where(SQLModelReminderModel.id == str(id))
+                .where(SQLModelReminderModel.uuid == str(uuid))
                 .where(not_(SQLModelReminderModel.is_deleted))
             )
         )
         reminder = self.db_connection.exec(query).first()
         return reminder.to_entity() if reminder else None
 
-    def find_all_by_user_id(
-        self, user_id: Uuid, include_deleted: bool = False
+    def find_all_by_user_uuid(
+        self, user_uuid: Uuid, include_deleted: bool = False
     ) -> List[Reminder]:
         query = select(SQLModelReminderModel).where(
-            SQLModelReminderModel.user_id == str(user_id)
+            SQLModelReminderModel.user_uuid == str(user_uuid)
         )
 
         if not include_deleted:
@@ -58,30 +60,16 @@ class SQLModelReminderRepository(ReminderRepository):
         reminders = self.db_connection.exec(query).all()
         return [reminder.to_entity() for reminder in reminders]
 
-    def save(self, reminder: Reminder) -> tuple[bool, Optional[Reminder]]:
-        try:
-            # Convertir la entidad Reminder al modelo SQL
-            reminder_model = SQLModelReminderModel.from_entity(reminder)
-
-            # Agregar y confirmar en la base de datos
-            self.db_connection.add(reminder_model)
-            self.db_connection.commit()
-
-            # Recuperar el objeto guardado como una entidad Reminder
-            reminder_saved = reminder_model.to_entity()
-
-            # Retornar éxito y la entidad guardada
-            return True, reminder_saved
-        except Exception as e:
-            # Si ocurre algún error, hacemos rollback y retornamos fallo
-            self.db_connection.rollback()
-            print(f"Error al guardar el recordatorio: {e}")  # Para depuración
-            return False, None
+    def save(self, reminder: Reminder) -> bool:
+        reminder_model = SQLModelReminderModel.from_entity(reminder)
+        self.db_connection.add(reminder_model)
+        self.db_connection.commit()
+        return True
 
     def update(self, reminder: Reminder) -> Tuple[bool, Optional[Reminder]]:
         existing_reminder = self.db_connection.exec(
             select(SQLModelReminderModel)
-            .where(SQLModelReminderModel.id == str(reminder.uuid))
+            .where(SQLModelReminderModel.uuid == str(reminder.uuid))
             .where(not_(SQLModelReminderModel.is_deleted))
         ).first()
 
@@ -108,7 +96,7 @@ class SQLModelReminderRepository(ReminderRepository):
     def delete(self, reminder: Reminder) -> Tuple[bool, Optional[Reminder]]:
         existing_reminder = self.db_connection.exec(
             select(SQLModelReminderModel)
-            .where(SQLModelReminderModel.id == str(reminder.uuid))
+            .where(SQLModelReminderModel.uuid == str(reminder.uuid))
             .where(not_(SQLModelReminderModel.is_deleted))
         ).first()
 
