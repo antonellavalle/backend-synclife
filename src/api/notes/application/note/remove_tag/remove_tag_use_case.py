@@ -1,12 +1,16 @@
 from src.api.notes.application.note.remove_tag.remove_tag_dto import RemoveTagDTO
-from src.api.notes.domain.entities.notes import Notes
-from src.api.notes.domain.repositories.notes_repository import NotesRepository
-from src.api.notes.domain.repositories.tags_repository import TagsRepository
-from src.api.notes.domain.validators.notes.notes_repository_validator import (
+from src.api.notes.domain.entities.note import Note
+from src.api.notes.domain.errors.note.note_repository_error import (
+    NoteRepositoryError,
+    NoteRepositoryTypeError,
+)
+from src.api.notes.domain.repositories.note_repository import NoteRepository
+from src.api.notes.domain.repositories.tag_repository import TagRepository
+from src.api.notes.domain.validators.notes_repository_validator import (
     NotesRepositoryValidator,
 )
-from src.api.notes.domain.validators.tags.tags_repository_validator import (
-    TagsRepositoryValidator,
+from src.api.notes.domain.validators.tag_repository_validator import (
+    TagRepositoryValidator,
 )
 from src.api.shared.domain.repositories.session_repository import SessionRepository
 from src.api.shared.domain.validators.session_repository_validator import (
@@ -18,39 +22,49 @@ from src.api.shared.domain.value_objects import Uuid
 class RemoveTagUseCase:
     def __init__(
         self,
-        notes_repository: NotesRepository,
-        tags_repository: TagsRepository,
+        note_repository: NoteRepository,
+        tag_repository: TagRepository,
         session_repository: SessionRepository,
     ):
-        self.__notes_repository = notes_repository
-        self.__tags_repository = tags_repository
+        self.__note_repository = note_repository
+        self.__tag_repository = tag_repository
         self.__session_repository = session_repository
 
-    def execute(self, dto: RemoveTagDTO) -> Notes:
+    def execute(self, dto: RemoveTagDTO) -> Note:
         user_request_uuid = SessionRepositoryValidator.validate_session_token(
-            self.__session_repository, dto.session_token
+            session_repository=self.__session_repository,
+            session_token=dto.session_token,
         )
 
-        # Valida que la nota exista
+        note_uuid = Uuid(uuid=dto.note_uuid)
+        tag_uuid = Uuid(uuid=dto.tag_uuid)
+        user_request_uuid = Uuid(uuid=user_request_uuid)
+
         note = NotesRepositoryValidator.note_found(
-            self.__notes_repository.find_by_id(Uuid(dto.note_id))
+            note=self.__note_repository.find_by_uuid(uuid=note_uuid)
         )
 
-        SessionRepositoryValidator.validate_permission(
-            Uuid(user_request_uuid), note.user_id
+        NotesRepositoryValidator.user_owns_note(
+            note_repository=self.__note_repository,
+            user_uuid=user_request_uuid,
+            note_uuid=note_uuid,
         )
 
-        # Valida el tag
-        tag = TagsRepositoryValidator.tag_found(
-            self.__tags_repository.find_by_id(Uuid(dto.tag_id))
+        tag = TagRepositoryValidator.tag_found(
+            tag=self.__tag_repository.find_by_uuid(uuid=tag_uuid)
         )
-        TagsRepositoryValidator.user_owns_tag(
-            self.__tags_repository, note.user_id, Uuid(dto.tag_id)
+        TagRepositoryValidator.user_owns_tag(
+            tag_repository=self.__tag_repository,
+            user_uuid=user_request_uuid,
+            tag_uuid=tag_uuid,
         )
 
-        # Remueve el tag de la nota
-        note.remove_tag(tag)
+        note.remove_tag(tag=tag)
 
-        # Actualiza la nota
-        self.__notes_repository.update(note)
-        return note
+        is_updated, updated_note = self.__note_repository.update(note=note)
+        if not is_updated or updated_note is None:
+            raise NoteRepositoryError(
+                error_type=NoteRepositoryTypeError.OPERATION_FAILED
+            )
+
+        return updated_note

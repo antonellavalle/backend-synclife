@@ -3,5 +3,5 @@ from dataclasses import dataclass
 
 @dataclass
 class FilterNotesByTagDTO:
-    tag_id: str
+    tag_uuid: str
     session_token: str

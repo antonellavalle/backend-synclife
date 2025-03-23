@@ -35,7 +35,7 @@ router: APIRouter = APIRouter(prefix="/reminder", tags=["Reminder"])
     "/",
     response_model=PydanticCreateReminderResponseDTO,
 )
-async def create(
+async def create_reminder(
     request_dto: PydanticCreateReminderRequestDTO,
     session_token: str = Header(...),
 ) -> PydanticCreateReminderResponseDTO:
@@ -46,7 +46,7 @@ async def create(
     "/",
     response_model=PydanticUpdateReminderResponseDTO,
 )
-async def update(
+async def update_reminder(
     request_dto: PydanticUpdateReminderRequestDTO, session_token: str = Header(...)
 ) -> PydanticUpdateReminderResponseDTO:
     return await FastAPIReminderController.update(request_dto, session_token)
@@ -56,7 +56,7 @@ async def update(
     "/",
     response_model=PydanticDeleteReminderResponseDTO,
 )
-async def delete(
+async def delete_reminder(
     request_dto: PydanticDeleteReminderRequestDTO, session_token: str = Header(...)
 ) -> PydanticDeleteReminderResponseDTO:
     return await FastAPIReminderController.delete(request_dto, session_token)
@@ -66,7 +66,7 @@ async def delete(
     "/{reminder_uuid}",
     response_model=PydanticViewReminderResponseDTO,
 )
-async def view(
+async def view_reminder(
     reminder_uuid: str, session_token: str = Header(...)
 ) -> PydanticViewReminderResponseDTO:
     return await FastAPIReminderController.view(reminder_uuid, session_token)
@@ -76,7 +76,7 @@ async def view(
     "/",
     response_model=PydanticViewAllRemindersResponseDTO,
 )
-async def view_all(
+async def view_all_reminders(
     session_token: str = Header(...),
 ) -> PydanticViewAllRemindersResponseDTO:
     return await FastAPIReminderController.view_all(session_token)

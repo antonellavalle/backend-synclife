@@ -9,11 +9,11 @@ from sqlmodel import SQLModel
 from src.api.inventory.infrastructure.persistence.models.sqlmodel_inventory_model import (  # noqa: E501
     SQLModelInventoryModel,
 )
-from src.api.notes.infrastructure.persistence.models.sqlmodel_notes_model import (
-    SQLModelNotesModel,
+from src.api.notes.infrastructure.persistence.models.sqlmodel_note_model import (
+    SQLModelNoteModel,
 )
-from src.api.notes.infrastructure.persistence.models.sqlmodel_tags_model import (
-    SQLModelTagsModel,
+from src.api.notes.infrastructure.persistence.models.sqlmodel_tag_model import (
+    SQLModelTagModel,
 )
 from src.api.reminder.infrastructure.persistence.models.sqlmodel_reminder_model import (  # noqa: E501
     SQLModelReminderModel,
@@ -25,8 +25,8 @@ from src.api.user.infrastructure.persistence.models.sqlmodel_user_model import (
 models = [
     SQLModelUserModel,
     SQLModelInventoryModel,
-    SQLModelNotesModel,
-    SQLModelTagsModel,
+    SQLModelNoteModel,
+    SQLModelTagModel,
     SQLModelReminderModel,
 ]
 

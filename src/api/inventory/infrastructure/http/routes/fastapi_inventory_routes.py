@@ -32,7 +32,7 @@ router: APIRouter = APIRouter(prefix="/inventory", tags=["Inventory"])
 
 
 @router.post("/", response_model=PydanticCreateInventoryResponseDTO)
-async def create(
+async def create_inventory(
     dto: PydanticCreateInventoryRequestDTO,
     session_token: str = Header(...),
 ) -> PydanticCreateInventoryResponseDTO:
@@ -40,7 +40,7 @@ async def create(
 
 
 @router.get("/{inventory_uuid}", response_model=PydanticViewInventoryResponseDTO)
-async def view(
+async def view_inventory(
     inventory_uuid: str,
     session_token: str = Header(...),
 ) -> PydanticViewInventoryResponseDTO:
@@ -48,14 +48,14 @@ async def view(
 
 
 @router.get("/", response_model=PydanticViewAllInventoryResponseDTO)
-async def view_all(
+async def view_all_inventory(
     session_token: str = Header(...),
 ) -> PydanticViewAllInventoryResponseDTO:
     return await FastAPIInventoryController.view_all(session_token)
 
 
 @router.put("/", response_model=PydanticUpdateInventoryResponseDTO)
-async def update(
+async def update_inventory(
     dto: PydanticUpdateInventoryRequestDTO,
     session_token: str = Header(...),
 ) -> PydanticUpdateInventoryResponseDTO:
@@ -63,7 +63,7 @@ async def update(
 
 
 @router.delete("/", response_model=PydanticDeleteInventoryResponseDTO)
-async def delete(
+async def delete_inventory(
     dto: PydanticDeleteInventoryRequestDTO,
     session_token: str = Header(...),
 ) -> PydanticDeleteInventoryResponseDTO:

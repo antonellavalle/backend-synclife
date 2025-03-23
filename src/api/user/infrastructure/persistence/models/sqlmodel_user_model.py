@@ -15,11 +15,11 @@ if TYPE_CHECKING:
     from src.api.inventory.infrastructure.persistence.models.sqlmodel_inventory_model import (  # noqa: E501
         SQLModelInventoryModel,
     )
-    from src.api.notes.infrastructure.persistence.models.sqlmodel_notes_model import (  # noqa: E501
-        SQLModelNotesModel,
+    from src.api.notes.infrastructure.persistence.models.sqlmodel_note_model import (  # noqa: E501
+        SQLModelNoteModel,
     )
-    from src.api.notes.infrastructure.persistence.models.sqlmodel_tags_model import (
-        SQLModelTagsModel,
+    from src.api.notes.infrastructure.persistence.models.sqlmodel_tag_model import (
+        SQLModelTagModel,
     )
     from src.api.reminder.infrastructure.persistence.models.sqlmodel_reminder_model import (  # noqa: E501
         SQLModelReminderModel,
@@ -44,8 +44,8 @@ class SQLModelUserModel(SQLModel, table=True):
     inventory_items: Mapped[List["SQLModelInventoryModel"]] = Relationship(
         back_populates="user"
     )
-    notes: Mapped[List["SQLModelNotesModel"]] = Relationship(back_populates="user")
-    tags: Mapped[List["SQLModelTagsModel"]] = Relationship(back_populates="user")
+    notes: Mapped[List["SQLModelNoteModel"]] = Relationship(back_populates="user")
+    tags: Mapped[List["SQLModelTagModel"]] = Relationship(back_populates="user")
     reminder_items: Mapped[List["SQLModelReminderModel"]] = Relationship(
         back_populates="user"
     )
