@@ -1,7 +1,10 @@
+from typing import Tuple
+
 from src.api.shared.domain.repositories.session_repository import SessionRepository
 from src.api.user.application.authentication.verify_account.verify_account_dto import (
     VerifyAccountDTO,
 )
+from src.api.user.domain.entities.user import User
 from src.api.user.domain.errors.user_repository_error import (
     UserRepositoryError,
     UserRepositoryTypeError,
@@ -30,7 +33,7 @@ class VerifyAccountUseCase:
         self.__validation_token_repository = validation_token_repository
         self.__session_repository = session_repository
 
-    def execute(self, dto: VerifyAccountDTO) -> str:
+    def execute(self, dto: VerifyAccountDTO) -> Tuple[User, str]:
         user_uuid = (
             self.__validation_token_repository.find_user_from_validation_request(
                 validation_token=dto.validate_token
@@ -60,4 +63,6 @@ class VerifyAccountUseCase:
                 error_type=UserRepositoryTypeError.OPERATION_FAILED
             )
 
-        return self.__session_repository.create_session(user_uuid=user_updated.uuid)
+        return user, self.__session_repository.create_session(
+            user_uuid=user_updated.uuid
+        )

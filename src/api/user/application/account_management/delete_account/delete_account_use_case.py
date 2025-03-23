@@ -6,6 +6,7 @@ from src.api.shared.domain.value_objects.uuid import Uuid
 from src.api.user.application.account_management.delete_account.delete_account_dto import (  # noqa: E501
     DeleteAccountDTO,
 )
+from src.api.user.domain.entities.user import User
 from src.api.user.domain.errors.user_repository_error import (
     UserRepositoryError,
     UserRepositoryTypeError,
@@ -23,7 +24,7 @@ class DeleteAccountUseCase:
         self.__user_repository = user_repository
         self.__session_repository = session_repository
 
-    def execute(self, dto: DeleteAccountDTO) -> None:
+    def execute(self, dto: DeleteAccountDTO) -> User:
         user_request_uuid = SessionRepositoryValidator.validate_session_token(
             session_repository=self.__session_repository,
             session_token=dto.session_token,
@@ -39,3 +40,5 @@ class DeleteAccountUseCase:
             raise UserRepositoryError(
                 error_type=UserRepositoryTypeError.OPERATION_FAILED
             )
+
+        return user_deleted

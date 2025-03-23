@@ -1,5 +1,8 @@
+from typing import Tuple
+
 from src.api.shared.domain.repositories.session_repository import SessionRepository
 from src.api.user.application.authentication.login.login_dto import LoginDTO
+from src.api.user.domain.entities.user import User
 from src.api.user.domain.errors.user_validation_error import (
     UserValidationError,
     UserValidationTypeError,
@@ -18,7 +21,7 @@ class LoginUseCase:
         self.__user_repository = user_repository
         self.__session_repository = session_repository
 
-    def execute(self, dto: LoginDTO) -> str:
+    def execute(self, dto: LoginDTO) -> Tuple[User, str]:
         email = Email(email=dto.email)
 
         user = UserRepositoryValidator.user_found(
@@ -31,4 +34,4 @@ class LoginUseCase:
                 error_type=UserValidationTypeError.INVALID_CREDENTIALS
             )
 
-        return self.__session_repository.create_session(user_uuid=user.uuid)
+        return user, self.__session_repository.create_session(user_uuid=user.uuid)

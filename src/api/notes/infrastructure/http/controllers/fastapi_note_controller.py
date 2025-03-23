@@ -195,6 +195,7 @@ class FastAPINotesController:
             session_repository=session_repo,
         )
         dto = request_dto.to_application(session_token=session_token)
+
         note = use_case.execute(dto=dto)
 
         # TODO: optimizar response
@@ -217,6 +218,7 @@ class FastAPINotesController:
             session_repository=session_repo,
         )
         dto = remove_data.to_application(session_token=session_token)
+
         updated_note = use_case.execute(dto=dto)
 
         # TODO: optimizar response

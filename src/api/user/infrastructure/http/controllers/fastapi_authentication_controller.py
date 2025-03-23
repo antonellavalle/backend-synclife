@@ -36,6 +36,9 @@ from src.api.user.infrastructure.http.dtos.authentication.verify_account.pydanti
 from src.api.user.infrastructure.http.dtos.authentication.verify_account.pydantic_verify_account_response_dto import (  # noqa: E501
     PydanticVerifyAccountResponseDTO,
 )
+from src.api.user.infrastructure.persistence.models.sqlmodel_user_model import (
+    SQLModelUserModel,
+)
 from src.api.user.infrastructure.persistence.repositories.dragonfly_validation_token_repository import (  # noqa: E501
     DragonflyValidationTokenRepository,
 )
@@ -55,7 +58,9 @@ class FastAPIAuthenticationController:
         smtp_email_sender_repository = MailHogSMTPEmailSenderRepository.get_repository()
 
         use_case = RegisterUseCase(
-            user_repository, smtp_email_sender_repository, user_validation_repository
+            user_repository=user_repository,
+            smtp_email_sender_repository=smtp_email_sender_repository,
+            validate_user_repository=user_validation_repository,
         )
 
         # TODO: hay que cambiar esto para que despues sea la url del front
@@ -64,10 +69,11 @@ class FastAPIAuthenticationController:
         url = base_url + "/api/users"
 
         app_dto = request_dto.to_application(url=url)
-        use_case.execute(app_dto)
+        user = use_case.execute(dto=app_dto)
 
+        # TODO: optimizar response
         return PydanticRegisterResponseDTO(
-            msg="The confirmation email was sent correctly.",
+            user=SQLModelUserModel.from_entity(entity=user)
         )
 
     @staticmethod
@@ -80,12 +86,17 @@ class FastAPIAuthenticationController:
         session_repository = DragonflySessionRepository.get_repository()
 
         use_case = VerifyAccountUseCase(
-            user_repository, user_validation_repository, session_repository
+            user_repository=user_repository,
+            validation_token_repository=user_validation_repository,
+            session_repository=session_repository,
         )
         app_dto = request_dto.to_application(validate_token=validate_token)
-        session_token = use_case.execute(app_dto)
+        user, session_token = use_case.execute(dto=app_dto)
 
-        return PydanticVerifyAccountResponseDTO(session_token=session_token)
+        # TODO: optimizar response
+        return PydanticVerifyAccountResponseDTO(
+            user=SQLModelUserModel.from_entity(entity=user), session_token=session_token
+        )
 
     @staticmethod
     @handle_exceptions
@@ -93,11 +104,15 @@ class FastAPIAuthenticationController:
         user_repository = SQLModelUserRepository.get_repository()
         session_repository = DragonflySessionRepository.get_repository()
 
-        use_case = LoginUseCase(user_repository, session_repository)
+        use_case = LoginUseCase(
+            user_repository=user_repository, session_repository=session_repository
+        )
 
         app_dto = request_dto.to_application()
-        session_token = use_case.execute(app_dto)
+        user, session_token = use_case.execute(dto=app_dto)
 
+        # TODO: optimizar response
         return PydanticLoginResponseDTO(
+            user=SQLModelUserModel.from_entity(entity=user),
             session_token=session_token,
         )

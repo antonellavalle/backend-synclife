@@ -4,6 +4,7 @@ from src.api.shared.domain.repositories.smtp_email_sender_repository import (
 from src.api.user.application.account_management.request_account_recovery.request_account_recovery_dto import (  # noqa: E501
     RequestAccountRecoveryDTO,
 )
+from src.api.user.domain.entities.user import User
 from src.api.user.domain.repositories.user_repository import UserRepository
 from src.api.user.domain.repositories.validation_token_repository import (
     ValidationTokenRepository,
@@ -32,7 +33,7 @@ class RequestAccountRecoveryUseCase:
             body="Click on the following link to recover your account.\n\n" + url,
         )
 
-    def execute(self, dto: RequestAccountRecoveryDTO) -> None:
+    def execute(self, dto: RequestAccountRecoveryDTO) -> User:
         email = Email(email=dto.email)
 
         user = UserRepositoryValidator.user_found(
@@ -44,3 +45,5 @@ class RequestAccountRecoveryUseCase:
         )
 
         self.__send_email(to=str(email), url=f"{dto.url}/{verify_token}")
+
+        return user

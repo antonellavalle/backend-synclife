@@ -1,6 +1,7 @@
 from src.api.user.application.account_management.account_recovery.account_recovery_dto import (  # noqa: E501
     AccountRecoveryDTO,
 )
+from src.api.user.domain.entities.user import User
 from src.api.user.domain.errors.user_repository_error import (
     UserRepositoryError,
     UserRepositoryTypeError,
@@ -27,7 +28,7 @@ class AccountRecoveryUseCase:
         self.__user_repository = user_repository
         self.__validation_token_repository = validation_token_repository
 
-    def execute(self, dto: AccountRecoveryDTO) -> None:
+    def execute(self, dto: AccountRecoveryDTO) -> User:
         user_uuid = (
             self.__validation_token_repository.find_user_from_validation_request(
                 validation_token=dto.validate_token
@@ -53,3 +54,5 @@ class AccountRecoveryUseCase:
             raise UserRepositoryError(
                 error_type=UserRepositoryTypeError.OPERATION_FAILED
             )
+
+        return user_updated

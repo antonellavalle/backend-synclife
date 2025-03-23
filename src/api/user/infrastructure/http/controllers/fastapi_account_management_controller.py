@@ -74,6 +74,9 @@ from src.api.user.infrastructure.http.dtos.account_management.view_account.pydan
 from src.api.user.infrastructure.http.dtos.account_management.view_account.pydantic_view_account_response_dto import (  # noqa: E501
     PydanticViewAccountResponseDTO,
 )
+from src.api.user.infrastructure.persistence.models.sqlmodel_user_model import (
+    SQLModelUserModel,
+)
 from src.api.user.infrastructure.persistence.repositories.dragonfly_validation_token_repository import (  # noqa: E501
     DragonflyValidationTokenRepository,
 )
@@ -91,15 +94,16 @@ class FastAPIAccountManagementController:
         user_repository = SQLModelUserRepository.get_repository()
         session_repository = DragonflySessionRepository.get_repository()
 
-        use_case = ViewAccountUseCase(user_repository, session_repository)
-        app_dto = request_dto.to_application(session_token)
-        user = use_case.execute(app_dto)
+        use_case = ViewAccountUseCase(
+            user_repository=user_repository, session_repository=session_repository
+        )
+        app_dto = request_dto.to_application(session_token=session_token)
 
+        user = use_case.execute(dto=app_dto)
+
+        # TODO: optimizar response
         return PydanticViewAccountResponseDTO(
-            email=str(user.email),
-            birth_date=user.birth_date,
-            full_name=user.full_name.get_full_name(),
-            phone=str(user.phone),
+            user=SQLModelUserModel.from_entity(entity=user)
         )
 
     @staticmethod
@@ -110,12 +114,16 @@ class FastAPIAccountManagementController:
         user_repository = SQLModelUserRepository.get_repository()
         session_repository = DragonflySessionRepository.get_repository()
 
-        use_case = DeleteAccountUseCase(user_repository, session_repository)
-        app_dto = request_dto.to_application(session_token)
-        use_case.execute(app_dto)
+        use_case = DeleteAccountUseCase(
+            user_repository=user_repository, session_repository=session_repository
+        )
+        app_dto = request_dto.to_application(session_token=session_token)
 
+        deleted_user = use_case.execute(dto=app_dto)
+
+        # TODO: optimizar response
         return PydanticDeleteAccountResponseDTO(
-            msg="The user was successfully removed."
+            user=SQLModelUserModel.from_entity(entity=deleted_user),
         )
 
     @staticmethod
@@ -141,10 +149,12 @@ class FastAPIAccountManagementController:
         url = base_url + "/api/users/change-password"
 
         app_dto = request_dto.to_application(url=url)
-        use_case.execute(app_dto)
 
+        user = use_case.execute(dto=app_dto)
+
+        # TODO: optimizar response
         return PydanticRequestChangePasswordResponseDTO(
-            msg="The confirmation email was sent correctly.",
+            user=SQLModelUserModel.from_entity(entity=user),
         )
 
     @staticmethod
@@ -162,10 +172,12 @@ class FastAPIAccountManagementController:
             validation_token_repository=validation_token_repository,
         )
         app_dto = request_dto.to_application(validate_token=validate_token)
-        use_case.execute(app_dto)
 
+        user = use_case.execute(dto=app_dto)
+
+        # TODO: optimizar response
         return PydanticChangePasswordResponseDTO(
-            msg="The password was successfully changed."
+            user=SQLModelUserModel.from_entity(entity=user),
         )
 
     @staticmethod
@@ -177,16 +189,16 @@ class FastAPIAccountManagementController:
         user_repository = SQLModelUserRepository.get_repository()
         session_repository = DragonflySessionRepository.get_repository()
 
-        use_case = ChangePersonalInformationUseCase(user_repository, session_repository)
+        use_case = ChangePersonalInformationUseCase(
+            user_repository=user_repository, session_repository=session_repository
+        )
 
-        app_dto = request_dto.to_application(session_token)
-        user = use_case.execute(app_dto)
+        app_dto = request_dto.to_application(session_token=session_token)
+        user = use_case.execute(dto=app_dto)
 
+        # TODO: optimizar response
         return PydanticChangePersonalInformationResponseDTO(
-            email=str(user.email),
-            birth_date=user.birth_date,
-            full_name=user.full_name.get_full_name(),
-            phone=str(user.phone),
+            user=SQLModelUserModel.from_entity(entity=user)
         )
 
     @staticmethod
@@ -212,10 +224,11 @@ class FastAPIAccountManagementController:
         url = base_url + "/api/users/account-recovery"
 
         app_dto = request_dto.to_application(url=url)
-        use_case.execute(app_dto)
+        user = use_case.execute(dto=app_dto)
 
+        # TODO: optimizar response
         return PydanticRequestAccountRecoveryResponseDTO(
-            msg="The confirmation email was sent correctly."
+            user=SQLModelUserModel.from_entity(entity=user)
         )
 
     @staticmethod
@@ -234,8 +247,9 @@ class FastAPIAccountManagementController:
         )
 
         app_dto = request_dto.to_application(validate_token=validate_token)
-        use_case.execute(app_dto)
+        user = use_case.execute(dto=app_dto)
 
+        # TODO: optimizar response
         return PydanticAccountRecoveryResponseDTO(
-            msg="The account was successfully recovered."
+            user=SQLModelUserModel.from_entity(entity=user)
         )

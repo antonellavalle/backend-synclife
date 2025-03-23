@@ -1,10 +1,9 @@
-from datetime import date
+from pydantic import BaseModel
 
-from pydantic import BaseModel, EmailStr
+from src.api.user.infrastructure.persistence.models.sqlmodel_user_model import (
+    SQLModelUserModel,
+)
 
 
 class PydanticViewAccountResponseDTO(BaseModel):
-    email: EmailStr
-    full_name: str
-    birth_date: date
-    phone: str
+    user: SQLModelUserModel

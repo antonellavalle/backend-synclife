@@ -83,6 +83,7 @@ class FastAPITagController:
             tag_repository=tag_repo, session_repository=session_repo
         )
         dto = request_dto.to_application(session_token=session_token)
+
         tag = use_case.execute(dto=dto)
 
         # TODO: optimizar response
@@ -102,6 +103,7 @@ class FastAPITagController:
             tag_repository=tag_repo, session_repository=session_repo
         )
         dto = request_dto.to_application(session_token=session_token)
+
         tag = use_case.execute(dto=dto)
 
         # TODO: optimizar response
@@ -121,6 +123,7 @@ class FastAPITagController:
         dto = PydanticViewTagRequestDTO(tag_uuid=tag_uuid).to_application(
             session_token=session_token
         )
+
         tag = use_case.execute(dto=dto)
 
         # TODO: optimizar response

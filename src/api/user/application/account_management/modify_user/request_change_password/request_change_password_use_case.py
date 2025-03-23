@@ -4,6 +4,7 @@ from src.api.shared.domain.repositories.smtp_email_sender_repository import (
 from src.api.user.application.account_management.modify_user.request_change_password.request_change_password_dto import (  # noqa: E501
     RequestChangePasswordDTO,
 )
+from src.api.user.domain.entities.user import User
 from src.api.user.domain.repositories.user_repository import UserRepository
 from src.api.user.domain.repositories.validation_token_repository import (
     ValidationTokenRepository,
@@ -32,7 +33,7 @@ class RequestChangePasswordUseCase:
             body="Click on the following link to change your password.\n\n" + url,
         )
 
-    def execute(self, dto: RequestChangePasswordDTO) -> None:
+    def execute(self, dto: RequestChangePasswordDTO) -> User:
         email = Email(email=dto.email)
 
         user = UserRepositoryValidator.user_found(
@@ -44,3 +45,5 @@ class RequestChangePasswordUseCase:
         )
 
         self.__send_email(to=str(email), url=f"{dto.url}/{verify_token}")
+
+        return user

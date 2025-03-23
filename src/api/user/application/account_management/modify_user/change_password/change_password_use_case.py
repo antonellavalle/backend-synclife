@@ -1,6 +1,7 @@
 from src.api.user.application.account_management.modify_user.change_password.change_password_dto import (  # noqa: E501
     ChangePasswordDTO,
 )
+from src.api.user.domain.entities.user import User
 from src.api.user.domain.errors.user_repository_error import (
     UserRepositoryError,
     UserRepositoryTypeError,
@@ -28,7 +29,7 @@ class ChangePasswordUseCase:
         self.__user_repository = user_repository
         self.__validation_token_repository = validation_token_repository
 
-    def execute(self, dto: ChangePasswordDTO) -> None:
+    def execute(self, dto: ChangePasswordDTO) -> User:
         user_uuid = (
             self.__validation_token_repository.find_user_from_validation_request(
                 validation_token=dto.validate_token
@@ -52,3 +53,5 @@ class ChangePasswordUseCase:
             raise UserRepositoryError(
                 error_type=UserRepositoryTypeError.OPERATION_FAILED
             )
+
+        return user_updated
