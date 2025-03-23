@@ -6,28 +6,28 @@ from dotenv import load_dotenv
 from sqlalchemy import engine_from_config, pool
 from sqlmodel import SQLModel
 
-from src.api.v1.inventory.infrastructure.persistence.models.sqlmodel_inventory_model import (  # noqa: E501
-    SqlModelInventoryModel,
+from src.api.inventory.infrastructure.persistence.models.sqlmodel_inventory_model import (  # noqa: E501
+    SQLModelInventoryModel,
 )
-from src.api.v1.notes.infrastructure.persistence.models.sqlmodel_notes_model import (
-    SqlModelNotesModel,
+from src.api.notes.infrastructure.persistence.models.sqlmodel_note_model import (
+    SQLModelNoteModel,
 )
-from src.api.v1.notes.infrastructure.persistence.models.sqlmodel_tags_model import (
-    SqlModelTagsModel,
+from src.api.notes.infrastructure.persistence.models.sqlmodel_tag_model import (
+    SQLModelTagModel,
 )
-from src.api.v1.reminder.infrastructure.persistence.models.sqlmodel_reminder_model import (  # noqa: E501
-    SqlModelReminderModel,
+from src.api.reminder.infrastructure.persistence.models.sqlmodel_reminder_model import (  # noqa: E501
+    SQLModelReminderModel,
 )
-from src.api.v1.user.infrastructure.persistence.models.sqlmodel_user_model import (  # noqa: E501
-    SqlModelUserModel,
+from src.api.user.infrastructure.persistence.models.sqlmodel_user_model import (  # noqa: E501
+    SQLModelUserModel,
 )
 
 models = [
-    SqlModelUserModel,
-    SqlModelInventoryModel,
-    SqlModelNotesModel,
-    SqlModelTagsModel,
-    SqlModelReminderModel,
+    SQLModelUserModel,
+    SQLModelInventoryModel,
+    SQLModelNoteModel,
+    SQLModelTagModel,
+    SQLModelReminderModel,
 ]
 
 # Cargar variables de entorno
@@ -36,7 +36,7 @@ load_dotenv()
 # Construir el URL de la base de datos
 DB = os.getenv("POSTGRES_DB")
 USER = os.getenv("POSTGRES_USER")
-PASS = os.getenv("POSTGRES_PASS")
+PASS = os.getenv("POSTGRES_PASSWORD")
 HOST = os.getenv("POSTGRES_HOST")
 PORT = os.getenv("POSTGRES_PORT")
 

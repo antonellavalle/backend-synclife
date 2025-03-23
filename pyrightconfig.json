@@ -1,0 +1,9 @@
+{
+  "include": ["./"],
+  "typeCheckingMode": "strict",
+  "reportUnknownVariableType": "error",
+  "reportUnknownMemberType": "error",
+  "reportUnknownArgumentType": "error",
+  "reportUntypedFunctionDecorator": "error",
+  "reportUnnecessaryTypeIgnoreComment": "warning"
+}

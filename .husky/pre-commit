@@ -1,1 +1,1 @@
-poetry run isort . && poetry run black . && flake8 . && mypy --strict .
+flake8 . && mypy --strict .
