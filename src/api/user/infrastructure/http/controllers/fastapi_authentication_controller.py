@@ -78,9 +78,7 @@ class FastAPIAuthenticationController:
 
     @staticmethod
     @handle_exceptions
-    async def verify_account(
-        request_dto: PydanticVerifyAccountRequestDTO, validate_token: str
-    ) -> PydanticVerifyAccountResponseDTO:
+    async def verify_account(validate_token: str) -> PydanticVerifyAccountResponseDTO:
         user_repository = SQLModelUserRepository.get_repository()
         user_validation_repository = DragonflyValidationTokenRepository.get_repository()
         session_repository = DragonflySessionRepository.get_repository()
@@ -90,7 +88,9 @@ class FastAPIAuthenticationController:
             validation_token_repository=user_validation_repository,
             session_repository=session_repository,
         )
-        app_dto = request_dto.to_application(validate_token=validate_token)
+        app_dto = PydanticVerifyAccountRequestDTO.to_application(
+            validate_token=validate_token
+        )
         user, session_token = use_case.execute(dto=app_dto)
 
         # TODO: optimizar response

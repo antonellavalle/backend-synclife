@@ -21,9 +21,6 @@ from src.api.notes.infrastructure.http.dtos.note.delete.pydantic_delete_note_res
 from src.api.notes.infrastructure.http.dtos.note.delete.pydantic_detele_note_request_dto import (  # noqa: E501
     PydanticDeleteNoteRequestDTO,
 )
-from src.api.notes.infrastructure.http.dtos.note.filter_note_by_tag.pydantic_filter_note_by_tag_request_dto import (  # noqa: E501
-    PydanticFilterNotesByTagRequestDTO,
-)
 from src.api.notes.infrastructure.http.dtos.note.filter_note_by_tag.pydantic_filter_note_by_tag_response_dto import (  # noqa: E501
     PydanticFilterNotesByTagResponseDTO,
 )
@@ -96,12 +93,14 @@ async def add_tags_to_note(
     return await FastAPINotesController.add_tags(dto, session_token)
 
 
-@router.get("/filter-by-tag", response_model=PydanticFilterNotesByTagResponseDTO)
+@router.get(
+    "/filter-by-tag/{tag_uuid}", response_model=PydanticFilterNotesByTagResponseDTO
+)
 async def filter_notes_by_tag(
-    dto: PydanticFilterNotesByTagRequestDTO,
+    tag_uuid: str,
     session_token: str = Header(...),
 ) -> PydanticFilterNotesByTagResponseDTO:
-    return await FastAPINotesController.filter_notes_by_tag(dto, session_token)
+    return await FastAPINotesController.filter_notes_by_tag(tag_uuid, session_token)
 
 
 @router.delete("/remove-tag", response_model=PydanticRemoveTagResponseDTO)

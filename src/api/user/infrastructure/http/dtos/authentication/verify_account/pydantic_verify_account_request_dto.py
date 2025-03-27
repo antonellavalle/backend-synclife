@@ -6,5 +6,6 @@ from src.api.user.application.authentication.verify_account.verify_account_dto i
 
 
 class PydanticVerifyAccountRequestDTO(BaseModel):
-    def to_application(self, validate_token: str) -> VerifyAccountDTO:
+    @staticmethod
+    def to_application(validate_token: str) -> VerifyAccountDTO:
         return VerifyAccountDTO(validate_token=validate_token)

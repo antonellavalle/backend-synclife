@@ -22,7 +22,7 @@ class DragonflyValidationTokenRepository(ValidationTokenRepository):
         return DragonflyValidationTokenRepository(get_dragonfly_connection())
 
     def create_validation_request(self, user_uuid: Uuid) -> str:
-        validate_token = str(Uuid())
+        validate_token = f"validation:{Uuid()}"
         self.__client.setex(
             validate_token, int(self.__session_duration.total_seconds()), str(user_uuid)
         )

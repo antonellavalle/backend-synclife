@@ -229,7 +229,7 @@ class FastAPINotesController:
     @staticmethod
     @handle_exceptions
     async def filter_notes_by_tag(
-        request_dto: PydanticFilterNotesByTagRequestDTO, session_token: str
+        tag_uuid: str, session_token: str
     ) -> PydanticFilterNotesByTagResponseDTO:
         notes_repo = SQLModelNoteRepository.get_repository()
         tags_repo = SQLModelTagRepository.get_repository()
@@ -240,7 +240,9 @@ class FastAPINotesController:
             tag_repository=tags_repo,
             session_repository=session_repo,
         )
-        dto = request_dto.to_application(session_token=session_token)
+        dto = PydanticFilterNotesByTagRequestDTO(tag_uuid=tag_uuid).to_application(
+            session_token=session_token
+        )
 
         notes = use_case.execute(dto=dto)
 
