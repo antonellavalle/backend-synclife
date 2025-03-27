@@ -42,9 +42,6 @@ from src.api.user.infrastructure.http.dtos.account_management.request_change_pas
 from src.api.user.infrastructure.http.dtos.account_management.request_change_password.pydantic_request_change_password_response_dto import (  # noqa: E501
     PydanticRequestChangePasswordResponseDTO,
 )
-from src.api.user.infrastructure.http.dtos.account_management.view_account.pydantic_view_account_request_dto import (  # noqa: E501
-    PydanticViewAccountRequestDTO,
-)
 from src.api.user.infrastructure.http.dtos.account_management.view_account.pydantic_view_account_response_dto import (  # noqa: E501
     PydanticViewAccountResponseDTO,
 )
@@ -59,9 +56,6 @@ from src.api.user.infrastructure.http.dtos.authentication.register.pydantic_regi
 )
 from src.api.user.infrastructure.http.dtos.authentication.register.pydantic_register_response_dto import (  # noqa: E501
     PydanticRegisterResponseDTO,
-)
-from src.api.user.infrastructure.http.dtos.authentication.verify_account.pydantic_verify_account_request_dto import (  # noqa: E501
-    PydanticVerifyAccountRequestDTO,
 )
 from src.api.user.infrastructure.http.dtos.authentication.verify_account.pydantic_verify_account_response_dto import (  # noqa: E501
     PydanticVerifyAccountResponseDTO,
@@ -80,16 +74,9 @@ async def register(
     return await FastAPIAuthenticationController.register(request_dto)
 
 
-@router.get(
-    "/{validate_token}",
-    response_model=PydanticVerifyAccountResponseDTO,
-)
-async def verify_account(
-    request_dto: PydanticVerifyAccountRequestDTO, validate_token: str
-) -> PydanticVerifyAccountResponseDTO:
-    return await FastAPIAuthenticationController.verify_account(
-        request_dto, validate_token
-    )
+@router.patch("/{validate_token}", response_model=PydanticVerifyAccountResponseDTO)
+async def verify_account(validate_token: str) -> PydanticVerifyAccountResponseDTO:
+    return await FastAPIAuthenticationController.verify_account(validate_token)
 
 
 @router.post(
@@ -105,11 +92,9 @@ async def login(request_dto: PydanticLoginRequestDTO) -> PydanticLoginResponseDT
     response_model=PydanticViewAccountResponseDTO,
 )
 async def view_account(
-    request_dto: PydanticViewAccountRequestDTO, session_token: str = Header(...)
+    session_token: str = Header(...),
 ) -> PydanticViewAccountResponseDTO:
-    return await FastAPIAccountManagementController.view_account(
-        request_dto, session_token
-    )
+    return await FastAPIAccountManagementController.view_account(session_token)
 
 
 @router.delete(

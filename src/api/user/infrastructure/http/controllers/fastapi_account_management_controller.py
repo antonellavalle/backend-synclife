@@ -88,16 +88,16 @@ from src.api.user.infrastructure.persistence.repositories.sqlmodel_user_reposito
 class FastAPIAccountManagementController:
     @staticmethod
     @handle_exceptions
-    async def view_account(
-        request_dto: PydanticViewAccountRequestDTO, session_token: str
-    ) -> PydanticViewAccountResponseDTO:
+    async def view_account(session_token: str) -> PydanticViewAccountResponseDTO:
         user_repository = SQLModelUserRepository.get_repository()
         session_repository = DragonflySessionRepository.get_repository()
 
         use_case = ViewAccountUseCase(
             user_repository=user_repository, session_repository=session_repository
         )
-        app_dto = request_dto.to_application(session_token=session_token)
+        app_dto = PydanticViewAccountRequestDTO.to_application(
+            session_token=session_token
+        )
 
         user = use_case.execute(dto=app_dto)
 

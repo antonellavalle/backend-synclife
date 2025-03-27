@@ -15,7 +15,14 @@ PORT = os.getenv("POSTGRES_PORT")
 
 DATABASE_URL: str = f"postgresql://{USER}:{PASS}@{HOST}:{PORT}/{DB}"
 
-engine = create_engine(DATABASE_URL, echo=True)
+engine = create_engine(
+    DATABASE_URL,
+    echo=True,
+    pool_size=10,
+    max_overflow=20,
+    pool_timeout=60,
+    pool_recycle=1800,
+)
 
 
 def create_db_and_tables() -> None:

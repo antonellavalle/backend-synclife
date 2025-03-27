@@ -20,7 +20,7 @@ class DragonflySessionRepository(SessionRepository):
         return DragonflySessionRepository(get_dragonfly_connection())
 
     def create_session(self, user_uuid: Uuid) -> str:
-        session_token = str(Uuid())
+        session_token = f"session:{Uuid()}"
         self.__client.setex(
             session_token, int(self.__session_duration.total_seconds()), str(user_uuid)
         )
