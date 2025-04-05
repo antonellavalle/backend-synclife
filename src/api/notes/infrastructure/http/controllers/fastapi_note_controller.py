@@ -77,6 +77,9 @@ from src.api.shared.infrastructure.http.decorators.handle_exceptions import (
 from src.api.shared.infrastructure.persistence.repositories.dragonfly_session_repository import (  # noqa: E501
     DragonflySessionRepository,
 )
+from src.api.user.infrastructure.persistence.repositories.sqlmodel_user_repository import (  # noqa: E501
+    SQLModelUserRepository,
+)
 
 
 class FastAPINotesController:
@@ -86,10 +89,13 @@ class FastAPINotesController:
         request_dto: PydanticCreateNoteRequestDTO, session_token: str
     ) -> PydanticCreateNoteResponseDTO:
         note_repo = SQLModelNoteRepository.get_repository()
+        user_repo = SQLModelUserRepository.get_repository()
         session_repo = DragonflySessionRepository.get_repository()
 
         use_case = CreateNoteUseCase(
-            note_repository=note_repo, session_repository=session_repo
+            note_repository=note_repo,
+            user_repository=user_repo,
+            session_repository=session_repo,
         )
         app_dto = request_dto.to_application(session_token=session_token)
 
@@ -106,10 +112,13 @@ class FastAPINotesController:
         request_dto: PydanticUpdateNoteRequestDTO, session_token: str
     ) -> PydanticUpdateNoteResponseDTO:
         note_repo = SQLModelNoteRepository.get_repository()
+        user_repo = SQLModelUserRepository.get_repository()
         session_repo = DragonflySessionRepository.get_repository()
 
         use_case = UpdateNoteUseCase(
-            note_repository=note_repo, session_repository=session_repo
+            note_repository=note_repo,
+            user_repository=user_repo,
+            session_repository=session_repo,
         )
         dto = request_dto.to_application(session_token=session_token)
 
@@ -126,10 +135,13 @@ class FastAPINotesController:
         reques_dto: PydanticDeleteNoteRequestDTO, session_token: str
     ) -> PydanticDeleteNoteResponseDTO:
         note_repo = SQLModelNoteRepository.get_repository()
+        user_repo = SQLModelUserRepository.get_repository()
         session_repo = DragonflySessionRepository.get_repository()
 
         use_case = DeleteNoteUseCase(
-            note_repository=note_repo, session_repository=session_repo
+            note_repository=note_repo,
+            user_repository=user_repo,
+            session_repository=session_repo,
         )
         dto = reques_dto.to_application(session_token=session_token)
 
@@ -144,10 +156,13 @@ class FastAPINotesController:
     @handle_exceptions
     async def view(note_uuid: str, session_token: str) -> PydanticViewNoteResponseDTO:
         note_repo = SQLModelNoteRepository.get_repository()
+        user_repo = SQLModelUserRepository.get_repository()
         session_repo = DragonflySessionRepository.get_repository()
 
         use_case = ViewNoteUseCase(
-            note_repository=note_repo, session_repository=session_repo
+            note_repository=note_repo,
+            user_repository=user_repo,
+            session_repository=session_repo,
         )
         dto = PydanticViewNoteRequestDTO(note_uuid=note_uuid).to_application(
             session_token=session_token
@@ -164,10 +179,13 @@ class FastAPINotesController:
     @handle_exceptions
     async def view_all(session_token: str) -> PydanticViewAllNotesResponseDTO:
         note_repo = SQLModelNoteRepository.get_repository()
+        user_repo = SQLModelUserRepository.get_repository()
         session_repo = DragonflySessionRepository.get_repository()
 
         use_case = ViewAllNotesUseCase(
-            note_repository=note_repo, session_repository=session_repo
+            note_repository=note_repo,
+            user_repository=user_repo,
+            session_repository=session_repo,
         )
         dto = PydanticViewAllNotesRequestDTO().to_application(
             session_token=session_token
@@ -186,12 +204,14 @@ class FastAPINotesController:
         request_dto: PydanticAddTagsRequestDTO, session_token: str
     ) -> PydanticAddTagsResponseDTO:
         notes_repo = SQLModelNoteRepository.get_repository()
-        tags_repo = SQLModelTagRepository.get_repository()
+        tag_repo = SQLModelTagRepository.get_repository()
+        user_repo = SQLModelUserRepository.get_repository()
         session_repo = DragonflySessionRepository.get_repository()
 
         use_case = AddTagsUseCase(
             note_repository=notes_repo,
-            tag_repository=tags_repo,
+            tag_repository=tag_repo,
+            user_repository=user_repo,
             session_repository=session_repo,
         )
         dto = request_dto.to_application(session_token=session_token)
@@ -209,12 +229,14 @@ class FastAPINotesController:
         remove_data: PydanticRemoveTagRequestDTO, session_token: str
     ) -> PydanticRemoveTagResponseDTO:
         notes_repo = SQLModelNoteRepository.get_repository()
-        tags_repo = SQLModelTagRepository.get_repository()
+        tag_repo = SQLModelTagRepository.get_repository()
+        user_repo = SQLModelUserRepository.get_repository()
         session_repo = DragonflySessionRepository.get_repository()
 
         use_case = RemoveTagUseCase(
             note_repository=notes_repo,
-            tag_repository=tags_repo,
+            tag_repository=tag_repo,
+            user_repository=user_repo,
             session_repository=session_repo,
         )
         dto = remove_data.to_application(session_token=session_token)
@@ -232,12 +254,14 @@ class FastAPINotesController:
         tag_uuid: str, session_token: str
     ) -> PydanticFilterNotesByTagResponseDTO:
         notes_repo = SQLModelNoteRepository.get_repository()
-        tags_repo = SQLModelTagRepository.get_repository()
+        tag_repo = SQLModelTagRepository.get_repository()
+        user_repo = SQLModelUserRepository.get_repository()
         session_repo = DragonflySessionRepository.get_repository()
 
         use_case = FilterNotesByTagUseCase(
             note_repository=notes_repo,
-            tag_repository=tags_repo,
+            tag_repository=tag_repo,
+            user_repository=user_repo,
             session_repository=session_repo,
         )
         dto = PydanticFilterNotesByTagRequestDTO(tag_uuid=tag_uuid).to_application(

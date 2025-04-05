@@ -34,6 +34,8 @@ class DeleteAccountUseCase:
             user=self.__user_repository.find_by_uuid(uuid=Uuid(uuid=user_request_uuid))
         )
 
+        UserRepositoryValidator.user_is_verified(user=user)
+
         is_deleted, user_deleted = self.__user_repository.delete(user=user)
 
         if not is_deleted or user_deleted is None:

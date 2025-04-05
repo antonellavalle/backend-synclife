@@ -9,13 +9,21 @@ from src.api.shared.domain.validators.session_repository_validator import (
     SessionRepositoryValidator,
 )
 from src.api.shared.domain.value_objects.uuid import Uuid
+from src.api.user.domain.repositories.user_repository import UserRepository
+from src.api.user.domain.validators.user_repository_validator import (
+    UserRepositoryValidator,
+)
 
 
 class ViewNoteUseCase:
     def __init__(
-        self, note_repository: NoteRepository, session_repository: SessionRepository
+        self,
+        note_repository: NoteRepository,
+        user_repository: UserRepository,
+        session_repository: SessionRepository,
     ):
         self.__note_repository = note_repository
+        self.__user_repository = user_repository
         self.__session_repository = session_repository
 
     def execute(self, dto: ViewNoteDTO) -> Note:
@@ -23,6 +31,12 @@ class ViewNoteUseCase:
             session_repository=self.__session_repository,
             session_token=dto.session_token,
         )
+
+        user = UserRepositoryValidator.user_found(
+            user=self.__user_repository.find_by_uuid(uuid=Uuid(uuid=user_request_uuid))
+        )
+
+        UserRepositoryValidator.user_is_verified(user=user)
 
         note_uuid = Uuid(uuid=dto.note_uuid)
         note = NotesRepositoryValidator.note_found(

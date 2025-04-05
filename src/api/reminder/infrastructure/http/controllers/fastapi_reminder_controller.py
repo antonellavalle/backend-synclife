@@ -54,6 +54,9 @@ from src.api.shared.infrastructure.http.decorators.handle_exceptions import (
 from src.api.shared.infrastructure.persistence.repositories.dragonfly_session_repository import (  # noqa: E501
     DragonflySessionRepository,
 )
+from src.api.user.infrastructure.persistence.repositories.sqlmodel_user_repository import (  # noqa: E501
+    SQLModelUserRepository,
+)
 
 
 class FastAPIReminderController:
@@ -64,10 +67,13 @@ class FastAPIReminderController:
         session_token: str,
     ) -> PydanticCreateReminderResponseDTO:
         reminder_repo = SQLModelReminderRepository.get_repository()
+        user_repo = SQLModelUserRepository.get_repository()
         session_repo = DragonflySessionRepository.get_repository()
 
         use_case = CreateReminderUseCase(
-            reminder_repository=reminder_repo, session_repository=session_repo
+            reminder_repository=reminder_repo,
+            user_repository=user_repo,
+            session_repository=session_repo,
         )
         dto = request_dto.to_application(session_token=session_token)
 
@@ -84,10 +90,13 @@ class FastAPIReminderController:
         request_dto: PydanticUpdateReminderRequestDTO, session_token: str
     ) -> PydanticUpdateReminderResponseDTO:
         reminder_repo = SQLModelReminderRepository.get_repository()
+        user_repo = SQLModelUserRepository.get_repository()
         session_repo = DragonflySessionRepository.get_repository()
 
         use_case = UpdateReminderUseCase(
-            reminder_repository=reminder_repo, session_repository=session_repo
+            reminder_repository=reminder_repo,
+            user_repository=user_repo,
+            session_repository=session_repo,
         )
         dto = request_dto.to_application(session_token=session_token)
 
@@ -104,10 +113,13 @@ class FastAPIReminderController:
         request_dto: PydanticDeleteReminderRequestDTO, session_token: str
     ) -> PydanticDeleteReminderResponseDTO:
         reminder_repo = SQLModelReminderRepository.get_repository()
+        user_repo = SQLModelUserRepository.get_repository()
         session_repo = DragonflySessionRepository.get_repository()
 
         use_case = DeleteReminderUseCase(
-            reminder_repository=reminder_repo, session_repository=session_repo
+            reminder_repository=reminder_repo,
+            user_repository=user_repo,
+            session_repository=session_repo,
         )
         dto = request_dto.to_application(session_token=session_token)
 
@@ -124,10 +136,13 @@ class FastAPIReminderController:
         reminder_uuid: str, session_token: str
     ) -> PydanticViewReminderResponseDTO:
         reminder_repo = SQLModelReminderRepository.get_repository()
+        user_repo = SQLModelUserRepository.get_repository()
         session_repo = DragonflySessionRepository.get_repository()
 
         use_case = ViewReminderUseCase(
-            reminder_repository=reminder_repo, session_repository=session_repo
+            reminder_repository=reminder_repo,
+            user_repository=user_repo,
+            session_repository=session_repo,
         )
         dto = PydanticViewReminderRequestDTO(
             reminder_uuid=reminder_uuid
@@ -146,10 +161,13 @@ class FastAPIReminderController:
         session_token: str,
     ) -> PydanticViewAllRemindersResponseDTO:
         reminder_repo = SQLModelReminderRepository.get_repository()
+        user_repo = SQLModelUserRepository.get_repository()
         session_repo = DragonflySessionRepository.get_repository()
 
         use_case = ViewAllRemindersUseCase(
-            reminder_repository=reminder_repo, session_repository=session_repo
+            reminder_repository=reminder_repo,
+            user_repository=user_repo,
+            session_repository=session_repo,
         )
         dto = PydanticViewAllRemindersRequestDTO().to_application(
             session_token=session_token

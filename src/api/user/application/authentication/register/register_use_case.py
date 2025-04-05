@@ -51,7 +51,7 @@ class RegisterUseCase:
         if existing_user is not None:
             if existing_user.account_verified:
                 raise UserRepositoryError(
-                    error_type=UserRepositoryTypeError.USER_ALREADY_EXISTS
+                    error_type=UserRepositoryTypeError.ALREADY_EXISTS
                 )
             else:
                 verify_token = (

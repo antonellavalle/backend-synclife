@@ -17,6 +17,10 @@ from src.api.shared.domain.validators.session_repository_validator import (
     SessionRepositoryValidator,
 )
 from src.api.shared.domain.value_objects.uuid import Uuid
+from src.api.user.domain.repositories.user_repository import UserRepository
+from src.api.user.domain.validators.user_repository_validator import (
+    UserRepositoryValidator,
+)
 
 
 class AddTagsUseCase:
@@ -24,10 +28,12 @@ class AddTagsUseCase:
         self,
         note_repository: NoteRepository,
         tag_repository: TagRepository,
+        user_repository: UserRepository,
         session_repository: SessionRepository,
     ):
         self.__note_repository = note_repository
         self.__tag_repository = tag_repository
+        self.__user_repository = user_repository
         self.__session_repository = session_repository
 
     def execute(self, dto: AddTagsDTO) -> Note:
@@ -36,8 +42,13 @@ class AddTagsUseCase:
             session_token=dto.session_token,
         )
 
+        user = UserRepositoryValidator.user_found(
+            user=self.__user_repository.find_by_uuid(uuid=Uuid(uuid=user_request_uuid))
+        )
+
+        UserRepositoryValidator.user_is_verified(user=user)
+
         note_uuid = Uuid(uuid=dto.note_uuid)
-        user_request_uuid = Uuid(uuid=user_request_uuid)
 
         note = NotesRepositoryValidator.note_found(
             note=self.__note_repository.find_by_uuid(uuid=note_uuid)
@@ -45,7 +56,7 @@ class AddTagsUseCase:
 
         NotesRepositoryValidator.user_owns_note(
             note_repository=self.__note_repository,
-            user_uuid=user_request_uuid,
+            user_uuid=user.uuid,
             note_uuid=note_uuid,
         )
 
@@ -57,7 +68,7 @@ class AddTagsUseCase:
 
             TagRepositoryValidator.user_owns_tag(
                 tag_repository=self.__tag_repository,
-                user_uuid=user_request_uuid,
+                user_uuid=user.uuid,
                 tag_uuid=tag.uuid,
             )
 

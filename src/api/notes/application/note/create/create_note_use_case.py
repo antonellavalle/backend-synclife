@@ -15,15 +15,21 @@ from src.api.shared.domain.validators.session_repository_validator import (
     SessionRepositoryValidator,
 )
 from src.api.shared.domain.value_objects.uuid import Uuid
+from src.api.user.domain.repositories.user_repository import UserRepository
+from src.api.user.domain.validators.user_repository_validator import (
+    UserRepositoryValidator,
+)
 
 
 class CreateNoteUseCase:
     def __init__(
         self,
         note_repository: NoteRepository,
+        user_repository: UserRepository,
         session_repository: SessionRepository,
     ):
         self.__note_repository = note_repository
+        self.__user_repository = user_repository
         self.__session_repository = session_repository
 
     def execute(self, dto: CreateNoteDTO) -> Note:
@@ -32,14 +38,19 @@ class CreateNoteUseCase:
             session_token=dto.session_token,
         )
 
-        user_uuid = Uuid(uuid=user_request_uuid)
+        user = UserRepositoryValidator.user_found(
+            user=self.__user_repository.find_by_uuid(uuid=Uuid(uuid=user_request_uuid))
+        )
+
+        UserRepositoryValidator.user_is_verified(user=user)
+
         NotesRepositoryValidator.note_title_unique(
-            note_repository=self.__note_repository, title=dto.title, user_uuid=user_uuid
+            note_repository=self.__note_repository, title=dto.title, user_uuid=user.uuid
         )
 
         note = Note(
             uuid=Uuid(),
-            user_uuid=user_uuid,
+            user_uuid=user.uuid,
             title=dto.title.strip(),
             content=dto.content.strip(),
             created_at=datetime.now(),

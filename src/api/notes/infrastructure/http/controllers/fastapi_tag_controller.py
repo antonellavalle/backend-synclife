@@ -48,6 +48,9 @@ from src.api.shared.infrastructure.http.decorators.handle_exceptions import (
 from src.api.shared.infrastructure.persistence.repositories.dragonfly_session_repository import (  # noqa: E501
     DragonflySessionRepository,
 )
+from src.api.user.infrastructure.persistence.repositories.sqlmodel_user_repository import (  # noqa: E501
+    SQLModelUserRepository,
+)
 
 
 class FastAPITagController:
@@ -57,10 +60,13 @@ class FastAPITagController:
         request_dto: PydanticCreateTagRequestDTO, session_token: str
     ) -> PydanticCreateTagResponseDTO:
         tag_repo = SQLModelTagRepository.get_repository()
+        user_repo = SQLModelUserRepository.get_repository()
         session_repo = DragonflySessionRepository.get_repository()
 
         use_case = CreateTagUseCase(
-            tag_repository=tag_repo, session_repository=session_repo
+            tag_repository=tag_repo,
+            user_repository=user_repo,
+            session_repository=session_repo,
         )
         dto = request_dto.to_application(session_token=session_token)
 
@@ -77,10 +83,13 @@ class FastAPITagController:
         request_dto: PydanticUpdateTagRequestDTO, session_token: str
     ) -> PydanticUpdateTagResponseDTO:
         tag_repo = SQLModelTagRepository.get_repository()
+        user_repo = SQLModelUserRepository.get_repository()
         session_repo = DragonflySessionRepository.get_repository()
 
         use_case = UpdateTagUseCase(
-            tag_repository=tag_repo, session_repository=session_repo
+            tag_repository=tag_repo,
+            user_repository=user_repo,
+            session_repository=session_repo,
         )
         dto = request_dto.to_application(session_token=session_token)
 
@@ -97,10 +106,13 @@ class FastAPITagController:
         request_dto: PydanticDeleteTagRequestDTO, session_token: str
     ) -> PydanticDeleteTagResponseDTO:
         tag_repo = SQLModelTagRepository.get_repository()
+        user_repo = SQLModelUserRepository.get_repository()
         session_repo = DragonflySessionRepository.get_repository()
 
         use_case = DeleteTagUseCase(
-            tag_repository=tag_repo, session_repository=session_repo
+            tag_repository=tag_repo,
+            user_repository=user_repo,
+            session_repository=session_repo,
         )
         dto = request_dto.to_application(session_token=session_token)
 
@@ -115,10 +127,13 @@ class FastAPITagController:
     @handle_exceptions
     async def view(tag_uuid: str, session_token: str) -> PydanticViewTagResponseDTO:
         tag_repo = SQLModelTagRepository.get_repository()
+        user_repo = SQLModelUserRepository.get_repository()
         session_repo = DragonflySessionRepository.get_repository()
 
         use_case = ViewTagUseCase(
-            tag_repository=tag_repo, session_repository=session_repo
+            tag_repository=tag_repo,
+            user_repository=user_repo,
+            session_repository=session_repo,
         )
         dto = PydanticViewTagRequestDTO(tag_uuid=tag_uuid).to_application(
             session_token=session_token
@@ -133,10 +148,13 @@ class FastAPITagController:
     @handle_exceptions
     async def view_all(session_token: str) -> PydanticViewAllTagsResponseDTO:
         tag_repo = SQLModelTagRepository.get_repository()
+        user_repo = SQLModelUserRepository.get_repository()
         session_repo = DragonflySessionRepository.get_repository()
 
         use_case = ViewAllTagUseCase(
-            tag_repository=tag_repo, session_repository=session_repo
+            tag_repository=tag_repo,
+            user_repository=user_repo,
+            session_repository=session_repo,
         )
         dto = PydanticViewAllTagsRequestDTO().to_application(
             session_token=session_token
