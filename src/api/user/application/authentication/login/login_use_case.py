@@ -29,6 +29,8 @@ class LoginUseCase:
             is_login=True,
         )
 
+        UserRepositoryValidator.user_is_verified(user=user, is_login=True)
+
         if not user.password.check_password(plain_password=dto.password):
             raise UserValidationError(
                 error_type=UserValidationTypeError.INVALID_CREDENTIALS

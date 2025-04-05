@@ -30,4 +30,6 @@ class ViewAccountUseCase:
             user=self.__user_repository.find_by_uuid(uuid=Uuid(uuid=user_request_uuid))
         )
 
+        UserRepositoryValidator.user_is_verified(user=user)
+
         return user

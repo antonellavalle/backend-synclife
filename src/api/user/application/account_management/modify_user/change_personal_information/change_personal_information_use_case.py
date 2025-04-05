@@ -37,6 +37,8 @@ class ChangePersonalInformationUseCase:
             user=self.__user_repository.find_by_uuid(uuid=Uuid(uuid=user_request_uuid))
         )
 
+        UserRepositoryValidator.user_is_verified(user=user)
+
         user.email = Email(email=dto.email)
         user.full_name = FullName(first_name=dto.first_name, last_name=dto.last_name)
         user.birth_date = dto.birth_date

@@ -15,15 +15,21 @@ from src.api.shared.domain.validators.session_repository_validator import (
     SessionRepositoryValidator,
 )
 from src.api.shared.domain.value_objects.uuid import Uuid
+from src.api.user.domain.repositories.user_repository import UserRepository
+from src.api.user.domain.validators.user_repository_validator import (
+    UserRepositoryValidator,
+)
 
 
 class CreateTagUseCase:
     def __init__(
         self,
         tag_repository: TagRepository,
+        user_repository: UserRepository,
         session_repository: SessionRepository,
     ):
         self.__tag_repository = tag_repository
+        self.__user_repository = user_repository
         self.__session_repository = session_repository
 
     def execute(self, dto: CreateTagDTO) -> Tag:
@@ -32,14 +38,19 @@ class CreateTagUseCase:
             session_token=dto.session_token,
         )
 
-        user_uuid = Uuid(uuid=user_request_uuid)
+        user = UserRepositoryValidator.user_found(
+            user=self.__user_repository.find_by_uuid(uuid=Uuid(uuid=user_request_uuid))
+        )
+
+        UserRepositoryValidator.user_is_verified(user=user)
+
         TagRepositoryValidator.tag_name_unique(
-            tag_repository=self.__tag_repository, name=dto.name, user_uuid=user_uuid
+            tag_repository=self.__tag_repository, name=dto.name, user_uuid=user.uuid
         )
 
         tag = Tag(
             uuid=Uuid(),
-            user_uuid=user_uuid,
+            user_uuid=user.uuid,
             name=dto.name.strip(),
             created_at=datetime.now(),
             updated_at=None,

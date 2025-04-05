@@ -49,6 +49,15 @@ class Reminder:
             f"Created at={self.created_at}"
         )
 
+    def validate_remid_date(self) -> None:
+        current_date = datetime.now()
+        remind_date = self.remind_date.replace(tzinfo=None)
+
+        if remind_date < current_date:
+            raise ReminderValidationError(
+                error_type=ReminderValidationTypeError.INVALID_REMINDER_DATE
+            )
+
     @property
     def uuid(self) -> Uuid:
         return self.__uuid
@@ -83,14 +92,7 @@ class Reminder:
 
     @remind_date.setter
     def remind_date(self, value: datetime) -> None:
-        current_date = datetime.now()
-        remind_date = value.replace(tzinfo=None)
-
-        if remind_date < current_date:
-            raise ReminderValidationError(
-                error_type=ReminderValidationTypeError.INVALID_REMINDER_DATE
-            )
-        self.__remind_date = remind_date
+        self.__remind_date = value
 
     @property
     def created_at(self) -> datetime:

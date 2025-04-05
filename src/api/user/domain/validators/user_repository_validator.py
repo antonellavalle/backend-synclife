@@ -20,9 +20,7 @@ class UserRepositoryValidator:
     ) -> None:
         existing_user = user_repository.find_by_email(email=email, include_deleted=True)
         if existing_user is not None:
-            raise UserRepositoryError(
-                error_type=UserRepositoryTypeError.USER_ALREADY_EXISTS
-            )
+            raise UserRepositoryError(error_type=UserRepositoryTypeError.ALREADY_EXISTS)
 
     @staticmethod
     def user_found(user: Optional[User], is_login: bool = False) -> User:
@@ -32,7 +30,17 @@ class UserRepositoryValidator:
                     error_type=UserValidationTypeError.INVALID_CREDENTIALS
                 )
             else:
-                raise UserRepositoryError(
-                    error_type=UserRepositoryTypeError.USER_NOT_FOUND
-                )
+                raise UserRepositoryError(error_type=UserRepositoryTypeError.NOT_FOUND)
         return user
+
+    @staticmethod
+    def user_is_verified(user: User, is_login: bool = False) -> None:
+        if not user.account_verified:
+            if is_login:
+                raise UserValidationError(
+                    error_type=UserValidationTypeError.INVALID_CREDENTIALS
+                )
+            else:
+                raise UserRepositoryError(
+                    error_type=UserRepositoryTypeError.NOT_VERIFIED
+                )
