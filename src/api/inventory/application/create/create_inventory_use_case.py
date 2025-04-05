@@ -45,7 +45,7 @@ class CreateInventoryUseCase:
 
         inventory = Inventory(
             uuid=Uuid(),
-            user_uuid=Uuid(uuid=user_request_uuid),
+            user_uuid=user.uuid,
             product_name=str(dto.product_name),
             amount=int(dto.amount),
             expiration_date=dto.expiration_date,

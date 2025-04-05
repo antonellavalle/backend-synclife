@@ -132,7 +132,7 @@ class FastAPINotesController:
     @staticmethod
     @handle_exceptions
     async def delete(
-        reques_dto: PydanticDeleteNoteRequestDTO, session_token: str
+        request_dto: PydanticDeleteNoteRequestDTO, session_token: str
     ) -> PydanticDeleteNoteResponseDTO:
         note_repo = SQLModelNoteRepository.get_repository()
         user_repo = SQLModelUserRepository.get_repository()
@@ -143,7 +143,7 @@ class FastAPINotesController:
             user_repository=user_repo,
             session_repository=session_repo,
         )
-        dto = reques_dto.to_application(session_token=session_token)
+        dto = request_dto.to_application(session_token=session_token)
 
         deleted_note = use_case.execute(dto=dto)
 
