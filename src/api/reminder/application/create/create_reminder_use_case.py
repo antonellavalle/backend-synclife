@@ -51,6 +51,8 @@ class CreateReminderUseCase:
             is_deleted=False,
         )
 
+        reminder.validate_remid_date()
+
         is_saved = self.__reminder_repository.save(reminder=reminder)
         if not is_saved:
             raise ReminderRepositoryError(
